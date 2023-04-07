@@ -1,4 +1,6 @@
-/**The enum defining the criterion for the Criterion class
+package voyages;
+
+/**The enum defining the criterion for the Criterion class.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
@@ -7,13 +9,37 @@
  */
 public enum CriterionName {
     
+    /**
+     * The GUEST_ANIMAL_ALLERGY constant, it's a boolean type
+     */
     GUEST_ANIMAL_ALLERGY('B'),
+    /**
+     * The HOST_HAS_ANIMAL constant, it's a boolean type
+     */
     HOST_HAS_ANIMAL('B'),
+    /**
+     * The GUEST_FOOD constant, it's a text type
+     */
     GUEST_FOOD('T'),
+    /**
+     * The HOST_FOOD constant, it's a text type
+     */
     HOST_FOOD('T'),
+    /**
+     * The HOBBIES constant, it's a text type
+     */
     HOBBIES('T'),
+    /**
+     * The GENDER constant, it's a text type
+     */
     GENDER('T'),
+    /**
+     * The PAIR_GENDER constant, it's a text type
+     */
     PAIR_GENDER('T'),
+    /**
+     * The HISTORY constant, it's a text type
+     */
     HISTORY('T');
 
     /**
