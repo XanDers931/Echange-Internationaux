@@ -1,5 +1,6 @@
 package voyages;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 /**The Teenager class, it represents a teenager with requirements.
@@ -7,20 +8,34 @@ import java.util.Map;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.1, 04/07/23
+ * @version 0.0.2, 04/11/23
  * @see Criterion
  */
 public class Teenager {
     
     // private Map<> requirements;
+
+    private static int count = 0;
     /**
      * The id of the teenager
      */
     private int id;
     /**
-     * The name of the teenager
+     * The first name of the teenager
      */
-    private int name;
+    private String firstName;
+    private String lastName;
+    private LocalDate birthday;
+    private CountryName country;
+
+    public Teenager(String firstName, String lastName, LocalDate birthday, CountryName country) {
+        Teenager.count = count++;
+        this.id = count;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.country = country;
+    }
 
     /** This function determines if two teenagers are compatible
      * @param teen a teenager
