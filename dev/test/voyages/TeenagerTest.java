@@ -1,19 +1,41 @@
 /**
  * 
  */
-package test;
+package voyages;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDate;
 import java.util.HashMap;
 
-import voyages.Criterion;
-import voyages.CriterionName;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author nicolas.dagneaux.etu
  *
  */
 public class TeenagerTest {
+
+	public Teenager t1, t2, t3;
+
+    @BeforeEach
+    void initialization() {
+        t1 = new Teenager("Nicolas", "Dagneaux", LocalDate.now(), CountryName.FRANCE);
+        t2 = new Teenager("Paul", "Degraëve", LocalDate.now(), CountryName.ITALY);
+        t3 = new Teenager("Alexandre", "Martel", LocalDate.now(), CountryName.SPAIN);
+    }
+
+	@Test
+    void TestCompatibleWithGuest() {
+        t1.addCriterion(CriterionName.GUEST_ANIMAL_ALLERGY, "yes");
+        t2.addCriterion(CriterionName.HOST_HAS_ANIMAL, "yes");
+        assertFalse(t1.compatibleWithGuest(t2));
+        t1.addCriterion();
+    }
 
 	@Test
 	public void TestPurgeInvalidRequirement() {

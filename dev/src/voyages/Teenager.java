@@ -36,4 +36,8 @@ public class Teenager {
     public void purgeInvalidRequirement() {
 
     }
+
+    public void addCriterion(CriterionName criterion, String value) {
+        
+    }
 }
