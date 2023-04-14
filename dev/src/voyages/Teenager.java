@@ -8,7 +8,6 @@ import java.util.Map;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.2, 04/11/23
  * @see Criterion
  */
 public class Teenager {
