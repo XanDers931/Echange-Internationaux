@@ -7,8 +7,9 @@ import java.util.Map;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.1, 04/07/23
+ * @version 0.0.3, 04/07/23
  * @see Criterion
+ * @see CriterionName
  */
 public class Teenager {
     
@@ -37,6 +38,11 @@ public class Teenager {
 
     }
 
+    /**
+     * This function add a criterion to the list of requirements for this teenager
+     * @param criterion an enum constant of CriterionName
+     * @param value the value associated with the criterion
+     */
     public void addCriterion(CriterionName criterion, String value) {
         
     }

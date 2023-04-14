@@ -1,6 +1,3 @@
-/**
- * 
- */
 package voyages;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,19 +11,16 @@ import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author nicolas.dagneaux.etu
- *
- */
 public class TeenagerTest {
 
-	public Teenager t1, t2, t3;
+	public Teenager t1, t2, t3, t4;
 
     @BeforeEach
     void initialization() {
         t1 = new Teenager("Nicolas", "Dagneaux", LocalDate.now(), CountryName.FRANCE);
         t2 = new Teenager("Paul", "Degraëve", LocalDate.now(), CountryName.ITALY);
         t3 = new Teenager("Alexandre", "Martel", LocalDate.now(), CountryName.SPAIN);
+		t4 = new Teenager("Maxime", "Blot", LocalDate.now(), CountryName.GERMANY);
     }
 
 	@Test
@@ -34,7 +28,12 @@ public class TeenagerTest {
         t1.addCriterion(CriterionName.GUEST_ANIMAL_ALLERGY, "yes");
         t2.addCriterion(CriterionName.HOST_HAS_ANIMAL, "yes");
         assertFalse(t1.compatibleWithGuest(t2));
-        t1.addCriterion();
+        t1.addCriterion(CriterionName.GUEST_FOOD, "vegetarian");
+		t3.addCriterion(CriterionName.HOST_FOOD, null);
+		assertFalse(t1.compatibleWithGuest(t3));
+		t2.addCriterion(CriterionName.HISTORY, "other");
+		t3.addCriterion(CriterionName.HISTORY, null);
+		assertFalse(t2.compatibleWithGuest(t3));
     }
 
 	@Test
@@ -66,5 +65,4 @@ public class TeenagerTest {
 		assertEquals(c2.size(), 1);
 		assertEquals(c2.get(CriterionName.GUEST_FOOD), "vegetarian");
 	}
-
 }
