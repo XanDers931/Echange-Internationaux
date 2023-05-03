@@ -2,6 +2,7 @@ package voyages;
 
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**The Teenager class, it represents a teenager with requirements.
  * It uses the Criterion class.
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 public class Teenager {
     
-    // private Map<> requirements;
+    private Map<CriterionName, Criterion> requirements;
 
     private static int count = 0;
     /**
@@ -28,7 +29,7 @@ public class Teenager {
     private CountryName country;
 
     public Teenager(String firstName, String lastName, LocalDate birthday, CountryName country) {
-        Teenager.count = count++;
+        Teenager.count++;
         this.id = count;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,6 +49,11 @@ public class Teenager {
      * This function deletes requirements that are invalid
      */
     public void purgeInvalidRequirement() {
-
+        Map<CriterionName, Criterion> requirementsCopy = Map.copyOf(requirements);
+        for (Entry<CriterionName, Criterion> set : requirementsCopy.entrySet()) {
+            if(!set.getValue().isValid()) {
+                requirements.remove(set.getKey());
+            }
+        }
     }
 }
