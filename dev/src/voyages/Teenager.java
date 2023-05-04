@@ -10,6 +10,7 @@ import java.util.Map.Entry;
  * @author Degraeve Paul
  * @author Martel Alexandre
  * @see Criterion
+ * @see CriterionName
  */
 public class Teenager {
     
@@ -55,5 +56,14 @@ public class Teenager {
                 requirements.remove(set.getKey());
             }
         }
+    }
+
+    /**
+     * This function add a criterion to the list of requirements for this teenager
+     * @param criterion an enum constant of CriterionName
+     * @param value the value associated with the criterion
+     */
+    public void addCriterion(CriterionName criterion, String value) {
+        
     }
 }
