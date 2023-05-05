@@ -5,7 +5,7 @@ package voyages;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.1, 04/07/23
+ * @version 0.0.2, 05/05/23
  * @see Teenager
  */
 public class Criterion {

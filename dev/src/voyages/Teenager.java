@@ -5,18 +5,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-/**this teenager class, it represents a teenager with requirements.
+/**The teenager class, it represents a teenager with requirements.
  * It uses the Criterion class.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
+ * @version 0.0.4, 05/05/23
  * @see Criterion
  * @see CriterionName
  */
 public class Teenager {
     
     /**
-     * The list of requirements of a teenager
+     * The list of requirements of the teenager
      */
     private HashMap<CriterionName, Criterion> requirements;
     /**
@@ -24,18 +25,27 @@ public class Teenager {
      */
     private static int count = 0;
     /**
-     * The id of a teenager
+     * The id of the teenager
      */
     private int id;
     /**
-     * The first name of a teenager
+     * The first name of the teenager
      */
     private String firstName;
+    /**
+     * The last name of the teenager
+     */
     private String lastName;
+    /**
+     * The date of birth of the teenager
+     */
     private LocalDate birthday;
+    /**
+     * The country of the teenager
+     */
     private CountryName country;
 
-    /** The constructor for the Teenager class
+    /** The constructor for the Teenager class.
      * @param firstName
      * @param lastName
      * @param birthday
@@ -86,7 +96,14 @@ public class Teenager {
         return country;
     }
 
-    /** This function determines if two teenagers are compatible
+    /**
+     * @return a HashMap containing the list of requirements for this teenager
+     */
+    public HashMap<CriterionName, Criterion> getRequirement() {
+        return this.requirements;
+    }
+
+    /** This function determines if two teenagers are compatible.
      * @param teen a teenager
      * @return true or false whether they are compatible or not
      */
@@ -107,6 +124,13 @@ public class Teenager {
         return false;
     }
 
+    /** This method determines if the guest is allergic to animals and the host has animals.
+     * It is used in the compatibleWithGuest() method.
+     * @param teen a Teenager
+     * @param crit a Criterion
+     * @return true or false whether they are compatible or not
+     * @see compatibleWithGuest()
+     */
     public boolean guestAnimalAllergy(Teenager teen, Map.Entry<CriterionName,Criterion> crit){
         if(crit.getValue().getValue().equals("yes")){
             if (teen.getRequirement().get(CriterionName.HOST_HAS_ANIMAL) != null) {
@@ -118,6 +142,13 @@ public class Teenager {
         return true;
     }
 
+    /** This method determines if the guest and the host have the same dietary preferences.
+     * It is used in the compatibleWithGuest() method.
+     * @param teen a Teenager
+     * @param crit a Criterion
+     * @return true or false whether they are compatible or not
+     * @see compatibleWithGuest()
+     */
     public boolean guestFood(Teenager teen, Map.Entry<CriterionName,Criterion> crit){
         if(!crit.getValue().getValue().equals(teen.getRequirement().get(CriterionName.HOST_FOOD).getValue())){
             return false;
@@ -126,7 +157,7 @@ public class Teenager {
     }
 
     /**
-     * This function deletes requirements that are invalid
+     * This function deletes requirements that are invalid.
      */
     public void purgeInvalidRequirement() {
         Map<CriterionName, Criterion> requirementsCopy = Map.copyOf(requirements);
@@ -138,19 +169,12 @@ public class Teenager {
     }
 
     /**
-     * This function add a criterion to the list of requirements for this teenager
+     * This function add a criterion to the list of requirements for this teenager.
      * @param criterion an enum constant of CriterionName
      * @param value the value associated with the criterion
      */
     public void addCriterion(CriterionName criterion, String value) {
         Criterion critere = new Criterion(criterion,value);
         requirements.put(criterion,critere);
-    }
-    
-    /**
-     * @return a HashMap containing the list of requirements for this teenager
-     */
-    public HashMap<CriterionName, Criterion> getRequirement() {
-        return this.requirements;
     }
 }
