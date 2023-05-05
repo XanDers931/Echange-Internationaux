@@ -30,7 +30,22 @@ public class Criterion {
 		this.label = label;
 		this.value = value;
 	}
+	
+	
+	/**
+	 * @return the label
+	 */
+	public CriterionName getLabel() {
+		return label;
+	}
 
+
+	/**
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
 
 
 	/** Determine if this criterion is valid
