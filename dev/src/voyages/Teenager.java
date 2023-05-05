@@ -56,7 +56,34 @@ public class Teenager {
      * @return true or false whether they are compatible or not
      */
     public boolean compatibleWithGuest(Teenager teen) {
+        for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()){
+            if(crit.getKey()==CriterionName.HISTORY){
+                if(equals(crit.getValue().getValue(),"other")||equals(teen.getRequirement().get(CriterionName.HISTORY.getValue(),"other"))){
+                    return false;
+                }
+            }            
+            if(crit.getKey()==CriterionName.GUEST_ANIMAL_ALLERGY){
+                guestAnimalAllergy(teen, crit);
+            }
+            if(crit.getKey()==CriterionName.GUEST_FOOD){
+                guestFood(teen, crit);
+            }
+        }
         return true;
+    }
+
+    public boolean guestAnimalAllergy(Teenager teen, Map.Entry<CriterionName,Criterion> crit){
+        if(equals(crit.getValue().getValue(),"true")){
+            if(equals(teen.getRequirement().get(CriterionName.HOST_HAS_ANIMAL).getValue(),"true")){
+                return false;
+            }
+        }
+    }
+
+    public boolean guestFood(Teenager teen, Map.Entry<CriterionName,Criterion> crit){
+        if(!equals(crit.getValue().getValue(), teen.getRequirement().get(CriterionName.HOST_FOOD.getValue()))){
+            return false;
+        }
     }
 
     /**
@@ -77,7 +104,8 @@ public class Teenager {
      * @param value the value associated with the criterion
      */
     public void addCriterion(CriterionName criterion, String value) {
-        
+        Criterion critere = new Criterion(criterion,value);
+        requirements.put(criterion,critere);
     }
 
     public HashMap<CriterionName, Criterion> getRequirement() {
