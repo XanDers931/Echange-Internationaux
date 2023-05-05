@@ -14,8 +14,13 @@ import java.util.Map.Entry;
  */
 public class Teenager {
     
+    /**
+     * The list of requirements of the teenager
+     */
     private Map<CriterionName, Criterion> requirements;
-
+    /**
+     * A counter for auto incrementing the id
+     */
     private static int count = 0;
     /**
      * The id of the teenager
@@ -29,6 +34,12 @@ public class Teenager {
     private LocalDate birthday;
     private CountryName country;
 
+    /** The constructor for the Teenager class
+     * @param firstName
+     * @param lastName
+     * @param birthday
+     * @param country
+     */
     public Teenager(String firstName, String lastName, LocalDate birthday, CountryName country) {
         Teenager.count++;
         this.id = count;
