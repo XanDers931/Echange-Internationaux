@@ -1,6 +1,7 @@
 package voyages;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,7 +18,7 @@ public class Teenager {
     /**
      * The list of requirements of the teenager
      */
-    private Map<CriterionName, Criterion> requirements;
+    private HashMap<CriterionName, Criterion> requirements;
     /**
      * A counter for auto incrementing the id
      */
@@ -47,6 +48,7 @@ public class Teenager {
         this.lastName = lastName;
         this.birthday = birthday;
         this.country = country;
+        this.requirements = new HashMap<CriterionName, Criterion>();
     }
 
     /** This function determines if two teenagers are compatible
@@ -76,5 +78,9 @@ public class Teenager {
      */
     public void addCriterion(CriterionName criterion, String value) {
         
+    }
+
+    public HashMap<CriterionName, Criterion> getRequirement() {
+        return this.requirements;
     }
 }

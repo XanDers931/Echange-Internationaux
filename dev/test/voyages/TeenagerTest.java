@@ -2,7 +2,6 @@ package voyages;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
@@ -41,7 +40,7 @@ public class TeenagerTest {
 		/*CAS 1 : Tous les critères sont valides*/
 		t1.addCriterion(CriterionName.GENDER, "male");
 		t1.addCriterion(CriterionName.GUEST_FOOD, "vegetarian");
-		t1.addCriterion(CriterionName.HOBBIES, "reading,science,culture")
+		t1.addCriterion(CriterionName.HOBBIES, "reading,science,culture");
 		HashMap<CriterionName, Criterion> c1 = t1.getRequirement();
 		t1.purgeInvalidRequirement();
 		assertEquals(c1.size(), 3);
@@ -59,7 +58,7 @@ public class TeenagerTest {
 		/*CAS 3 : Une partie des critères sont invalides*/
 		t3.addCriterion(CriterionName.GENDER, "yes");
 		t3.addCriterion(CriterionName.GUEST_FOOD, "vegetarian");
-		t3.addCriterion(CriterionName.HOBBIES, "male")
+		t3.addCriterion(CriterionName.HOBBIES, "male");
 		HashMap<CriterionName, Criterion> c2 = t3.getRequirement();
 		t3.purgeInvalidRequirement();
 		assertEquals(c2.size(), 1);
