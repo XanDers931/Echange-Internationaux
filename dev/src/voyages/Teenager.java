@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-/**The Teenager class, it represents a teenager with requirements.
+/**this teenager class, it represents a teenager with requirements.
  * It uses the Criterion class.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
@@ -16,7 +16,7 @@ import java.util.Map.Entry;
 public class Teenager {
     
     /**
-     * The list of requirements of the teenager
+     * The list of requirements of a teenager
      */
     private HashMap<CriterionName, Criterion> requirements;
     /**
@@ -24,11 +24,11 @@ public class Teenager {
      */
     private static int count = 0;
     /**
-     * The id of the teenager
+     * The id of a teenager
      */
     private int id;
     /**
-     * The first name of the teenager
+     * The first name of a teenager
      */
     private String firstName;
     private String lastName;
@@ -49,6 +49,41 @@ public class Teenager {
         this.birthday = birthday;
         this.country = country;
         this.requirements = new HashMap<CriterionName, Criterion>();
+    }
+
+    /**
+     * @return the id of this teenager
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @return the first name of this teenager
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * @return the last name of this teenager
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * @return the date of birth of this teenager
+     */
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    /**
+     * @return the country of this teenager
+     */
+    public CountryName getcountry() {
+        return country;
     }
 
     /** This function determines if two teenagers are compatible
@@ -79,7 +114,10 @@ public class Teenager {
     public void addCriterion(CriterionName criterion, String value) {
         
     }
-
+    
+    /**
+     * @return a HashMap containing the list of requirements for this teenager
+     */
     public HashMap<CriterionName, Criterion> getRequirement() {
         return this.requirements;
     }
