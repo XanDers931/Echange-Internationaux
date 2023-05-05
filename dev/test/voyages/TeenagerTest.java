@@ -43,10 +43,10 @@ public class TeenagerTest {
 		t1.addCriterion(CriterionName.HOBBIES, "reading,science,culture");
 		HashMap<CriterionName, Criterion> c1 = t1.getRequirement();
 		t1.purgeInvalidRequirement();
-		assertEquals(c1.size(), 3);
-		assertEquals(c1.get(CriterionName.GENDER), "male");
-		assertEquals(c1.get(CriterionName.GUEST_FOOD), "vegetarian");
-		assertEquals(c1.get(CriterionName.HOBBIES), "reading,science,culture");
+		assertEquals(3, c1.size());
+		assertEquals("male", c1.get(CriterionName.GENDER));
+		assertEquals("vegetarian", c1.get(CriterionName.GUEST_FOOD));
+		assertEquals("reading,science,culture", c1.get(CriterionName.HOBBIES));
 		
 		/*CAS 2 : Aucun critère valide*/
 		t2.addCriterion(CriterionName.GENDER, "no");
@@ -61,7 +61,7 @@ public class TeenagerTest {
 		t3.addCriterion(CriterionName.HOBBIES, "male");
 		HashMap<CriterionName, Criterion> c2 = t3.getRequirement();
 		t3.purgeInvalidRequirement();
-		assertEquals(c2.size(), 1);
-		assertEquals(c2.get(CriterionName.GUEST_FOOD), "vegetarian");
+		assertEquals(1, c2.size());
+		assertEquals("vegetarian", c2.get(CriterionName.GUEST_FOOD));
 	}
 }
