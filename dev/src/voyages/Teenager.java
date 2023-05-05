@@ -56,34 +56,38 @@ public class Teenager {
      * @return true or false whether they are compatible or not
      */
     public boolean compatibleWithGuest(Teenager teen) {
-        for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()){
-            if(crit.getKey()==CriterionName.HISTORY){
-                if(equals(crit.getValue().getValue(),"other")||equals(teen.getRequirement().get(CriterionName.HISTORY.getValue(),"other"))){
+        for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
+            /*if(crit.getKey()==CriterionName.HISTORY){
+                if(crit.getValue().getValue().equals("other") || teen.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")){
                     return false;
                 }
-            }            
+            }*/            
             if(crit.getKey()==CriterionName.GUEST_ANIMAL_ALLERGY){
-                guestAnimalAllergy(teen, crit);
+                return guestAnimalAllergy(teen, crit);
             }
             if(crit.getKey()==CriterionName.GUEST_FOOD){
-                guestFood(teen, crit);
+                return guestFood(teen, crit);
+            }
+        }
+        return false;
+    }
+
+    public boolean guestAnimalAllergy(Teenager teen, Map.Entry<CriterionName,Criterion> crit){
+        if(crit.getValue().getValue().equals("yes")){
+            if (teen.getRequirement().get(CriterionName.HOST_HAS_ANIMAL) != null) {
+                if(teen.getRequirement().get(CriterionName.HOST_HAS_ANIMAL).getValue().equals("yes")){
+                    return false;
+                }
             }
         }
         return true;
     }
 
-    public boolean guestAnimalAllergy(Teenager teen, Map.Entry<CriterionName,Criterion> crit){
-        if(equals(crit.getValue().getValue(),"true")){
-            if(equals(teen.getRequirement().get(CriterionName.HOST_HAS_ANIMAL).getValue(),"true")){
-                return false;
-            }
-        }
-    }
-
     public boolean guestFood(Teenager teen, Map.Entry<CriterionName,Criterion> crit){
-        if(!equals(crit.getValue().getValue(), teen.getRequirement().get(CriterionName.HOST_FOOD.getValue()))){
+        if(!crit.getValue().getValue().equals(teen.getRequirement().get(CriterionName.HOST_FOOD).getValue())){
             return false;
         }
+        return true;
     }
 
     /**

@@ -61,4 +61,8 @@ public enum CriterionName {
     public char getType() {
         return this.TYPE;
     }
+
+    public Object getValue() {
+        return null;
+    }
 }
