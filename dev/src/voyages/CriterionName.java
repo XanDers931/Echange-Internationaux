@@ -4,10 +4,10 @@ package voyages;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.1, 04/07/23
  * @see Criterion
  */
 public enum CriterionName {
+	
     
     /**
      * The GUEST_ANIMAL_ALLERGY constant, it's a boolean type
@@ -46,6 +46,7 @@ public enum CriterionName {
      *The constant defining the type of this enum constant
      */
     private final char TYPE;
+    public static final char MULTIPLE_VALUES_SEPARATOR = ',';
 
     /**The constructor of the CriterionName enum
      * @param type The character defining the type of the enum constant

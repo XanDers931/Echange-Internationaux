@@ -37,11 +37,11 @@ public class CriterionTest {
         assertFalse(pair_gender4.isValid());
 
         //Criterion Host_Has_Animal
-        Criterion host_has_animal1 = new Criterion(CriterionName.HOST_HAS_ANIMAL, true);
+        Criterion host_has_animal1 = new Criterion(CriterionName.HOST_HAS_ANIMAL, "yes");
         assertTrue(host_has_animal1.isValid());
-        Criterion host_has_animal2 = new Criterion(CriterionName.HOST_HAS_ANIMAL, false);
+        Criterion host_has_animal2 = new Criterion(CriterionName.HOST_HAS_ANIMAL, "no");
         assertTrue(host_has_animal2.isValid());
-        Criterion host_has_animal3 = new Criterion(CriterionName.HOST_HAS_ANIMAL, 3);
+        Criterion host_has_animal3 = new Criterion(CriterionName.HOST_HAS_ANIMAL, "3");
         assertFalse(host_has_animal3.isValid());
 
         //Pour le rest test si c'est un txt
