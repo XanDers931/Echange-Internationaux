@@ -108,19 +108,21 @@ public class Teenager {
      * @return true or false whether they are compatible or not
      */
     public boolean compatibleWithGuest(Teenager teen) {
-        for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
-            /*if(crit.getKey()==CriterionName.HISTORY){
-                if(crit.getValue().getValue().equals("other") || teen.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")){
-                    return false;
-                }
-            }*/            
-            if(crit.getKey()==CriterionName.GUEST_ANIMAL_ALLERGY){
-                return guestAnimalAllergy(teen, crit);
+        /*if(crit.getKey()==CriterionName.HISTORY){
+            if(crit.getValue().getValue().equals("other") || teen.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")){
+                return false;
             }
-            if(crit.getKey()==CriterionName.GUEST_FOOD){
-                return guestFood(teen, crit);
-            }
+        }*/
+        if(this.country.equals(CountryName.FRANCE)||teen.getcountry().equals(CountryName.FRANCE)){
+            if(!isFrench(teen)){return false;}
         }
+        if(guestAnimalAllergy(teen)==false){
+            return false;
+        }
+        if(guestFood(teen)==false){
+            return false;
+        }
+
         return false;
     }
 
@@ -131,12 +133,10 @@ public class Teenager {
      * @return true or false whether they are compatible or not
      * @see compatibleWithGuest()
      */
-    public boolean guestAnimalAllergy(Teenager teen, Map.Entry<CriterionName,Criterion> crit){
-        if(crit.getValue().getValue().equals("yes")){
-            if (teen.getRequirement().get(CriterionName.HOST_HAS_ANIMAL) != null) {
-                if(teen.getRequirement().get(CriterionName.HOST_HAS_ANIMAL).getValue().equals("yes")){
-                    return false;
-                }
+    public boolean guestAnimalAllergy(Teenager teen){
+        if (teen.getRequirement().get(CriterionName.GUEST_ANIMAL_ALLERGY) != null) {
+            if(this.requirements.get(CriterionName.HOST_HAS_ANIMAL).getValue().equals("yes")){
+                return false;
             }
         }
         return true;
@@ -149,16 +149,22 @@ public class Teenager {
      * @return true or false whether they are compatible or not
      * @see compatibleWithGuest()
      */
-    public boolean guestFood(Teenager teen, Map.Entry<CriterionName,Criterion> crit){
-        if(!crit.getValue().getValue().equals(teen.getRequirement().get(CriterionName.HOST_FOOD).getValue())){
+    public boolean guestFood(Teenager teen){
+        if(!this.requirements.get(CriterionName.HOST_FOOD).getValue().equals(teen.getRequirement().get(CriterionName.GUEST_FOOD).getValue())){
             return false;
         }
         return true;
     }
 
-    /**
-     * This function deletes requirements that are invalid.
-     */
+    public boolean isFrench(Teenager teen){ 
+        for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
+            if(this.requirements.get(crit.getKey()).getValue().equals(teen.getRequirement().get(crit.getKey()).getValue())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void purgeInvalidRequirement() {
         Map<CriterionName, Criterion> requirementsCopy = Map.copyOf(requirements);
         for (Entry<CriterionName, Criterion> set : requirementsCopy.entrySet()) {
