@@ -108,29 +108,23 @@ public class Teenager {
      * @return true or false whether they are compatible or not
      */
     public boolean compatibleWithGuest(Teenager teen) {
-        /*if(crit.getKey()==CriterionName.HISTORY){
-            if(crit.getValue().getValue().equals("other") || teen.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")){
-                return false;
-            }
-        }*/
         if(this.country.equals(CountryName.FRANCE)||teen.getcountry().equals(CountryName.FRANCE)){
-            if(!isFrench(teen)){return false;}
+            if(!compatibleFrench(teen)){return false;}
         }
-        if(guestAnimalAllergy(teen)==false){
+        if(!guestAnimalAllergy(teen)){
             return false;
         }
-        if(guestFood(teen)==false){
+        if(!guestFood(teen)){
             return false;
         }
-
-        return false;
+        return true;
     }
 
     /** This method determines if the guest is allergic to animals and the host has animals.
      * It is used in the compatibleWithGuest() method.
      * @param teen a Teenager
      * @param crit a Criterion
-     * @return true or false whether they are compatible or not
+     * @return true or false whether they are compatible or not true/compatible false/not compatible
      * @see compatibleWithGuest()
      */
     public boolean guestAnimalAllergy(Teenager teen){
@@ -156,7 +150,7 @@ public class Teenager {
         return true;
     }
 
-    public boolean isFrench(Teenager teen){ 
+    public boolean compatibleFrench(Teenager teen){ 
         for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
             if(this.requirements.get(crit.getKey()).getValue().equals(teen.getRequirement().get(crit.getKey()).getValue())){
                 return true;
