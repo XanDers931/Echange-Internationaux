@@ -14,8 +14,10 @@ public class AffectationUtil {
 	* Peut avoir d’autres paramètres si nécessaire.
 	*/
 	public static double weight (Teenager host, Teenager visitor) {
-		double weight = host.compatibleWithGuest(visitor) ? 1 : -1;
-		weight += affinityHobbies(host, visitor);
+		double weight = host.compatibleWithGuest(visitor) ? 1 : 5;
+		if (weight == 1) {
+			weight += affinityHobbies(host, visitor);
+		}
 		return weight;
 	}
 
@@ -26,7 +28,7 @@ public class AffectationUtil {
 		for (String hostHobby : hostHobbies) {
 			for (String visitorHobby : visitorHobbies) {
 				if (hostHobby.equals(visitorHobby)) {
-					affinity += 0.1;
+					affinity -= 0.1;
 				}
 			}
 		}
