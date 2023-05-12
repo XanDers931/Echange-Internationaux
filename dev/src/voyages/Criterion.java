@@ -5,7 +5,7 @@ package voyages;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.2, 05/05/23
+ * @version 0.0.3, 05/10/23
  * @see Teenager
  */
 public class Criterion {
@@ -47,68 +47,49 @@ public class Criterion {
 		return value;
 	}
 
-
-	/** Determine if this criterion is valid
-     * @return true or false whether it is valid or not
-     */
     public boolean isValid() {
-    	boolean result;
-        switch (this.label.getType()) {
-        //booléen
-		case 'B':
-			return this.value.equals("yes") || this.value.equals("no");
-			
-		//texte
-		case 'T' :
-			switch (this.label) {
-			case GUEST_FOOD:
-				if (this.value == null) {
-					result = true;
-					break;
-				}
-				result = this.value.equals("vegetarian") || this.value.equals("nonuts");
-				break;
-			
-			case HOST_FOOD:
-				if (this.value == null) {
-					result = true;
-					break;
-				}
-				result = this.value.equals("vegetarian") || this.value.equals("nonuts");
-				break;
-			
-			case GENDER:
-				if (this.value == null) {
-					result = false;
-					break;
-				}
-				result = this.value.equals("male") || this.value.equals("female") || this.value.equals("other");
-				break;
-				
-			case PAIR_GENDER:
-				if (this.value == null) {
-					result = false;
-					break;
-				}
-				result = this.value.equals("male") || this.value.equals("female") || this.value.equals("other");
-				break;
-			
-			case HISTORY:
-				if (this.value == null) {
-					result = true;
-					break;
-				}
-				result = this.value.equals("same") || this.value.equals("other");
-				break;
-			default:
-				result = true;
-				break;
+		if (this.getLabel().getType() == 'B') {
+			try {
+				booleanIsValid();
+				return true;
+			} catch (TypeBooleanException e) {
+				e.printStackTrace();
 			}
-			break;			
-		default:
-			result = false;
-			break;
-        }
-        return result;
-    }
+		} else {
+			if (this.getLabel().equals(CriterionName.HOST_FOOD) || this.getLabel().equals(CriterionName.GUEST_FOOD)) {
+				try {
+					foodValueIsValid();
+					return true;
+				} catch (FoodValueException e) {
+					e.printStackTrace();
+				}
+			} else if (this.getLabel().equals(CriterionName.HISTORY)) {
+				try {
+					historyValueIsValid();
+					return true;
+				} catch (HistoryValueException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
+	}
+
+	public void booleanIsValid() throws TypeBooleanException {
+		if (!(this.getValue().equals("yes") || this.getValue().equals("no"))) {
+			throw new TypeBooleanException("Expected 'yes' or 'no' but was " + this.getValue());
+		}
+	}
+
+	public void foodValueIsValid() throws FoodValueException {
+		if (!(this.getValue() == null || this.getValue().equals("vegetarian") || this.getValue().equals("nonuts"))) {
+			throw new FoodValueException("Expected 'vegetarian', 'nonuts' or null but was " + this.getValue());
+		}
+	}
+
+	public void historyValueIsValid() throws HistoryValueException {
+		if (!(this.getValue() == null || this.getValue().equals("same") || this.getValue().equals("other"))) {
+			throw new HistoryValueException("Expected 'same', 'other' or null but was " + this.getValue());
+		}
+	}
 }
