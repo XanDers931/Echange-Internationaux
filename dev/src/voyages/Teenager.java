@@ -10,7 +10,7 @@ import java.util.Map.Entry;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.4, 05/05/23
+ * @version 0.0.5, 05/12/23
  * @see Criterion
  * @see CriterionName
  */
@@ -92,7 +92,7 @@ public class Teenager {
     /**
      * @return the country of this teenager
      */
-    public CountryName getcountry() {
+    public CountryName getCountry() {
         return country;
     }
 
@@ -108,15 +108,15 @@ public class Teenager {
      * @return true or false whether they are compatible or not
      */
     public boolean compatibleWithGuest(Teenager teen) {
-        if(this.country.equals(CountryName.FRANCE)||teen.getcountry().equals(CountryName.FRANCE)){
+        /*if(this.country.equals(CountryName.FRANCE)||teen.getCountry().equals(CountryName.FRANCE)){
             if(!compatibleFrench(teen)){return false;}
-        }
+        }*/
         if(!guestAnimalAllergy(teen)){
             return false;
         }
-        if(!guestFood(teen)){
+        /*if(!guestFood(teen)){
             return false;
-        }
+        }*/
         return true;
     }
 
@@ -160,6 +160,15 @@ public class Teenager {
     }
 
     public boolean compatibleFrench(Teenager teen){ 
+        for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
+            try {
+                if(this.requirements.get(crit.getKey()).getValue().equals(teen.getRequirement().get(crit.getKey()).getValue())){
+                    return true;
+                }   
+            } catch (NullPointerException e) {
+                return false;
+            }
+        }
         try {
             for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
                 if(this.requirements.get(crit.getKey()).getValue().equals(teen.getRequirement().get(crit.getKey()).getValue())){
