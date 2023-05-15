@@ -128,11 +128,16 @@ public class Teenager {
      * @see compatibleWithGuest()
      */
     public boolean guestAnimalAllergy(Teenager teen){
-        if (teen.getRequirement().get(CriterionName.GUEST_ANIMAL_ALLERGY) != null) {
-            if(this.requirements.get(CriterionName.HOST_HAS_ANIMAL).getValue().equals("yes")){
-                return false;
+        try {
+            if (teen.getRequirement().get(CriterionName.GUEST_ANIMAL_ALLERGY) != null) {
+                if(this.requirements.get(CriterionName.HOST_HAS_ANIMAL).getValue().equals("yes")){
+                    return false;
+                }
             }
+        } catch (NullPointerException e) {
+            return false;
         }
+        
         return true;
     }
 
@@ -144,17 +149,25 @@ public class Teenager {
      * @see compatibleWithGuest()
      */
     public boolean guestFood(Teenager teen){
-        if(!this.requirements.get(CriterionName.HOST_FOOD).getValue().equals(teen.getRequirement().get(CriterionName.GUEST_FOOD).getValue())){
+        try {
+            if(!this.requirements.get(CriterionName.HOST_FOOD).getValue().equals(teen.getRequirement().get(CriterionName.GUEST_FOOD).getValue())){
+                return false;
+            }
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     public boolean compatibleFrench(Teenager teen){ 
-        for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
-            if(this.requirements.get(crit.getKey()).getValue().equals(teen.getRequirement().get(crit.getKey()).getValue())){
-                return true;
+        try {
+            for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
+                if(this.requirements.get(crit.getKey()).getValue().equals(teen.getRequirement().get(crit.getKey()).getValue())){
+                    return true;
+                }
             }
+        } catch (Exception e) {
+            return false;
         }
         return false;
     }
