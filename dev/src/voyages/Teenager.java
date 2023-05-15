@@ -169,15 +169,6 @@ public class Teenager {
                 return false;
             }
         }
-        try {
-            for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
-                if(this.requirements.get(crit.getKey()).getValue().equals(teen.getRequirement().get(crit.getKey()).getValue())){
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            return false;
-        }
         return false;
     }
 
