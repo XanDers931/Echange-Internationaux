@@ -114,9 +114,12 @@ public class Teenager {
         if(!guestAnimalAllergy(teen)){
             return false;
         }
-        /*if(!guestFood(teen)){
+        if(!guestFood(teen)){
             return false;
-        }*/
+        }
+        if(!compatibleFrench(teen)){
+            return false;
+        }
         return true;
     }
 
