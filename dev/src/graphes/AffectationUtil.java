@@ -14,7 +14,7 @@ public class AffectationUtil {
 	* Peut avoir d’autres paramètres si nécessaire.
 	*/
 	public static double weight (Teenager host, Teenager visitor) {
-		double weight = host.compatibleWithGuest(visitor) ? 1 : 5;
+		double weight = host.compatibleWithGuest(visitor) ? 1 : Double.MAX_VALUE;
 		if (weight == 1) {
 			weight += affinityHobbies(host, visitor);
 		}
