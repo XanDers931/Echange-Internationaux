@@ -1,6 +1,6 @@
 package voyages;
 
-/** The country enumeration. It contains the countries in which teenagers live.
+/** The country enumeration. It contains the name of the countries where teenagers live.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre

@@ -9,14 +9,21 @@ import fr.ulille.but.sae2_02.graphes.*;
 import voyages.CountryName;
 import voyages.Teenager;
 
-/**
+/**The {@code Graph} class, it represents a graph for the affectation problem.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
  * @version 0.0.1, 05/12/23
+ * @see Teenager
  */
 public class Graph {
     
+    /** This method return a map of the optimal affectation of the teenagers, based on their affinities.
+     * @param teenagers the list of teenagers to be paired.
+     * @param countryHost the {@code CountryName} of the host country.
+     * @param countryGuest the {@code CountryName} of the guest country.
+     * @return a {@link Map} of the affectation of the teenagers.
+     */
     public static Map<Teenager, Teenager> pairing(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest) {
         Map<Teenager, Teenager> result = new HashMap<>();
         List<Arete<Teenager>> calcul = generateGraphAndCalculation(teenagers, countryHost, countryGuest);
@@ -26,6 +33,13 @@ public class Graph {
         return result;
     }
 
+    /** This method return a list of the optimal affectation of the teenagers, based on their affinities.
+     * It creates a graph using the {@link GrapheNonOrienteValue} class, and then uses the {@link CalculAffectation} class to calculate the affectation.
+     * @param teenagers the list of teenagers to be paired.
+     * @param countryHost the {@code CountryName} of the host country.
+     * @param countryGuest the {@code CountryName} of the guest country.
+     * @return a {@link List} of {@link Arete} of the affectation of the teenagers.
+     */
     private static List<Arete<Teenager>> generateGraphAndCalculation(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest) {
         List<Teenager> host = new ArrayList<>();
         List<Teenager> guest = new ArrayList<>();

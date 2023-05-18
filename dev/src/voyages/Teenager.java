@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-/**The teenager class, it represents a teenager with requirements.
- * It uses the Criterion class.
+/**The {@code Teenager} class, it represents a teenager with requirements.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
@@ -17,39 +16,39 @@ import java.util.Map.Entry;
 public class Teenager {
     
     /**
-     * The list of requirements of the teenager
+     * The list of requirements of the teenager.
      */
     private HashMap<CriterionName, Criterion> requirements;
     /**
-     * A counter for auto incrementing the id
+     * A counter for auto incrementing the id.
      */
     private static int count = 0;
     /**
-     * The id of the teenager
+     * The id of the teenager.
      */
     private int id;
     /**
-     * The first name of the teenager
+     * The first name of the teenager.
      */
     private String firstName;
     /**
-     * The last name of the teenager
+     * The last name of the teenager.
      */
     private String lastName;
     /**
-     * The date of birth of the teenager
+     * The date of birth of the teenager.
      */
     private LocalDate birthday;
     /**
-     * The country of the teenager
+     * The country of the teenager.
      */
     private CountryName country;
 
     /** The constructor for the Teenager class.
-     * @param firstName
-     * @param lastName
-     * @param birthday
-     * @param country
+     * @param firstName a {@code String} representing the first name of the teenager.
+     * @param lastName a {@code String} representing the last name of the teenager.
+     * @param birthday a {@code LocalDate} representing the date of birth of the teenager.
+     * @param country a {@code CountryName} representing the country of the teenager.
      */
     public Teenager(String firstName, String lastName, LocalDate birthday, CountryName country) {
         Teenager.count++;
@@ -61,51 +60,54 @@ public class Teenager {
         this.requirements = new HashMap<CriterionName, Criterion>();
     }
 
-    /**
-     * @return the id of this teenager
+    /**Return the id of this teenager.
+     * @return the id of this teenager.
      */
     public int getId() {
         return id;
     }
 
-    /**
-     * @return the first name of this teenager
+    /**Return the first name of this teenager.
+     * @return the first name of this teenager.
      */
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * @return the last name of this teenager
+    /**Return the last name of this teenager.
+     * @return the last name of this teenager.
      */
     public String getLastName() {
         return lastName;
     }
 
-    /**
+    /**Return the date of birth of this teenager.
      * @return the date of birth of this teenager
      */
     public LocalDate getBirthday() {
         return birthday;
     }
 
-    /**
-     * @return the country of this teenager
+    /**Return the country of this teenager.
+     * @return the country of this teenager.
+     * @see CountryName
      */
     public CountryName getCountry() {
         return country;
     }
 
-    /**
-     * @return a HashMap containing the list of requirements for this teenager
+    /**Return the list of requirements for this teenager.
+     * @return a HashMap of CriterionName and Criterion representing the requirements of this teenager.
+     * @see Criterion
+     * @see CriterionName
      */
     public HashMap<CriterionName, Criterion> getRequirement() {
         return this.requirements;
     }
 
-    /** This function determines if two teenagers are compatible.
-     * @param teen a teenager
-     * @return true or false whether they are compatible or not
+    /** This method determines if two teenagers are compatible by comparing their requirements.
+     * @param teen a {@code Teenager}
+     * @return {@code true} if the two teenagers are compatible, {@code false} otherwise.
      */
     public boolean compatibleWithGuest(Teenager teen) {
         /*if(this.country.equals(CountryName.FRANCE)||teen.getCountry().equals(CountryName.FRANCE)){
@@ -123,12 +125,10 @@ public class Teenager {
         return true;
     }
 
-    /** This method determines if the guest is allergic to animals and the host has animals.
-     * It is used in the compatibleWithGuest() method.
-     * @param teen a Teenager
-     * @param crit a Criterion
-     * @return true or false whether they are compatible or not true/compatible false/not compatible
-     * @see compatibleWithGuest()
+    /** This method checks, if the guest has an animal allergy, if the host has an animal.
+     * @param teen a {@code Teenager}
+     * @return {@code true} if the guest has an animal allergy and the host has an animal, {@code false} otherwise.
+     * @see Teenager#compatibleWithGuest
      */
     public boolean guestAnimalAllergy(Teenager teen){
         try {
@@ -144,12 +144,10 @@ public class Teenager {
         return true;
     }
 
-    /** This method determines if the guest and the host have the same dietary preferences.
-     * It is used in the compatibleWithGuest() method.
-     * @param teen a Teenager
-     * @param crit a Criterion
-     * @return true or false whether they are compatible or not
-     * @see compatibleWithGuest()
+    /** This method checks, if the guest has a food requirement, if the host is able to provide it.
+     * @param teen a {@code Teenager}
+     * @return {@code true} if the guest has a food requirement and the host is able to provide it, {@code false} otherwise.
+     * @see Teenager#compatibleWithGuest
      */
     public boolean guestFood(Teenager teen){
         try {
@@ -162,6 +160,11 @@ public class Teenager {
         return true;
     }
 
+    /**This method checks if the two teenagers are compatible according to the french requirements.
+     * @param teen a {@code Teenager}
+     * @return {@code true} if the two teenagers are compatible, {@code false} otherwise.
+     * @see Teenager#compatibleWithGuest
+     */
     public boolean compatibleFrench(Teenager teen){ 
         for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
             try {
@@ -175,6 +178,9 @@ public class Teenager {
         return false;
     }
 
+    /**This method purge the requirements of this teenager if they are not valid.
+     * @see Criterion#isValid
+     */
     public void purgeInvalidRequirement() {
         Map<CriterionName, Criterion> requirementsCopy = Map.copyOf(requirements);
         for (Entry<CriterionName, Criterion> set : requirementsCopy.entrySet()) {
@@ -184,10 +190,9 @@ public class Teenager {
         }
     }
 
-    /**
-     * This function add a criterion to the list of requirements for this teenager.
-     * @param criterion an enum constant of CriterionName
-     * @param value the value associated with the criterion
+    /**This method add a criterion to the list of requirements of this teenager.
+     * @param criterion the {@code criterionName} to add.
+     * @param value the value of the criterion to be added.
      */
     public void addCriterion(CriterionName criterion, String value) {
         Criterion critere = new Criterion(criterion,value);

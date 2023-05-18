@@ -2,8 +2,7 @@ package voyages;
 
 import java.util.ArrayList;
 
-
-/**The Platform class.
+/**The Platform class. It represents the platform that contains all the teenagers.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
@@ -11,8 +10,13 @@ import java.util.ArrayList;
  */
 public class Platform {
     
+    /**
+     * The list of teenagers.
+     */
     ArrayList<Teenager> teenagers;
 
+    /**The constructor for the {@code Platform} class.
+     */
     public Platform() {
         this.teenagers = new ArrayList<Teenager>();
     }

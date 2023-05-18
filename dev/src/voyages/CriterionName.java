@@ -11,59 +11,59 @@ public enum CriterionName {
 	
     
     /**
-     * The GUEST_ANIMAL_ALLERGY constant, it's a boolean type
+     * The GUEST_ANIMAL_ALLERGY constant, it's a boolean type.
      */
     GUEST_ANIMAL_ALLERGY('B'),
     /**
-     * The HOST_HAS_ANIMAL constant, it's a boolean type
+     * The HOST_HAS_ANIMAL constant, it's a boolean type.
      */
     HOST_HAS_ANIMAL('B'),
     /**
-     * The GUEST_FOOD constant, it's a text type
+     * The GUEST_FOOD constant, it's a text type.
      */
     GUEST_FOOD('T'),
     /**
-     * The HOST_FOOD constant, it's a text type
+     * The HOST_FOOD constant, it's a text type.
      */
     HOST_FOOD('T'),
     /**
-     * The HOBBIES constant, it's a text type
+     * The HOBBIES constant, it's a text type.
      */
     HOBBIES('T'),
     /**
-     * The GENDER constant, it's a text type
+     * The GENDER constant, it's a text type.
      */
     GENDER('T'),
     /**
-     * The PAIR_GENDER constant, it's a text type
+     * The PAIR_GENDER constant, it's a text type.
      */
     PAIR_GENDER('T'),
     /**
-     * The HISTORY constant, it's a text type
+     * The HISTORY constant, it's a text type.
      */
     HISTORY('T');
 
     /**
-     *The constant defining the type of this enum constant
+     *The constant defining the type of this enum constant. Either 'B' for boolean or 'T' for text.
      */
     private final char TYPE;
+
+    /**
+     * The constant defining the separator for fields with multiple values.
+     */
     public static final char MULTIPLE_VALUES_SEPARATOR = ',';
 
-    /**The constructor of the CriterionName enum
-     * @param type The character defining the type of the enum constant
+    /**The constructor of the CriterionName enum.
+     * @param type The character defining the type of the enum constant. Either 'B' for boolean or 'T' for text.
      */
     CriterionName(char type) {
         this.TYPE = type;
     }
 
-    /**Getter for the criterion type
-     * @return the type of this enum constant
+    /**Return the type of this enum constant.
+     * @return the character defining the type of the enum constant. Either 'B' for boolean or 'T' for text.
      */
     public char getType() {
         return this.TYPE;
-    }
-
-    public Object getValue() {
-        return null;
     }
 }
