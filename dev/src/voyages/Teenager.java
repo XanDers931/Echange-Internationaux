@@ -184,10 +184,19 @@ public class Teenager {
     public void purgeInvalidRequirement() {
         Map<CriterionName, Criterion> requirementsCopy = Map.copyOf(requirements);
         for (Entry<CriterionName, Criterion> set : requirementsCopy.entrySet()) {
-            if(!set.getValue().isValid()) {
-                requirements.remove(set.getKey());
-            }
+        	try {
+        		set.getValue().isValid();
+			} catch (Exception e) {
+				requirements.remove(set.getKey());
+			}
         }
+    }
+    
+    /**This method add a criterion to the list of requirements of this teenager.
+     * @param criterion the {@code Criterion} to add.
+     */
+    public void addCriterion(Criterion criterion) {
+        requirements.put(criterion.getLabel(), criterion);
     }
 
     /**This method add a criterion to the list of requirements of this teenager.
@@ -196,6 +205,6 @@ public class Teenager {
      */
     public void addCriterion(CriterionName criterion, String value) {
         Criterion critere = new Criterion(criterion,value);
-        requirements.put(criterion,critere);
+        this.addCriterion(critere);
     }
 }
