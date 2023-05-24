@@ -186,8 +186,10 @@ public class Teenager {
         for (Entry<CriterionName, Criterion> set : requirementsCopy.entrySet()) {
         	try {
         		set.getValue().isValid();
-			} catch (Exception e) {
+			} catch (CriterionValueException e) {
 				requirements.remove(set.getKey());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
         }
     }

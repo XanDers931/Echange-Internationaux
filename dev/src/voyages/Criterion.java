@@ -1,5 +1,7 @@
 package voyages;
 
+import java.util.regex.Pattern;
+
 /**The Criterion class, it represents a criterion for a teenager.
  * It uses the CriterionName enum.
  * @author Dagneaux Nicolas
@@ -48,78 +50,16 @@ public class Criterion {
 		return value;
 	}
 
-	/** This function check if this criterion is valid.
-	 * @return {@code true} if this criterion is valid, {@code false} otherwise.
-	 *//*
-    public boolean isValid() {
-		if (this.getLabel().getType() == 'B') {
-			try {
-				booleanIsValid();
-				return true;
-			} catch (TypeBooleanException e) {
-				e.printStackTrace();
-			}
-		} else {
-			if (this.getLabel().equals(CriterionName.HOST_FOOD) || this.getLabel().equals(CriterionName.GUEST_FOOD)) {
-				try {
-					foodValueIsValid();
-					return true;
-				} catch (FoodValueException e) {
-					e.printStackTrace();
-				}
-			} else if (this.getLabel().equals(CriterionName.HISTORY)) {
-				try {
-					historyValueIsValid();
-					return true;
-				} catch (HistoryValueException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return false;
-	}*/
     
     /** This function check if this criterion is valid.
-	 * @return {@code true} if this criterion is valid, {@code false} otherwise.
+	 * @return {@code true} if this criterion is valid.
+	 * @throws CriterionValueException if the value is not valid.
 	 */
-    public boolean isValid() throws TypeBooleanException, FoodValueException, HistoryValueException {
-    	if (this.getLabel().getType() == 'B') {
-			return this.booleanIsValid();
-		} else if (this.getLabel().equals(CriterionName.HOST_FOOD) || this.getLabel().equals(CriterionName.GUEST_FOOD)) {
-			return this.foodValueIsValid();
-		} else if (this.getLabel().equals(CriterionName.HISTORY)) {
-			return this.historyValueIsValid();
+    public boolean isValid() throws CriterionValueException {
+    	boolean isValid = Pattern.matches(this.label.getRegex(), this.value);
+    	if (!isValid) {
+			throw new CriterionValueException(this.label.getExceptionMessage() + (this.value.isEmpty() ? "empty" : this.value));
 		}
-    	return false;
-	}
-
-	/** If this criterion is of type boolean, the function will check if the value is either "yes" or "no", or will raise an exception otherwise.
-	 * @throws TypeBooleanException if the value of this criterion is not "yes" or "no".
-	 */
-	public boolean booleanIsValid() throws TypeBooleanException {
-		if (!(this.getValue().equals("yes") || this.getValue().equals("no"))) {
-			throw new TypeBooleanException("Expected 'yes' or 'no' but was " + this.getValue());
-		}
-		return true;
-	}
-
-	/** If this criterion is of type food, the function will check if the value is either "vegetarian" or "nonuts", or will raise an exception otherwise.
-	 * @throws FoodValueException if the value of this criterion is not "vegetarian" or "nonuts".
-	 */
-	public boolean foodValueIsValid() throws FoodValueException {
-		if (!(this.getValue() == null || this.getValue().equals("vegetarian") || this.getValue().equals("nonuts"))) {
-			throw new FoodValueException("Expected 'vegetarian', 'nonuts' or null but was " + this.getValue());
-		}
-		return true;
-	}
-
-	/** If this criterion is of type history, the function will check if the value is either "same", "other" or null, or will raise an exception otherwise.
-	 * @throws HistoryValueException if the value of this criterion is not "same", "other" or null.
-	 */
-	public boolean historyValueIsValid() throws HistoryValueException {
-		if (!(this.getValue() == null || this.getValue().equals("same") || this.getValue().equals("other"))) {
-			throw new HistoryValueException("Expected 'same', 'other' or null but was " + this.getValue());
-		}
-		return true;
+    	return true;
 	}
 }

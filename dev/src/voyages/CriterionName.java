@@ -13,35 +13,35 @@ public enum CriterionName {
     /**
      * The GUEST_ANIMAL_ALLERGY constant, it's a boolean type.
      */
-    GUEST_ANIMAL_ALLERGY('B', false),
+    GUEST_ANIMAL_ALLERGY('B', "^yes$|^no$", "Expected 'yes' or 'no' but was : "),
     /**
      * The HOST_HAS_ANIMAL constant, it's a boolean type.
      */
-    HOST_HAS_ANIMAL('B', false),
+    HOST_HAS_ANIMAL('B', "^yes$|^no$", "Expected 'yes' or 'no' but was : "),
     /**
      * The GUEST_FOOD constant, it's a text type.
      */
-    GUEST_FOOD('T', true),
+    GUEST_FOOD('T', "(^vegetarian$|^nonuts$|$)|((^vegetarian|^nonuts),{1}(vegetarian$|nonuts$))", "Expected one or more of 'vegetarian', 'nonuts' or empty but was : "),
     /**
      * The HOST_FOOD constant, it's a text type.
      */
-    HOST_FOOD('T', true),
+    HOST_FOOD('T', "(^vegetarian$|^nonuts$|$)|((^vegetarian|^nonuts),{1}(vegetarian$|nonuts$))", "Expected one or more of 'vegetarian', 'nonuts' or empty but was : "),
     /**
      * The HOBBIES constant, it's a text type.
      */
-    HOBBIES('T', true),
+    HOBBIES('T'),
     /**
      * The GENDER constant, it's a text type.
      */
-    GENDER('T', false),
+    GENDER('T', "^male$|^female$|^other$", "Expected 'male', 'female', or 'other' but was : "),
     /**
      * The PAIR_GENDER constant, it's a text type.
      */
-    PAIR_GENDER('T', true),
+    PAIR_GENDER('T', "^male$|^female$|^other$|$", "Expected 'male', 'female', 'other' or empty but was : "),
     /**
      * The HISTORY constant, it's a text type.
      */
-    HISTORY('T', true);
+    HISTORY('T', "^same$|^other$|$", "Expected 'same', 'other' or empty but was : ");
 
     /**
      *The constant defining the type of this enum constant. Either 'B' for boolean or 'T' for text.
@@ -49,9 +49,14 @@ public enum CriterionName {
     private final char TYPE;
     
     /**
-     *The constant defining if the value can be null
+     *The constant defining the regular expression used to know if value is valid.
      */
-    private final boolean CAN_BE_NULL;
+    private final String REGEX;
+    
+    /**
+     *The constant defining the message displayed by the exception.
+     */
+    private final String EXCEPTION_MESSAGE;
 
     /**
      * The constant defining the separator for fields with multiple values.
@@ -60,10 +65,20 @@ public enum CriterionName {
 
     /**The constructor of the CriterionName enum.
      * @param type The character defining the type of the enum constant. Either 'B' for boolean or 'T' for text.
+     * @param regex The String representation of regular expression used to know if value is valid.
+     * @param exceptionMessage The message displayed by the exception.
      */
-    CriterionName(char type, boolean canBeNull) {
+    CriterionName(char type, String regex, String exceptionMessage) {
         this.TYPE = type;
-        this.CAN_BE_NULL = canBeNull;
+        this.REGEX = regex;
+        this.EXCEPTION_MESSAGE = exceptionMessage;
+    }
+    
+    /**The constructor of the CriterionName enum.
+     * @param type The character defining the type of the enum constant. Either 'B' for boolean or 'T' for text.
+     */
+    CriterionName(char type) {
+    	this(type, ".*", "");
     }
 
     /**Return the type of this enum constant.
@@ -73,11 +88,18 @@ public enum CriterionName {
         return this.TYPE;
     }
     
-    /**Return if the value of that criterion can be null.
-     * @return if the value of that criterion can be null.
+    /**Return the regex String representation.
+     * @return the regex String representation.
      */
-    public boolean canBeNull() {
-        return this.CAN_BE_NULL;
+    public String getRegex() {
+        return this.REGEX;
+    }
+    
+    /**Return the message for exception.
+     * @return the message for exception.
+     */
+    public String getExceptionMessage() {
+        return this.EXCEPTION_MESSAGE;
     }
     
     
