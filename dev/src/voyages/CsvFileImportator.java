@@ -1,9 +1,16 @@
 package voyages;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -171,6 +178,27 @@ public abstract class CsvFileImportator {
     	return currentTennager;
 	}
 	
+	/**
+	 * Generate log file for inavlid rows.
+	 * @param inputCsvPath a {@code String} representing the input file path
+	 * @param logContent a {@code StringBuilder} representing the content of log file to write.
+	 * @throws Exception 
+	 */
+	private static void generateLogFile(String inputCsvPath, String logContent) throws Exception {
+		//Getting input file's folder
+		File inputFile = new File(inputCsvPath);
+		String folderParent = inputFile.getParentFile().getAbsolutePath();
+		String logFileName = inputFile.getName() + "---" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM:dd:yyyy::H:m:s")).toString() + ".csv";
+		String logFileFullPath = Paths.get(folderParent, logFileName).toString();
+		
+		//Save log file
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFileFullPath))) {
+			writer.write(logContent, 0, logContent.length());
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 	
 	/**
      * Import teenagers from a .csv file
@@ -181,6 +209,7 @@ public abstract class CsvFileImportator {
 	public static ArrayList<Teenager> importFromCsv(String path) throws CsvRowInvalidStructureException, Exception {
 		HashMap<String,Integer> csvStructure;
 		ArrayList<Teenager> result = new ArrayList<Teenager>();
+		StringBuilder logFileContent = new StringBuilder();
 		//openning file
 		try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
 			//try to get csv structure
@@ -200,10 +229,13 @@ public abstract class CsvFileImportator {
 					result.add(createTeenagerFromCsvRow(currentRowContent, csvStructure));
 				} catch (CsvRowInvalidStructureException e) {
 					System.out.println("(Invalid CSV Structcture)(Row " + currentRowNumber + ")" + e.getMessage());
+					logFileContent.append(currentRowContent + "\n");
 				} catch (TeenagerAttributeException e) {
 					System.out.println("(Invalid Teenager attribute)(Row " + currentRowNumber + ")" + e.getMessage());
+					logFileContent.append(currentRowContent + "\n");
 				} catch (CriterionValueException e) {
 					System.out.println("(Invalid Criterion Value)(Row " + currentRowNumber + ")" + e.getMessage());
+					logFileContent.append(currentRowContent + "\n");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -215,6 +247,12 @@ public abstract class CsvFileImportator {
 			throw e;
 		} catch (Exception e) {
 			throw e;
+		}
+		
+		//generate log file
+		if (!logFileContent.isEmpty()) {
+			logFileContent.insert(0, getRowHeader() + "\n");
+			generateLogFile(path, logFileContent.toString());
 		}
 		return result;
 	}
