@@ -57,6 +57,8 @@ public enum CriterionName {
      *The constant defining the message displayed by the exception.
      */
     private final String EXCEPTION_MESSAGE;
+ 
+    
 
     /**
      * The constant defining the separator for fields with multiple values.
@@ -71,7 +73,7 @@ public enum CriterionName {
     CriterionName(char type, String regex, String exceptionMessage) {
         this.TYPE = type;
         this.REGEX = regex;
-        this.EXCEPTION_MESSAGE = exceptionMessage;
+        this.EXCEPTION_MESSAGE = "[" + this.name() + "] " + exceptionMessage;
     }
     
     /**The constructor of the CriterionName enum.
@@ -100,6 +102,19 @@ public enum CriterionName {
      */
     public String getExceptionMessage() {
         return this.EXCEPTION_MESSAGE;
+    }
+    
+    
+    /**Return all the criterion names in a {@code String[]}.
+     * @return all the criterion names in a {@code String[]}.
+     */
+    public static String[] getCriterionNames() {
+    	CriterionName[] allCriterion = CriterionName.values();
+    	String[] result = new String[allCriterion.length];
+    	for (int i = 0; i < allCriterion.length; i++) {
+			result[i] = allCriterion[i].name();
+		}
+    	return result;
     }
     
     
