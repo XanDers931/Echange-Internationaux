@@ -23,11 +23,20 @@ public class History implements Serializable {
         return year;
     }
 
+    /** Writes the object to the specified output stream.
+     * @param out the output stream.
+     * @throws IOException if an I/O error occurs while writing to the stream.
+     */
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         out.writeObject(teenagers);
         out.writeObject(year);
     }
 
+    /** Reads the object from the specified input stream.
+     * @param ois the input stream.
+     * @throws IOException if an I/O error occurs while reading from the stream.
+     * @throws ClassNotFoundException if the class of the serialized object cannot be found.
+     */
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
         teenagers = (Tuple<Teenager>) ois.readObject();
         year = (LocalDate) ois.readObject();
