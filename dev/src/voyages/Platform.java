@@ -38,7 +38,7 @@ public class Platform {
     
     public static void main(String[] args) {
     	Platform p1 = new Platform();
-    	p1.importTeenagerFromCsv("./dev/src/voyages/adosAleatoires-with-errors.csv");
+    	p1.importTeenagerFromCsv("./dev/res/adosAleatoires-with-errors.csv");
     	System.out.println(p1.teenagers.size());
 	}
 }
