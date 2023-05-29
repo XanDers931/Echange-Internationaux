@@ -9,6 +9,10 @@ public class Tuple<E> implements java.io.Serializable {
         this.first = first;
         this.second = second;
     }
+
+    public Tuple() {
+        this(null, null);
+    }
     
     /** Returns the first element of the tuple.
      * @return the first element of the tuple.
@@ -24,9 +28,17 @@ public class Tuple<E> implements java.io.Serializable {
         return second;
     }
 
+    public void setFirst(E first) {
+        this.first = first;
+    }
+
+    public void setSecond(E second) {
+        this.second = second;
+    }
+
     /** Returns the element of the tuple associated with the given element.
      * @param e the "key" element.
-     * @return the element of the tuple associated with the given element.
+     * @return the element of the tuple associated with the given element or null if the element is not in the tuple.
      */
     public E get(E e) {
         if (e.equals(first)) {
@@ -40,5 +52,14 @@ public class Tuple<E> implements java.io.Serializable {
     @Override
     public String toString() {
         return "(" + first + ", " + second + ")";
+    }
+
+    public void put(E e1, E e2) {
+        setFirst(e1);
+        setSecond(e2);
+    }
+
+    public static <E> boolean equals(E e1, E e2) {
+        return e1.equals(e2);
     }
 }

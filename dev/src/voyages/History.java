@@ -3,20 +3,21 @@ package voyages;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class History implements Serializable {
     
-    private Tuple<Teenager> teenagers;
+    private ArrayList<Tuple<Teenager>> teenagers;
     private LocalDate year;
     private static final long serialVersionUID = 1L;
 
-    public History(Tuple<Teenager> teenagers, LocalDate year) {
+    public History(ArrayList<Tuple<Teenager>> teenagers, LocalDate year) {
         this.teenagers = teenagers;
         this.year = year;
     }
 
-    public History(Teenager first, Teenager second, LocalDate year) {
-        this(new Tuple<Teenager>(first, second), year);
+    public History(LocalDate year) {
+        this(new ArrayList<>(), year);
     }
 
     public LocalDate getYear() {
@@ -38,7 +39,7 @@ public class History implements Serializable {
      * @throws ClassNotFoundException if the class of the serialized object cannot be found.
      */
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        teenagers = (Tuple<Teenager>) ois.readObject();
+        teenagers = (ArrayList<Tuple<Teenager>>) ois.readObject();
         year = (LocalDate) ois.readObject();
     }
 

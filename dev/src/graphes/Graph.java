@@ -1,13 +1,13 @@
 package graphes;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import fr.ulille.but.sae2_02.graphes.*;
 import voyages.CountryName;
 import voyages.Teenager;
+import voyages.Tuple;
 
 /**The {@code Graph} class, it represents a graph for the affectation problem.
  * @author Dagneaux Nicolas
@@ -24,11 +24,11 @@ public class Graph {
      * @param countryGuest the {@code CountryName} of the guest country.
      * @return a {@link Map} of the affectation of the teenagers.
      */
-    public static Map<Teenager, Teenager> pairing(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest) {
-        Map<Teenager, Teenager> result = new HashMap<>();
+    public static List<Tuple<Teenager>> pairing(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest) {
+        List<Tuple<Teenager>> result = new ArrayList<>();
         List<Arete<Teenager>> calcul = generateGraphAndCalculation(teenagers, countryHost, countryGuest);
         for (Arete<Teenager> arete : calcul) {
-            result.put(arete.getExtremite1(), arete.getExtremite2());
+            result.add(new Tuple<Teenager>(arete.getExtremite1(), arete.getExtremite2()));
         }
         return result;
     }

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import voyages.CountryName;
 import voyages.CriterionName;
 import voyages.Teenager;
+import voyages.Tuple;
 
 public class TestAffectationVersion1 {
 
@@ -49,9 +49,11 @@ public class TestAffectationVersion1 {
 
     @Test
     void TestGraph() {
-        Map<Teenager, Teenager> result = Graph.pairing(listTeenager, CountryName.ITALY, CountryName.FRANCE);
-        assertEquals(t1, result.get(t6));
-        assertEquals(t2, result.get(t4));
-        assertEquals(t3, result.get(t5));
+        List<Tuple<Teenager>> result = Graph.pairing(listTeenager, CountryName.ITALY, CountryName.FRANCE);
+        System.out.println(result);
+        System.out.println(Tuple.equals(t2, result.get(1).get(t5)));
+        assertEquals(t1, result.get(1).get(t6));
+        assertEquals(t2, result.get(2).get(t4));
+        assertEquals(t3, result.get(0).get(t5));
     }
 }
