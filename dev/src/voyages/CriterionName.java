@@ -21,11 +21,11 @@ public enum CriterionName {
     /**
      * The GUEST_FOOD constant, it's a text type.
      */
-    GUEST_FOOD('T', "(^vegetarian$|^nonuts$|$)|((^vegetarian|^nonuts),{1}(vegetarian$|nonuts$))", "Expected one or more of 'vegetarian', 'nonuts' or empty but was : "),
+    GUEST_FOOD('T', "(^vegetarian$|^nonuts$|$)|(^vegetarian,nonuts$)|(^nonuts,vegetarian$)", "Expected one or more of 'vegetarian', 'nonuts' or empty but was : "),
     /**
      * The HOST_FOOD constant, it's a text type.
      */
-    HOST_FOOD('T', "(^vegetarian$|^nonuts$|$)|((^vegetarian|^nonuts),{1}(vegetarian$|nonuts$))", "Expected one or more of 'vegetarian', 'nonuts' or empty but was : "),
+    HOST_FOOD('T', "(^vegetarian$|^nonuts$|$)|(^vegetarian,nonuts$)|(^nonuts,vegetarian$)", "Expected one or more of 'vegetarian', 'nonuts' or empty but was : "),
     /**
      * The HOBBIES constant, it's a text type.
      */
