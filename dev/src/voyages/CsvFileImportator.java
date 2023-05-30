@@ -183,13 +183,14 @@ public abstract class CsvFileImportator {
 	 * Generate log file for inavlid rows.
 	 * @param inputCsvPath a {@code String} representing the input file path
 	 * @param logContent a {@code StringBuilder} representing the content of log file to write.
-	 * @throws Exception 
+	 * @return the path of log file
+	 * @throws Exception
 	 */
-	private static void generateLogFile(String inputCsvPath, String logContent) throws Exception {
+	private static String generateLogFile(String inputCsvPath, String logContent) throws Exception {
 		//Getting input file's folder
 		File inputFile = new File(inputCsvPath);
 		String folderParent = inputFile.getParentFile().getAbsolutePath();
-		String logFileName = inputFile.getName() + "---" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM:dd:yyyy::H:m:s")).toString() + ".csv";
+		String logFileName = inputFile.getName() + "---" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM:dd:yyyy::HH:mm:ss")).toString() + ".csv";
 		String logFileFullPath = Paths.get(folderParent, logFileName).toString();
 		
 		//Save log file
@@ -198,6 +199,7 @@ public abstract class CsvFileImportator {
 		} catch (Exception e) {
 			throw e;
 		}
+		return logFileFullPath;
 	}
 	
 	
@@ -225,6 +227,7 @@ public abstract class CsvFileImportator {
 			//lecture de toutes les lignes
 			int currentRowNumber = 2;
 			while (reader.ready()) {
+				
 				String currentRowContent = reader.readLine();
 				try {
 					Teenager currentTeenager = createTeenagerFromCsvRow(currentRowContent, csvStructure);
@@ -234,14 +237,17 @@ public abstract class CsvFileImportator {
 					}
 					mapResult.get(currentTeenager.getCountry()).add(currentTeenager);
 				} catch (CsvRowInvalidStructureException e) {
-					System.out.println("(Invalid CSV Structcture)(Row " + currentRowNumber + ")" + e.getMessage());
-					logFileContent.append(currentRowContent + "\n");
+					String logMessage = "(Invalid CSV Structcture)(Row " + currentRowNumber + ")" + e.getMessage();
+					System.out.println(logMessage);
+					logFileContent.append(currentRowContent + CSV_SEPARATOR + logMessage + "\n");
 				} catch (TeenagerAttributeException e) {
-					System.out.println("(Invalid Teenager attribute)(Row " + currentRowNumber + ")" + e.getMessage());
-					logFileContent.append(currentRowContent + "\n");
+					String logMessage = "(Invalid Teenager attribute)(Row " + currentRowNumber + ")" + e.getMessage();
+					System.out.println(logMessage);
+					logFileContent.append(currentRowContent + CSV_SEPARATOR + logMessage + "\n");
 				} catch (CriterionValueException e) {
-					System.out.println("(Invalid Criterion Value)(Row " + currentRowNumber + ")" + e.getMessage());
-					logFileContent.append(currentRowContent + "\n");
+					String logMessage = "(Invalid Criterion Value)(Row " + currentRowNumber + ")" + e.getMessage();
+					System.out.println(logMessage);
+					logFileContent.append(currentRowContent + CSV_SEPARATOR + logMessage + "\n");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -258,7 +264,7 @@ public abstract class CsvFileImportator {
 		//generate log file
 		if (!logFileContent.isEmpty()) {
 			logFileContent.insert(0, getRowHeader() + "\n");
-			generateLogFile(path, logFileContent.toString());
+			System.out.println("Log file path : " + generateLogFile(path, logFileContent.toString()));
 		}
 		return mapResult;
 	}
