@@ -151,9 +151,7 @@ public class Teenager implements java.io.Serializable {
      */
     public boolean guestFood(Teenager teen){
         try {
-            if(!this.requirements.get(CriterionName.HOST_FOOD).getValue().equals(teen.getRequirement().get(CriterionName.GUEST_FOOD).getValue())){
-                return false;
-            }
+             
         } catch (Exception e) {
             return false;
         }
