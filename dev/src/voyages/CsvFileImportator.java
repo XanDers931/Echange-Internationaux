@@ -10,9 +10,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+
 
 public abstract class CsvFileImportator {
 	/**
@@ -203,12 +204,12 @@ public abstract class CsvFileImportator {
 	/**
      * Import teenagers from a .csv file
      * @param path a {@code String} representing the csv file's path.
-     * @return a list of teenager as {@code ArrayList<Teenager>}.
+     * @return a list of teenager grouped by country as {@code HashMap<CountryName,ArrayList<Teenager>>}.
 	 * @throws CsvRowInvalidStructureException Exception 
      */
-	public static ArrayList<Teenager> importFromCsv(String path) throws CsvRowInvalidStructureException, Exception {
+	public static HashMap<CountryName,ArrayList<Teenager>> importFromCsv(String path) throws CsvRowInvalidStructureException, Exception {
 		HashMap<String,Integer> csvStructure;
-		ArrayList<Teenager> result = new ArrayList<Teenager>();
+		HashMap<CountryName,ArrayList<Teenager>> mapResult = new HashMap<CountryName,ArrayList<Teenager>>();
 		StringBuilder logFileContent = new StringBuilder();
 		//openning file
 		try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
@@ -226,7 +227,12 @@ public abstract class CsvFileImportator {
 			while (reader.ready()) {
 				String currentRowContent = reader.readLine();
 				try {
-					result.add(createTeenagerFromCsvRow(currentRowContent, csvStructure));
+					Teenager currentTeenager = createTeenagerFromCsvRow(currentRowContent, csvStructure);
+					//add teenager to map result
+					if (!mapResult.containsKey(currentTeenager.getCountry())) {
+						mapResult.put(currentTeenager.getCountry(), new ArrayList<Teenager>());
+					}
+					mapResult.get(currentTeenager.getCountry()).add(currentTeenager);
 				} catch (CsvRowInvalidStructureException e) {
 					System.out.println("(Invalid CSV Structcture)(Row " + currentRowNumber + ")" + e.getMessage());
 					logFileContent.append(currentRowContent + "\n");
@@ -254,7 +260,7 @@ public abstract class CsvFileImportator {
 			logFileContent.insert(0, getRowHeader() + "\n");
 			generateLogFile(path, logFileContent.toString());
 		}
-		return result;
+		return mapResult;
 	}
 	
 }

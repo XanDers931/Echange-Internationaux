@@ -1,0 +1,15 @@
+FORENAME;NAME;BIRTH_DATE;COUNTRY;GUEST_ANIMAL_ALLERGY;HOST_HAS_ANIMAL;GUEST_FOOD;HOST_FOOD;HOBBIES;GENDER;PAIR_GENDER;HISTORY
+Dalthu;Tanjin;AFRICA;2009-06-22;;no;no;vegetarian;vegetarian,nonuts;female;female;same
+Laris;Rex;GERMANY;ABCD;;no;no;;vegetarian;male;;
+Bellatrix;Interfector;GERMANY;2008-01-25;reading,science,culture;true;yes;;nonuts,vegetarian;female;;other
+Seakgu;Esha;SPAIN;2009-12-23;science,culture,reading,sports;false;yes;;vegetarian,nonuts;male;;
+Ulyglet;Okely;SPAIN;2007-06-17;sports,culture;;no;;nonuts,vegetarian;female;male;
+Estelle;Void;FRANCE;2008-09-09;sports,reading;no;true;;nonuts,vegetarian;female;female;
+Damek;Crypt;SPAIN;2008-09-13;science;no;false;;nonuts,vegetarian;female;male;
+Lilly;Damon;ITALY;2006-10-23;;no;;;nonuts,vegetarian;male;male;same
+Mave;Crane;GERMANY;2007-09-09;sports;no;no;nonuts,vegetarian,nonuts;nonuts,vegetarian;male;male;same
+Jensmebur;Ekey;ITALY;2008-08-19;culture;no;no;cacao,nonuts;nonuts,vegetarian;male;;same
+Himimtoss;Ozith;ITALY;2007-04-25;culture;no;no;;nonuts,vegetarian;homme;;other
+Fnakmass;Proxar;ITALY;2009-09-10;reading;no;no;;nonuts;;;
+Lesadlum;Olafeus;SPAIN;2007-01-24;reading;no;no;;;other;femme;other
+Hinkkost;Enaxx;GERMANY;2009-02-06;sports,culture,reading;no;yes;;;female;female;oui
