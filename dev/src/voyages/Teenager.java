@@ -13,7 +13,7 @@ import java.util.Map.Entry;
  * @see Criterion
  * @see CriterionName
  */
-public class Teenager {
+public class Teenager implements java.io.Serializable {
     
     /**
      * The list of requirements of the teenager.
@@ -116,12 +116,12 @@ public class Teenager {
         if(!guestAnimalAllergy(teen)){
             return false;
         }
-        if(!guestFood(teen)){
+        /*if(!guestFood(teen)){
             return false;
         }
         if(!compatibleFrench(teen)){
             return false;
-        }
+        }*/
         return true;
     }
 
@@ -222,5 +222,10 @@ public class Teenager {
         if (id != other.id)
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Teenager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
     }
 }
