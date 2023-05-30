@@ -50,8 +50,6 @@ public class TestAffectationVersion1 {
     @Test
     void TestGraph() {
         List<Tuple<Teenager>> result = Graph.pairing(listTeenager, CountryName.ITALY, CountryName.FRANCE);
-        System.out.println(result);
-        System.out.println(Tuple.equals(t2, result.get(1).get(t5)));
         assertEquals(t1, result.get(1).get(t6));
         assertEquals(t2, result.get(2).get(t4));
         assertEquals(t3, result.get(0).get(t5));
