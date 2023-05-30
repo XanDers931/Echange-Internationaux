@@ -1,6 +1,8 @@
 package voyages;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -151,7 +153,12 @@ public class Teenager implements java.io.Serializable {
      */
     public boolean guestFood(Teenager teen){
         try {
-             
+            if (teen.getRequirement().get(CriterionName.GUEST_FOOD) != null) {
+                ArrayList<String> guestFood = new ArrayList<String>();
+                for (String food : teen.getRequirement().get(CriterionName.GUEST_FOOD).getValue().split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR)){
+                    guestFood.add(food);
+                }
+            }
         } catch (Exception e) {
             return false;
         }
