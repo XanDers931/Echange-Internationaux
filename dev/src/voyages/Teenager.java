@@ -3,6 +3,7 @@ package voyages;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -111,19 +112,15 @@ public class Teenager implements java.io.Serializable {
      * @param teen a {@code Teenager}
      * @return {@code true} if the two teenagers are compatible, {@code false} otherwise.
      */
-    public boolean compatibleWithGuest(Teenager teen) {
-        /*if(this.country.equals(CountryName.FRANCE)||teen.getCountry().equals(CountryName.FRANCE)){
-            if(!compatibleFrench(teen)){return false;}
+    public boolean compatibleWithGuest(Teenager teenGuest) {
+        /*if(this.country.equals(CountryName.FRANCE)||teenGuest.getCountry().equals(CountryName.FRANCE)){
+            if(!compatibleFrench(teenGuest)) return false;
         }*/
-        if(!guestAnimalAllergy(teen)){
-            return false;
-        }
-        /*if(!guestFood(teen)){
-            return false;
-        }
-        if(!compatibleFrench(teen)){
-            return false;
-        }*/
+
+        if(!guestAnimalAllergy(teenGuest)) return false;
+
+        if(!guestFood(teenGuest)) return false;
+        System.out.println(guestFood(teenGuest));
         return true;
     }
 
@@ -132,35 +129,33 @@ public class Teenager implements java.io.Serializable {
      * @return {@code true} if the guest has an animal allergy and the host has an animal, {@code false} otherwise.
      * @see Teenager#compatibleWithGuest
      */
-    public boolean guestAnimalAllergy(Teenager teen){
+    public boolean guestAnimalAllergy(Teenager teenGuest){
         try {
-            if (teen.getRequirement().get(CriterionName.GUEST_ANIMAL_ALLERGY) != null) {
-                if(this.requirements.get(CriterionName.HOST_HAS_ANIMAL).getValue().equals("yes")){
-                    return false;
-                }
+            if(this.requirements.get(CriterionName.HOST_HAS_ANIMAL).getValue().equals("yes")){
+                return false;
             }
         } catch (NullPointerException e) {
-            return false;
+            return true;
         }
-        
         return true;
     }
 
     /** This method checks, if the guest has a food requirement, if the host is able to provide it.
-     * @param teen a {@code Teenager}
+     * @param teen a guest {@code Teenager}
      * @return {@code true} if the guest has a food requirement and the host is able to provide it, {@code false} otherwise.
      * @see Teenager#compatibleWithGuest
      */
-    public boolean guestFood(Teenager teen){
+    public boolean guestFood(Teenager teenGuest){
         try {
-            if (teen.getRequirement().get(CriterionName.GUEST_FOOD) != null) {
-                ArrayList<String> guestFood = new ArrayList<String>();
-                for (String food : teen.getRequirement().get(CriterionName.GUEST_FOOD).getValue().split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR)){
-                    guestFood.add(food);
+            if (teenGuest.getRequirement().get(CriterionName.GUEST_FOOD).getValue() != "") {
+                ArrayList<String> guestFood = new ArrayList<>(Arrays.asList(teenGuest.getRequirement().get(CriterionName.GUEST_FOOD).getValue().split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR)));
+                ArrayList<String> hostFood = new ArrayList<>(Arrays.asList(getRequirement().get(CriterionName.HOST_FOOD).getValue().split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR)));
+                for (String food : guestFood) {
+                    if (!hostFood.contains(food)) return false;
                 }
             }
-        } catch (Exception e) {
-            return false;
+        } catch (NullPointerException e) {
+            return true;
         }
         return true;
     }
@@ -170,10 +165,10 @@ public class Teenager implements java.io.Serializable {
      * @return {@code true} if the two teenagers are compatible, {@code false} otherwise.
      * @see Teenager#compatibleWithGuest
      */
-    public boolean compatibleFrench(Teenager teen){ 
+    public boolean compatibleFrench(Teenager teenGuest){ 
         for(Map.Entry<CriterionName,Criterion> crit : requirements.entrySet()) {
             try {
-                if(this.requirements.get(crit.getKey()).getValue().equals(teen.getRequirement().get(crit.getKey()).getValue())){
+                if(this.requirements.get(crit.getKey()).getValue().equals(teenGuest.getRequirement().get(crit.getKey()).getValue())){
                     return true;
                 }   
             } catch (NullPointerException e) {

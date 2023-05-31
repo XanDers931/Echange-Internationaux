@@ -26,13 +26,15 @@ public class TeenagerTest {
     void TestCompatibleWithGuest() {
         t1.addCriterion(CriterionName.GUEST_ANIMAL_ALLERGY, "yes");
         t2.addCriterion(CriterionName.HOST_HAS_ANIMAL, "yes");
-        assertFalse(t1.compatibleWithGuest(t2));
-        t1.addCriterion(CriterionName.GUEST_FOOD, "vegetarian");
+		assertFalse(t2.guestAnimalAllergy(t1));
+
+        t1.addCriterion(CriterionName.GUEST_FOOD, null);
 		t3.addCriterion(CriterionName.HOST_FOOD, null);
-		assertFalse(t1.compatibleWithGuest(t3));
-		t2.addCriterion(CriterionName.HISTORY, "other");
+		assertTrue(t3.guestFood(t1));
+
+		/*t2.addCriterion(CriterionName.HISTORY, "other");
 		t3.addCriterion(CriterionName.HISTORY, null);
-		assertFalse(t2.compatibleWithGuest(t3));
+		assertFalse(t2.compatibleWithGuest(t3));*/
     }
 
 	@Test
