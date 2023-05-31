@@ -31,7 +31,8 @@ public class Criterion {
 	 */
 	public Criterion(CriterionName label, String value) {
 		this.label = label;
-		this.value = value;
+		//value cannot be null
+		this.value = value == null ? "" : value;
 	}
 	
 	
