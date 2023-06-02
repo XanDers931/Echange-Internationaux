@@ -31,17 +31,4 @@ public class CsvFileExportator {
             e.printStackTrace();
         }
     }
-
-    /*
-    public static void main(String[] args) {
-        ArrayList<Teenager> list = new ArrayList<Teenager>();
-        try {
-            list = CsvFileImportator.importFromCsv("./dev/res/adosAleatoires.csv");
-        } catch (CsvRowInvalidStructureException invalid) {
-            invalid.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        CsvFileExportator.Exportator(list, CountryName.FRANCE, CountryName.GERMANY);
-    }*/
 }
