@@ -29,7 +29,7 @@ public enum CriterionName {
     /**
      * The HOBBIES constant, it's a text type.
      */
-    HOBBIES('T'),
+    HOBBIES('T', "(^\\p{javaLowerCase}+$|^$)|(^\\p{javaLowerCase}+,{1}(\\p{javaLowerCase}+,{0,1})*\\p{javaLowerCase}$)", "Expected one or more words with only lowercases characters or empty but was : "),
     /**
      * The GENDER constant, it's a text type.
      */

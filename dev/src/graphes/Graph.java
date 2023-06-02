@@ -50,12 +50,25 @@ public class Graph {
                 guest.add(teenager);
             }
         }
+        if (host.size() > guest.size()) {
+            for (int i = 0; i < host.size() - guest.size(); i++) {
+                guest.add(new Teenager("dummy", "dummy", null, countryGuest));
+            }
+        } else if (host.size() < guest.size()) {
+            for (int i = 0; i < guest.size() - host.size(); i++) {
+                host.add(new Teenager("dummy", "dummy", null, countryHost));
+            }
+        }
         GrapheNonOrienteValue<Teenager> graph = new GrapheNonOrienteValue<Teenager>();
         for (Teenager hostTeenager : host) {
             for (Teenager guestTeenager : guest) {
                 graph.ajouterSommet(hostTeenager);
                 graph.ajouterSommet(guestTeenager);
-                graph.ajouterArete(hostTeenager, guestTeenager, AffectationUtil.weight(hostTeenager, guestTeenager));
+                if (hostTeenager.getFirstName() == "dummy" || guestTeenager.getFirstName() == "dummy") {
+                    graph.ajouterArete(hostTeenager, guestTeenager, Double.MAX_VALUE);
+                } else {
+                    graph.ajouterArete(hostTeenager, guestTeenager, AffectationUtil.weight(hostTeenager, guestTeenager));
+                }
             }
         }
         CalculAffectation<Teenager> calcul = new CalculAffectation<Teenager>(graph, host, guest);
