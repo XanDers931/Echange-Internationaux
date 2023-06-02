@@ -1,5 +1,7 @@
 package voyages;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**The Criterion class, it represents a criterion for a teenager.
@@ -49,6 +51,13 @@ public class Criterion {
 	 */
 	public String getValue() {
 		return value;
+	}
+	
+	/** Return the values of this criterion.
+	 * @return a {@code ArrayList<String>} with all values
+	 */
+	public ArrayList<String> getValuesAsList() {
+		return new ArrayList<>(Arrays.asList(this.value.split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR)));
 	}
 
     
