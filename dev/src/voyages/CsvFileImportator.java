@@ -12,6 +12,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -70,6 +72,7 @@ public abstract class CsvFileImportator {
      * Generate a HashMap with columns' name as key, index as value.
      * @param headerRow a {@code String} representing the csv header row.
      * @return a Teenager instantiated object.
+     * @throws CsvRowInvalidStructureException
      */
 	private static HashMap<String,Integer> getCsvStructure(String headerRow) throws CsvRowInvalidStructureException {
 		String[] splittedHeaderRow = splitCsvRow(headerRow);
@@ -104,9 +107,12 @@ public abstract class CsvFileImportator {
      * Create a Teenager Object from a csv splitted row.
      * @param rowContent a {@code String} representing a csv row.
      * @param csvStructure a {@code HashMap<String,Integer>} representating the csv structure.
+     * @param criterionLogMessages a {@code Map<Integer, List<String>>} representating the current log messages.
+     * @param currentRowNumber a {@code int} representating the csv current row number.
      * @return a Teenager instantiated object.
+     * @throws CsvRowInvalidStructureException, TeenagerAttributeException
      */
-	private static Teenager createTeenagerFromCsvRow(String rowContent, HashMap<String,Integer> csvStructure) throws CsvRowInvalidStructureException, TeenagerAttributeException, CriterionValueException {
+	private static Teenager createTeenagerFromCsvRow(String rowContent, Map<String, Integer> csvStructure, Map<Integer, List<String>> criterionLogMessages, int currentRowNumber) throws CsvRowInvalidStructureException, TeenagerAttributeException {
 		String[] currentSplittedRow = splitCsvRow(rowContent);
 		
 		//Test if the number of column is ok
@@ -168,14 +174,18 @@ public abstract class CsvFileImportator {
 			Criterion currentCriterion = new Criterion(currentCriterionName, currentCiterionValue);
 			try {
 				currentCriterion.isValid();
-				currentTennager.addCriterion(currentCriterion);
 			} catch (CriterionValueException e) {
-				throw new CriterionValueException("(Column " + (currentCriterionColumn + 1) + ") : " + e.getMessage());
-			} catch (Exception e) {
-				throw e;
+				//add a log message
+				if (!criterionLogMessages.containsKey(currentRowNumber)) {
+					criterionLogMessages.put(currentRowNumber, new ArrayList<String>());
+				}
+				criterionLogMessages.get(currentRowNumber).add("(Invalid Criterion Value)(Row " + currentRowNumber + ")(Column " + (currentCriterionColumn + 1) + ") : " + e.getMessage());
 			}
+			//always add criterion
+			currentTennager.addCriterion(currentCriterion);
 		}
-    	
+    	//remove all invalid criterions
+    	currentTennager.purgeInvalidRequirement();
     	return currentTennager;
 	}
 	
@@ -212,6 +222,7 @@ public abstract class CsvFileImportator {
 	public static HashMap<CountryName,ArrayList<Teenager>> importFromCsv(String path) throws CsvRowInvalidStructureException, Exception {
 		HashMap<String,Integer> csvStructure;
 		HashMap<CountryName,ArrayList<Teenager>> mapResult = new HashMap<CountryName,ArrayList<Teenager>>();
+		Map<Integer, List<String>> criterionLogMessages = new HashMap<Integer, List<String>>();
 		StringBuilder logFileContent = new StringBuilder();
 		//openning file
 		try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
@@ -227,10 +238,9 @@ public abstract class CsvFileImportator {
 			//lecture de toutes les lignes
 			int currentRowNumber = 2;
 			while (reader.ready()) {
-				
 				String currentRowContent = reader.readLine();
 				try {
-					Teenager currentTeenager = createTeenagerFromCsvRow(currentRowContent, csvStructure);
+					Teenager currentTeenager = createTeenagerFromCsvRow(currentRowContent, csvStructure, criterionLogMessages, currentRowNumber);
 					//add teenager to map result
 					if (!mapResult.containsKey(currentTeenager.getCountry())) {
 						mapResult.put(currentTeenager.getCountry(), new ArrayList<Teenager>());
@@ -244,17 +254,20 @@ public abstract class CsvFileImportator {
 					String logMessage = "(Invalid Teenager attribute)(Row " + currentRowNumber + ")" + e.getMessage();
 					System.out.println(logMessage);
 					logFileContent.append(currentRowContent + CSV_SEPARATOR + logMessage + "\n");
-				} catch (CriterionValueException e) {
-					String logMessage = "(Invalid Criterion Value)(Row " + currentRowNumber + ")" + e.getMessage();
-					System.out.println(logMessage);
-					logFileContent.append(currentRowContent + CSV_SEPARATOR + logMessage + "\n");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
+					//print out log messages
+					if (criterionLogMessages.containsKey(currentRowNumber)) {
+						for (String logMessage : criterionLogMessages.get(currentRowNumber)) {
+							System.out.println(logMessage);
+							logFileContent.append(currentRowContent + CSV_SEPARATOR);
+						}
+						logFileContent.append(String.join(CSV_SEPARATOR, criterionLogMessages.get(currentRowNumber)) + "\n");
+					}
 					currentRowNumber++;
 				}
 			}
-			
 		} catch (CsvRowInvalidStructureException e) {
 			throw e;
 		} catch (Exception e) {

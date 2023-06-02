@@ -59,5 +59,9 @@ public class Platform {
     public static void main(String[] args) {
     	Platform p1 = new Platform();
     	p1.importTeenagerFromCsv("./dev/res/adosAleatoires-with-errors.csv");
+    	System.out.println(p1.getTeenagersByCountry(CountryName.FRANCE).size());
+    	System.out.println(p1.getTeenagersByCountry(CountryName.GERMANY).size());
+    	System.out.println(p1.getTeenagersByCountry(CountryName.ITALY).size());
+    	System.out.println(p1.getTeenagersByCountry(CountryName.SPAIN).size());
 	}
 }
