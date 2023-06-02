@@ -1,43 +1,156 @@
 package voyages;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 public class CriterionTest {
-    @Test
-    void TestCriterion(){
-        //criterion Gender
-        Criterion gender1 = new Criterion(CriterionName.GENDER,"male");
-        assertTrue(gender1.isValid());
-        Criterion gender2 = new Criterion(CriterionName.GENDER,"female");
-        assertTrue(gender2.isValid());
-        Criterion gender3 = new Criterion(CriterionName.GENDER,"other");
-        assertTrue(gender3.isValid());
-        Criterion gender4 = new Criterion(CriterionName.GENDER,"patate");
-        assertFalse(gender4.isValid());
-
-        //criterion Pair_Gender
-        Criterion pair_gender1 = new Criterion(CriterionName.PAIR_GENDER,"male");
-        assertTrue(pair_gender1.isValid());
-        Criterion pair_gender2 = new Criterion(CriterionName.PAIR_GENDER,"female");
-        assertTrue(pair_gender2.isValid());
-        Criterion pair_gender3 = new Criterion(CriterionName.PAIR_GENDER,"other");
-        assertTrue(pair_gender3.isValid());
-        Criterion pair_gender4 = new Criterion(CriterionName.PAIR_GENDER,"carotte");
-        assertFalse(pair_gender4.isValid());
-
-        //Criterion Host_Has_Animal
-        Criterion host_has_animal1 = new Criterion(CriterionName.HOST_HAS_ANIMAL, "yes");
-        assertTrue(host_has_animal1.isValid());
-        Criterion host_has_animal2 = new Criterion(CriterionName.HOST_HAS_ANIMAL, "no");
-        assertTrue(host_has_animal2.isValid());
-        Criterion host_has_animal3 = new Criterion(CriterionName.HOST_HAS_ANIMAL, "3");
-        assertFalse(host_has_animal3.isValid());
-
-        //Pour le rest test si c'est un txt
-        Criterion other = new Criterion(CriterionName.HOBBIES, "skate");
-        assertTrue(other.isValid());
-    }
+	
+	public Criterion crit;
+	public CriterionValueException CritException;
+	
+	@ParameterizedTest
+	@EnumSource(value = CriterionName.class, names = {"GUEST_ANIMAL_ALLERGY", "HOST_HAS_ANIMAL"})
+	void TestAnimal(CriterionName animal) throws CriterionValueException {
+		//valid criterions
+		crit = new Criterion(animal, "yes");
+		assertTrue(crit.isValid());
+		crit = new Criterion(animal, "no");
+		assertTrue(crit.isValid());
+		
+		//invalid criterions
+		crit = new Criterion(animal, "maybe");
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+		crit = new Criterion(animal, "");
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+		crit = new Criterion(animal, null);
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+	}
+	
+	@ParameterizedTest
+	@EnumSource(value = CriterionName.class, names = {"GUEST_FOOD", "HOST_FOOD"})
+	void TestFood(CriterionName food) throws CriterionValueException {
+    	//valid criterions
+    	crit = new Criterion(food, "vegetarian");
+    	assertTrue(crit.isValid());
+    	crit = new Criterion(food, "nonuts");
+    	assertTrue(crit.isValid());
+    	crit = new Criterion(food, "vegetarian,nonuts");
+    	assertTrue(crit.isValid());
+    	crit = new Criterion(food, "nonuts,vegetarian");
+    	assertTrue(crit.isValid());
+    	crit = new Criterion(food, "");
+    	assertTrue(crit.isValid());
+    	crit = new Criterion(food, null);
+    	assertTrue(crit.isValid());
+    	
+    	//inavlid criterions
+    	crit = new Criterion(CriterionName.GUEST_FOOD, "nonuts,vegetarian,nonuts");
+    	CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+    	crit = new Criterion(CriterionName.GUEST_FOOD, "homnivore");
+    	CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+	}
+	
+	@Test
+	void TestHobbies() throws CriterionValueException {
+		//valid criterions
+		crit = new Criterion(CriterionName.HOBBIES, "tennis");
+		assertTrue(crit.isValid());
+		crit = new Criterion(CriterionName.HOBBIES, "tennis,squash");
+		assertTrue(crit.isValid());
+		crit = new Criterion(CriterionName.HOBBIES, "");
+		assertTrue(crit.isValid());
+		crit = new Criterion(CriterionName.HOBBIES, null);
+		assertTrue(crit.isValid());
+		
+		//invalid criterions
+		crit = new Criterion(CriterionName.HOBBIES, "TeNnIs");
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+		crit = new Criterion(CriterionName.HOBBIES, "SQUASH");
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+		crit = new Criterion(CriterionName.HOBBIES, "tennis,squash,");
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+		crit = new Criterion(CriterionName.HOBBIES, "tennis,,squash");
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+		crit = new Criterion(CriterionName.HOBBIES, "tennis,,squash,basminton");
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+	}
+	
+	@ParameterizedTest
+	@EnumSource(value = CriterionName.class, names = {"GENDER", "PAIR_GENDER"})
+	void TestGender(CriterionName gender) throws CriterionValueException {
+		//valid criterions
+		crit = new Criterion(gender, "male");
+		assertTrue(crit.isValid());
+		crit = new Criterion(gender, "female");
+		assertTrue(crit.isValid());
+		crit = new Criterion(gender, "other");
+		assertTrue(crit.isValid());
+		
+		//inavlid criterions
+		crit = new Criterion(gender, "patate");
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+		
+		//depend on criterion name
+		crit = new Criterion(gender, "");
+		if (gender == CriterionName.GENDER) {
+			CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+	    		crit.isValid();
+	    	}, "");
+		} else {
+			assertTrue(crit.isValid());
+		}
+		crit = new Criterion(gender, null);
+		if (gender == CriterionName.GENDER) {
+			CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+	    		crit.isValid();
+	    	}, "");
+		} else {
+			assertTrue(crit.isValid());
+		}
+	}
+	
+	@Test
+	void TestHistory() throws CriterionValueException {
+		//valid criterions
+		crit = new Criterion(CriterionName.HISTORY, "same");
+		assertTrue(crit.isValid());
+		crit = new Criterion(CriterionName.HISTORY, "other");
+		assertTrue(crit.isValid());
+		crit = new Criterion(CriterionName.HISTORY, "");
+		assertTrue(crit.isValid());
+		crit = new Criterion(CriterionName.HISTORY, null);
+		assertTrue(crit.isValid());
+		
+		//invalid criterions
+		crit = new Criterion(CriterionName.HISTORY, "yes");
+		CritException = Assertions.assertThrows(CriterionValueException.class, () -> {
+    		crit.isValid();
+    	}, "");
+	}
 }
