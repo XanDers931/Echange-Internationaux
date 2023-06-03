@@ -20,7 +20,7 @@ public class Platform {
     /**
      * Platform constructor
      */
-    Platform() {
+    public Platform() {
     	this.teenagers = new HashMap<CountryName,ArrayList<Teenager>>();
     }
     
