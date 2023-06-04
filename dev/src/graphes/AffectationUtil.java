@@ -30,13 +30,20 @@ public class AffectationUtil {
 	}
 
 	private static double historyWeight(Teenager host, Teenager visitor, List<Tuple<Teenager>> history) {
-		if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("other") || visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")) {
-			return Double.MAX_VALUE;
-		} else if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("same") && visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("same")) {
-			return -1;
-		} else {
-			return -0.1;
+		if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("same") && visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("same")) {
+			for (Tuple<Teenager> tuple : history) {
+				if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
+					return -1;
+				}
+			}
+		} else if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("other") || visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")) {
+			for (Tuple<Teenager> tuple : history) {
+				if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
+					return Double.MAX_VALUE;
+				}
+			}
 		}
+		return -0.1;
 	}
 
 	/** This method return a double representing the affinity between the host and the visitor, based on their hobbies.
