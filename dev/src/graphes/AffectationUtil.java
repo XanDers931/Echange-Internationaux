@@ -21,13 +21,21 @@ public class AffectationUtil {
 	 * @return a double that represents the weight of the edge.
 	 */
 	public static double weight (Teenager host, Teenager visitor, List<Tuple<Teenager>> history) {
-		double weight = host.compatibleWithGuest(visitor) ? DEFAULT_WEIGHT : Double.MAX_VALUE;
-		if (weight == DEFAULT_WEIGHT) {
-			weight += historyWeight(host, visitor, history);
-			weight += affinityHobbies(host, visitor);
-			weight += ageWeight(host, visitor);
-			weight += genderWeight(host, visitor);
+		double weight = DEFAULT_WEIGHT;
+		if (host.compatibleWithGuestAnimalAllergy(visitor)) {
+			weight -= 0.5;
+		} else {
+			weight += 0.5;
 		}
+		if (host.compatibleWithGuestDiet(visitor)) {
+			weight -= 0.5;
+		} else {
+			weight += 0.5;
+		}
+		weight += historyWeight(host, visitor, history);
+		weight += host.totalCompatibleHobbies(visitor) * -0.1;
+		weight += ageWeight(host, visitor);
+		weight += genderWeight(host, visitor);
 		return weight;
 	}
 
@@ -64,11 +72,11 @@ public class AffectationUtil {
 		return -0.1;
 	}
 
-	/** This method return a double representing the affinity between the host and the visitor, based on their hobbies.
+	/* This method return a double representing the affinity between the host and the visitor, based on their hobbies.
 	 * @param host the {@code Teenager} host.
 	 * @param visitor the {@code Teenager} visitor.
 	 * @return a double that represents the affinity between the host and the visitor.
-	 */
+	 *
 	private static double affinityHobbies(Teenager host, Teenager visitor) {
 		double affinity = 0;
 		String[] hostHobbies = host.getRequirement().get(CriterionName.HOBBIES).getValue().split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR);
@@ -81,5 +89,5 @@ public class AffectationUtil {
 			}
 		}
 		return affinity;
-	}
+	}*/
 }

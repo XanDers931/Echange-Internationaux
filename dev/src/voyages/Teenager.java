@@ -132,7 +132,7 @@ public class Teenager implements java.io.Serializable {
 
     /** This method checks the animal allergy compatibility with a guest
      * @param teenGuest a {@code Teenager}
-     * @return {@code true} if the guest has an animal allergy and the host has an animal, {@code false} otherwise.
+     * @return {@code true} if the guest has an animal allergy and the host has no an animal, {@code false} otherwise.
      * @see Teenager#compatibleWithGuest
      */
     public boolean compatibleWithGuestAnimalAllergy(Teenager teenGuest) {
@@ -154,7 +154,7 @@ public class Teenager implements java.io.Serializable {
         } catch (NullPointerException e) {
             return false;
         }
-        //guest is compatible only if host has not a animal
+        //guest is compatible only if host has not an animal
         return !hostHasAnimal;
     }
 
