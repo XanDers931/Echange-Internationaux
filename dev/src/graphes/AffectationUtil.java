@@ -25,8 +25,26 @@ public class AffectationUtil {
 		if (weight == DEFAULT_WEIGHT) {
 			weight += historyWeight(host, visitor, history);
 			weight += affinityHobbies(host, visitor);
+			weight += ageWeight(host, visitor);
+			weight += genderWeight(host, visitor);
 		}
 		return weight;
+	}
+
+	private static double genderWeight(Teenager host, Teenager visitor) {
+		if (host.getRequirement().get(CriterionName.PAIR_GENDER).equals(visitor.getRequirement().get(CriterionName.GENDER)) && visitor.getRequirement().get(CriterionName.PAIR_GENDER).equals(host.getRequirement().get(CriterionName.GENDER))) {
+			return -0.5;
+		} else if (host.getRequirement().get(CriterionName.PAIR_GENDER).equals(visitor.getRequirement().get(CriterionName.GENDER)) || visitor.getRequirement().get(CriterionName.PAIR_GENDER).equals(host.getRequirement().get(CriterionName.GENDER))) {
+			return -0.1;
+		}
+		return 0;
+	}
+
+	private static double ageWeight(Teenager host, Teenager visitor) {
+		if (host.getBirthday().until(visitor.getBirthday(), java.time.temporal.ChronoUnit.MONTHS) <= 18) {
+			return -0.1;
+		}
+		return 0;
 	}
 
 	private static double historyWeight(Teenager host, Teenager visitor, List<Tuple<Teenager>> history) {
