@@ -63,6 +63,31 @@ Sera évaluée à partir du tag git `Graphes-v2`
 
 *Puis, donner un appariement optimal qui tient compte des données d'historique, et expliquer pourquoi il est optimal. L'explication ne doit pas parler des graphes, mais uniquement des adolescents et les critères exprimés.*
 
+#### Jeu de données
+
+| Prénom       	| Nom    	| History 	|
+|-----------	|-----------	|---------	|
+| Nicolas   	| Dagneaux  	| same    	|
+| Paul      	| Degraëve 	| other   	|
+| Alexandre 	| Martel    	| other   	|
+| Maxime 	| Blot    	|    	|
+| Kais      	| Granjon   	| same    	|
+| Damand    	| Simplet   	|         	|
+| Eric      	| Leprêtre 	|         	|
+| Léa       	| Demory    	|         	|
+
+#### Résultat
+
+Ci-dessous l'appariement optimal que nous obtenons. En effet, Nicolas et Kais qui ont souhaité rester ensemble le sont toujours, au contraire d'Alexandre et Paul qui ne sont pas ensemble, comme voulu.
+
+| Prénom hôte 	| Nom hôte 	| Prénom invité 	| Nom invité 	|
+|--------------	|-----------	|---------------	|------------	|
+| Nicolas      	| Dagneaux  	| Kais          	| Granjon    	|
+| Alexandre    	| Martel    	| Eric          	| Leprêtre  	|
+| Maxime       	| Blot      	| Léa           	| Demory     	|
+| Paul         	| Degraëve 	| Damand        	| Simplet    	|
+
+
 ### Deuxième exemple pour la gestion d'historique
 
 *Modifiez l'exemple précédent en ajoutant des préférences liées aux passe-temps. Donnez l'appariement que vous considérez optimal dans ce cas. En particulier, expliquez comment vous comptez combiner une éventuelle affinité liée à l'historique avec l'affinité liée aux passe-temps. Rappelons que l'historique peut compter comme une contrainte rédhibitoire ou comme une préférence, voir le sujet pour plus de précisions.*
