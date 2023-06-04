@@ -1,5 +1,7 @@
 package graphes;
 
+import java.util.List;
+
 import voyages.*;
 
 /**The {@code AffectationUtil} class, it represents a utility class for the affectation problem.
@@ -10,25 +12,71 @@ import voyages.*;
  * @see Teenager
  */
 public class AffectationUtil {
+
+	static final int DEFAULT_WEIGHT = 1;
 	
 	/** This method return the weight of the edge between the host and the visitor, based on their affinity.
 	 * @param host the {@code Teenager} host.
 	 * @param visitor the {@code Teenager} visitor.
 	 * @return a double that represents the weight of the edge.
 	 */
-	public static double weight (Teenager host, Teenager visitor) {
-		double weight = host.compatibleWithGuest(visitor) ? 1 : Double.MAX_VALUE;
-		if (weight == 1) {
-			weight += affinityHobbies(host, visitor);
+	public static double weight (Teenager host, Teenager visitor, List<Tuple<Teenager>> history) {
+		double weight = DEFAULT_WEIGHT;
+		if (host.compatibleWithGuestAnimalAllergy(visitor)) {
+			weight -= 0.5;
+		} else {
+			weight += 0.5;
 		}
+		if (host.compatibleWithGuestDiet(visitor)) {
+			weight -= 0.5;
+		} else {
+			weight += 0.5;
+		}
+		weight += historyWeight(host, visitor, history);
+		weight += host.totalCompatibleHobbies(visitor) * -0.1;
+		weight += ageWeight(host, visitor);
+		weight += genderWeight(host, visitor);
 		return weight;
 	}
 
-	/** This method return a double representing the affinity between the host and the visitor, based on their hobbies.
+	private static double genderWeight(Teenager host, Teenager visitor) {
+		if (host.getRequirement().get(CriterionName.PAIR_GENDER).equals(visitor.getRequirement().get(CriterionName.GENDER)) && visitor.getRequirement().get(CriterionName.PAIR_GENDER).equals(host.getRequirement().get(CriterionName.GENDER))) {
+			return -0.5;
+		} else if (host.getRequirement().get(CriterionName.PAIR_GENDER).equals(visitor.getRequirement().get(CriterionName.GENDER)) || visitor.getRequirement().get(CriterionName.PAIR_GENDER).equals(host.getRequirement().get(CriterionName.GENDER))) {
+			return -0.1;
+		}
+		return 0;
+	}
+
+	private static double ageWeight(Teenager host, Teenager visitor) {
+		if (host.getBirthday().until(visitor.getBirthday(), java.time.temporal.ChronoUnit.MONTHS) <= 18) {
+			return -0.1;
+		}
+		return 0;
+	}
+
+	private static double historyWeight(Teenager host, Teenager visitor, List<Tuple<Teenager>> history) {
+		if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("same") && visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("same")) {
+			for (Tuple<Teenager> tuple : history) {
+				if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
+					return -1;
+				}
+			}
+		} else if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("other") || visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")) {
+			for (Tuple<Teenager> tuple : history) {
+				if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
+					return Double.MAX_VALUE;
+				}
+			}
+		}
+		return -0.1;
+	}
+
+	/* This method return a double representing the affinity between the host and the visitor, based on their hobbies.
 	 * @param host the {@code Teenager} host.
 	 * @param visitor the {@code Teenager} visitor.
 	 * @return a double that represents the affinity between the host and the visitor.
-	 */
+	 *
 	private static double affinityHobbies(Teenager host, Teenager visitor) {
 		double affinity = 0;
 		String[] hostHobbies = host.getRequirement().get(CriterionName.HOBBIES).getValue().split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR);
@@ -41,5 +89,5 @@ public class AffectationUtil {
 			}
 		}
 		return affinity;
-	}
+	}*/
 }

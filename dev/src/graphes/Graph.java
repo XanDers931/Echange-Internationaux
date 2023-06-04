@@ -24,9 +24,9 @@ public class Graph {
      * @param countryGuest the {@code CountryName} of the guest country.
      * @return a {@link Map} of the affectation of the teenagers.
      */
-    public static List<Tuple<Teenager>> pairing(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest) {
+    public static List<Tuple<Teenager>> pairing(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest, List<Tuple<Teenager>> history) {
         List<Tuple<Teenager>> result = new ArrayList<>();
-        List<Arete<Teenager>> calcul = generateGraphAndCalculation(teenagers, countryHost, countryGuest);
+        List<Arete<Teenager>> calcul = generateGraphAndCalculation(teenagers, countryHost, countryGuest, history);
         for (Arete<Teenager> arete : calcul) {
             result.add(new Tuple<Teenager>(arete.getExtremite1(), arete.getExtremite2()));
         }
@@ -40,7 +40,7 @@ public class Graph {
      * @param countryGuest the {@code CountryName} of the guest country.
      * @return a {@link List} of {@link Arete} of the affectation of the teenagers.
      */
-    private static List<Arete<Teenager>> generateGraphAndCalculation(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest) {
+    private static List<Arete<Teenager>> generateGraphAndCalculation(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest, List<Tuple<Teenager>> history) {
         List<Teenager> host = new ArrayList<>();
         List<Teenager> guest = new ArrayList<>();
         for (Teenager teenager : teenagers) {
@@ -67,7 +67,7 @@ public class Graph {
                 if (hostTeenager.getFirstName() == "dummy" || guestTeenager.getFirstName() == "dummy") {
                     graph.ajouterArete(hostTeenager, guestTeenager, Double.MAX_VALUE);
                 } else {
-                    graph.ajouterArete(hostTeenager, guestTeenager, AffectationUtil.weight(hostTeenager, guestTeenager));
+                    graph.ajouterArete(hostTeenager, guestTeenager, AffectationUtil.weight(hostTeenager, guestTeenager, history));
                 }
             }
         }
