@@ -25,7 +25,7 @@ public class CsvFileExportator {
     /**
      *Create table columns
      */
-    private static final String HEADER = "Etudiant Hôte,Etudiant acceuilli";
+    private static final String HEADER = "nom hote, prénom hote, pays hote, nom invité, prénom invité, pays invité";
 
 
     /**Create and fill a csv file with the association from Graph.pairing() in the directory res
@@ -33,20 +33,25 @@ public class CsvFileExportator {
      * @param countryHost
      * @param countryGuest
      */
-    public static void Exportator(ArrayList<Teenager> teen, CountryName countryHost, CountryName countryGuest){        
-        //Creation of the list that will contain the expected result
-        List<Tuple<Teenager>> match = new ArrayList<Tuple<Teenager>>();
-        match = Graph.pairing(teen, countryHost, countryGuest);
-    
-        try(BufferedWriter fileOutput = new BufferedWriter(new FileWriter("./dev/res/adosMatchGraphOutput.csv"))){
+    public static void Exportator(List<Tuple<Teenager>> teen, CountryName countryHost, CountryName countryGuest, String chemin){        
+          
+        try(BufferedWriter fileOutput = new BufferedWriter(new FileWriter(chemin))){
             //Addition of the header
             fileOutput.append(HEADER);
             fileOutput.append(SEPARATOR);
-            for (Tuple<Teenager> tuple : match) {
+            for (Tuple<Teenager> tuple : teen) {
                 //Addition assoication by assocition into the file
-                fileOutput.append(tuple.getFirst().toString());
+                fileOutput.append(tuple.getFirst().getLastName());
                 fileOutput.append(DELIMITER);
-                fileOutput.append(tuple.getSecond().toString());
+                fileOutput.append(tuple.getFirst().getFirstName());
+                fileOutput.append(DELIMITER);
+                fileOutput.append(tuple.getFirst().getCountry().toString());
+                fileOutput.append(DELIMITER);
+                fileOutput.append(tuple.getFirst().getLastName());
+                fileOutput.append(DELIMITER);
+                fileOutput.append(tuple.getFirst().getFirstName());
+                fileOutput.append(DELIMITER);
+                fileOutput.append(tuple.getFirst().getCountry().toString());
                 fileOutput.append(SEPARATOR);
             }
             //make sure the file is closed
