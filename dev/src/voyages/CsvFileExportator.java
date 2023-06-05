@@ -2,7 +2,6 @@ package voyages;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import graphes.Graph;
