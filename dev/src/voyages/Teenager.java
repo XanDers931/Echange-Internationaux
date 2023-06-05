@@ -3,7 +3,6 @@ package voyages;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -116,7 +115,7 @@ public class Teenager implements java.io.Serializable {
     	//check if host or guest is French
     	if (this.country == CountryName.FRANCE ^ teenGuest.getCountry() == CountryName.FRANCE) {
     		//check hobbies compatibility only with french people
-			if (!this.compatibleWithHobbies(teenGuest)) {
+			if (this.totalCompatibleHobbies(teenGuest) == 0) {
 				return false;
 			}
 		}
@@ -133,10 +132,10 @@ public class Teenager implements java.io.Serializable {
 
     /** This method checks the animal allergy compatibility with a guest
      * @param teenGuest a {@code Teenager}
-     * @return {@code true} if the guest has an animal allergy and the host has an animal, {@code false} otherwise.
+     * @return {@code true} if the guest has an animal allergy and the host has no an animal, {@code false} otherwise.
      * @see Teenager#compatibleWithGuest
      */
-    private boolean compatibleWithGuestAnimalAllergy(Teenager teenGuest){
+    public boolean compatibleWithGuestAnimalAllergy(Teenager teenGuest) {
     	boolean isGuestAllergic;
     	try {
     		isGuestAllergic = teenGuest.getRequirement().get(CriterionName.GUEST_ANIMAL_ALLERGY).getValue().equals("yes");
@@ -155,7 +154,7 @@ public class Teenager implements java.io.Serializable {
         } catch (NullPointerException e) {
             return false;
         }
-        //guest is compatible only if host has not a animal
+        //guest is compatible only if host has not an animal
         return !hostHasAnimal;
     }
 
@@ -164,7 +163,7 @@ public class Teenager implements java.io.Serializable {
      * @return {@code true} if the guest has a food requirement and the host is able to provide it, {@code false} otherwise.
      * @see Teenager#compatibleWithGuest
      */
-    private boolean compatibleWithGuestDiet(Teenager teenGuest){
+    public boolean compatibleWithGuestDiet(Teenager teenGuest) {
     	//getting guestFoods
     	ArrayList<String> guestFoods;
     	try {
@@ -190,18 +189,18 @@ public class Teenager implements java.io.Serializable {
     }
     
     /**This method checks the hobbies compatibility
-     * @param @param teenGuest a {@code Teenager}
-     * @return {@code true} at least one hobbies is shared, {@code false} otherwise.
+     * @param teenGuest a {@code Teenager}
+     * @return the total of shared hobbies.
      * @see Teenager#compatibleWithGuest
      */
-    private boolean compatibleWithHobbies(Teenager teenGuest) {
+    public int totalCompatibleHobbies(Teenager teenGuest) {
     	//we first check if host XOR guest has no Hobbies
     	if (!this.requirements.containsKey(CriterionName.HOBBIES) ^ !teenGuest.getRequirement().containsKey(CriterionName.HOBBIES)) {
-			return false;
+			return 0;
 		}
     	//and if no one has hobbies, they are incompatible
     	if (!this.requirements.containsKey(CriterionName.HOBBIES) && !teenGuest.getRequirement().containsKey(CriterionName.HOBBIES)) {
-			return false;
+			return 0;
 		}
     	//getting hosts and guest hobbies
     	ArrayList<String> hostHobbies = this.requirements.get(CriterionName.HOBBIES).getValuesAsList();
@@ -209,16 +208,16 @@ public class Teenager implements java.io.Serializable {
     	
     	//if no one has hobbies, they are incompatible
     	if ((hostHobbies.size() == 1 && hostHobbies.get(0).isEmpty()) && (guestHobbies.size() == 1 && guestHobbies.get(0).isEmpty())) {
-			return false;
+			return 0;
 		}
-    	
-    	//iterate to found a shared hobbie
-    	Iterator<String> hostIter = hostHobbies.iterator();
-    	boolean foundSomethingInCommon = false;
-    	while (hostIter.hasNext() && !foundSomethingInCommon) {
-    		foundSomethingInCommon = guestHobbies.contains(hostIter.next());
+    	int result = 0;
+    	//iterate to found all shared hobbie
+    	for (String hobbies : hostHobbies) {
+			if (guestHobbies.contains(hobbies)) {
+				result++;
+			}
 		}
-    	return foundSomethingInCommon;
+    	return result;
     }
 
     /**This method purge the requirements of this teenager if they are not valid.
