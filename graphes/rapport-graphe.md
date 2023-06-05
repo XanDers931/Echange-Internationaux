@@ -46,13 +46,7 @@ Pour le poids des arrêtes, nous avons décidés :
 
 ### Modélisation pour la Version 1
 
-*Décrire une modélisation générale pour la Version 1. C'est à dire, donner une formule ou une description précise qui décrit comment, étant donné un adolescent hôte et un adolescent visiteur, on détermine le poids de l'arête entre ces deux adolescents en fonction des critères considérés dans la Version 1.*
-
-### Exemple de vérification de l'incompatibilité 
-
-*Cet exemple va mettre au défi votre modèle vis à vis de la prise en compte de l'incompatibilité entre adolescents 
-
-Récupérez sur Moodle le fichier de données `compatibilityVsHobbies.csv`. Expliquez quelle est sa particularité de cet exemple. Écrire la méthode de test qui test qui charge cet exemple, construit le graphe modèle, calcule l'affectation, et finalement vérifie qu'aucune paire d'adolescents non compatibles n'a été construite par l'algorithme.*
+Comme dit précédemment, si les 2 adolescents sont incompatible, alors le poids de l'arrête est +infini (Double.MAX_VALUE en Java), sinon, on affecte 1 à l'arrête et on retire 0.1 pour chaque passe-temps en commun.
 
 Version 2
 ---
