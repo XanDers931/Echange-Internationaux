@@ -65,4 +65,9 @@ public class Platform {
     public ArrayList<Teenager> getTeenagersByCountry(CountryName country) {
     	return this.teenagers.get(country);
     }
+    
+    public static void main(String[] args) {
+        //Application.launch(args);
+	System.out.println(System.getProperty("user.dir"));
+}
 }
