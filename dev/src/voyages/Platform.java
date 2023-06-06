@@ -1,8 +1,11 @@
 package voyages;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javafx.beans.property.SimpleStringProperty;
 
 /**The Platform class. It represents the platform that contains all the teenagers.
  * @author Dagneaux Nicolas
@@ -18,19 +21,27 @@ public class Platform {
     public HashMap<CountryName,ArrayList<Teenager>> teenagers;
     
     /**
+     * Csv file importator.
+     */
+    private final CsvFileImportator importator;
+    
+    /**
      * Platform constructor
      */
     public Platform() {
     	this.teenagers = new HashMap<CountryName,ArrayList<Teenager>>();
+    	this.importator = new CsvFileImportator();
     }
     
     /**
      * Import teenagers from a .csv file
      * @param path a {@code String} representing the csv file's path.
+     * @param generateLogFile a {@code boolean} to know if the controller has to generate log files.
+     * @return log content.
      */
-    public void importTeenagerFromCsv(String path) {
+    public String importTeenagerFromCsv(File fileToImport, boolean generateLogFile) {
     	try {
-    		HashMap<CountryName,ArrayList<Teenager>> importedResult = CsvFileImportator.importFromCsv(path);
+    		HashMap<CountryName,ArrayList<Teenager>> importedResult = this.importator.importFromCsv(fileToImport, generateLogFile);
     		//for each country, add the list
     		for (Map.Entry<CountryName,ArrayList<Teenager>> list : importedResult.entrySet()) {
 				if (!this.teenagers.containsKey(list.getKey())) {
@@ -38,13 +49,12 @@ public class Platform {
 				}
 				this.teenagers.get(list.getKey()).addAll(list.getValue());
 			}
-    		this.teenagers = CsvFileImportator.importFromCsv(path);
-    		//ajouter une boucle pour ajouter la liste à chaque pays
 		} catch (CsvRowInvalidStructureException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+    	return this.importator.getLogContent();
     }
     
     /**
@@ -55,13 +65,4 @@ public class Platform {
     public ArrayList<Teenager> getTeenagersByCountry(CountryName country) {
     	return this.teenagers.get(country);
     }
-    
-    public static void main(String[] args) {
-    	Platform p1 = new Platform();
-    	p1.importTeenagerFromCsv("./dev/res/adosAleatoires-with-errors.csv");
-    	System.out.println(p1.getTeenagersByCountry(CountryName.FRANCE).size());
-    	System.out.println(p1.getTeenagersByCountry(CountryName.GERMANY).size());
-    	System.out.println(p1.getTeenagersByCountry(CountryName.ITALY).size());
-    	System.out.println(p1.getTeenagersByCountry(CountryName.SPAIN).size());
-	}
 }

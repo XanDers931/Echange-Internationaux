@@ -1,13 +1,13 @@
 import front.SceneWrapper;
-import front.MainMenuController;
+import front.controller.MainMenuController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 	public void start(Stage stage) throws Exception {
 		MainMenuController controller = new MainMenuController();
-		SceneWrapper main = new SceneWrapper("./ihm/main/menu.fxml", "Menu principal", controller, stage);
-		controller.setSceneWrapperParent(main);
+		SceneWrapper main = new SceneWrapper(stage);
+		main.updateScene("./ihm/main/menu.fxml", "Menu principal", controller);
         main.getStage().show();
 	}
 

@@ -40,10 +40,14 @@ public class AffectationUtil {
 	}
 
 	private static double genderWeight(Teenager host, Teenager visitor) {
-		if (host.getRequirement().get(CriterionName.PAIR_GENDER).equals(visitor.getRequirement().get(CriterionName.GENDER)) && visitor.getRequirement().get(CriterionName.PAIR_GENDER).equals(host.getRequirement().get(CriterionName.GENDER))) {
-			return -0.5;
-		} else if (host.getRequirement().get(CriterionName.PAIR_GENDER).equals(visitor.getRequirement().get(CriterionName.GENDER)) || visitor.getRequirement().get(CriterionName.PAIR_GENDER).equals(host.getRequirement().get(CriterionName.GENDER))) {
-			return -0.1;
+		try {
+			if (host.getRequirement().get(CriterionName.PAIR_GENDER).equals(visitor.getRequirement().get(CriterionName.GENDER)) && visitor.getRequirement().get(CriterionName.PAIR_GENDER).equals(host.getRequirement().get(CriterionName.GENDER))) {
+				return -0.5;
+			} else if (host.getRequirement().get(CriterionName.PAIR_GENDER).equals(visitor.getRequirement().get(CriterionName.GENDER)) || visitor.getRequirement().get(CriterionName.PAIR_GENDER).equals(host.getRequirement().get(CriterionName.GENDER))) {
+				return -0.1;
+			}
+		} catch (NullPointerException e) {
+			return 0;
 		}
 		return 0;
 	}
@@ -56,18 +60,22 @@ public class AffectationUtil {
 	}
 
 	private static double historyWeight(Teenager host, Teenager visitor, List<Tuple<Teenager>> history) {
-		if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("same") && visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("same")) {
-			for (Tuple<Teenager> tuple : history) {
-				if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
-					return -1;
+		try {
+			if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("same") && visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("same")) {
+				for (Tuple<Teenager> tuple : history) {
+					if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
+						return -1;
+					}
+				}
+			} else if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("other") || visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")) {
+				for (Tuple<Teenager> tuple : history) {
+					if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
+						return Double.MAX_VALUE;
+					}
 				}
 			}
-		} else if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("other") || visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")) {
-			for (Tuple<Teenager> tuple : history) {
-				if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
-					return Double.MAX_VALUE;
-				}
-			}
+		} catch (NullPointerException e) {
+			return -0.1;
 		}
 		return -0.1;
 	}

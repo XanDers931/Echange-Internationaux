@@ -17,7 +17,7 @@ import java.util.Map;
 
 
 
-public abstract class CsvFileImportator {
+public class CsvFileImportator {
 	/**
      * The number of csv column expected
      */
@@ -41,12 +41,21 @@ public abstract class CsvFileImportator {
 	 */
 	public static final String[] CRITERIONS_COLUMNS_NAMES = CriterionName.getCriterionNames();
 	
+    /**
+     * Observable value, used to log some messages to user
+     */
+    private StringBuilder logText;
+	
+	/**
+	 * content of the logFile.
+	 */
+	private StringBuilder logFileContent;
 	
     /**
      * Construct the csv header row;
      * @return the csv header row as {@code String}.
      */
-	private static String getRowHeader() {
+	private String getRowHeader() {
 		String result = String.join(CSV_SEPARATOR, TEENAGERS_COLUMNS_NAMES);
 		result = String.join(CSV_SEPARATOR, result, String.join(CSV_SEPARATOR, CRITERIONS_COLUMNS_NAMES));
 		return result;
@@ -74,7 +83,7 @@ public abstract class CsvFileImportator {
      * @return a Teenager instantiated object.
      * @throws CsvRowInvalidStructureException
      */
-	private static HashMap<String,Integer> getCsvStructure(String headerRow) throws CsvRowInvalidStructureException {
+	private HashMap<String,Integer> getCsvStructure(String headerRow) throws CsvRowInvalidStructureException {
 		String[] splittedHeaderRow = splitCsvRow(headerRow);
 		if (splittedHeaderRow.length != TOTAL_COLUMN_EXPECTED) {
 			throw new CsvRowInvalidStructureException("Expected " + TOTAL_COLUMN_EXPECTED + " columns but was : " + splittedHeaderRow.length + "\nExpected structure : " + getRowHeader());
@@ -112,7 +121,7 @@ public abstract class CsvFileImportator {
      * @return a Teenager instantiated object.
      * @throws CsvRowInvalidStructureException, TeenagerAttributeException
      */
-	private static Teenager createTeenagerFromCsvRow(String rowContent, Map<String, Integer> csvStructure, Map<Integer, List<String>> criterionLogMessages, int currentRowNumber) throws CsvRowInvalidStructureException, TeenagerAttributeException {
+	private Teenager createTeenagerFromCsvRow(String rowContent, Map<String, Integer> csvStructure, Map<Integer, List<String>> criterionLogMessages, int currentRowNumber) throws CsvRowInvalidStructureException, TeenagerAttributeException {
 		String[] currentSplittedRow = splitCsvRow(rowContent);
 		
 		//Test if the number of column is ok
@@ -179,7 +188,9 @@ public abstract class CsvFileImportator {
 				if (!criterionLogMessages.containsKey(currentRowNumber)) {
 					criterionLogMessages.put(currentRowNumber, new ArrayList<String>());
 				}
-				criterionLogMessages.get(currentRowNumber).add("(Invalid Criterion Value)(Row " + currentRowNumber + ")(Column " + (currentCriterionColumn + 1) + ") : " + e.getMessage());
+				String currentLogMessage = "(Invalid Criterion Value)(Row " + currentRowNumber + ")(Column " + (currentCriterionColumn + 1) + ") : " + e.getMessage();
+				criterionLogMessages.get(currentRowNumber).add(currentLogMessage);
+				this.logText.append("\n" + currentLogMessage);
 			}
 			//always add criterion
 			currentTennager.addCriterion(currentCriterion);
@@ -196,11 +207,11 @@ public abstract class CsvFileImportator {
 	 * @return the path of log file
 	 * @throws Exception
 	 */
-	private static String generateLogFile(String inputCsvPath, String logContent) throws Exception {
+	private String generateLogFile(String inputCsvPath, String logContent) throws Exception {
 		//Getting input file's folder
 		File inputFile = new File(inputCsvPath);
 		String folderParent = inputFile.getParentFile().getAbsolutePath();
-		String logFileName = inputFile.getName() + "---" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM:dd:yyyy::HH:mm:ss")).toString() + ".csv";
+		String logFileName = inputFile.getName() + "---" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM_dd_yyyy__HH_mm_ss")).toString() + ".csv";
 		String logFileFullPath = Paths.get(folderParent, logFileName).toString();
 		
 		//Save log file
@@ -215,17 +226,21 @@ public abstract class CsvFileImportator {
 	
 	/**
      * Import teenagers from a .csv file
-     * @param path a {@code String} representing the csv file's path.
+     * @param csvFile a {@code File} representing the file to import.
+     * @param generateLogFile a {@code boolean} to know if the controller has to generate log files.
      * @return a list of teenager grouped by country as {@code HashMap<CountryName,ArrayList<Teenager>>}.
 	 * @throws CsvRowInvalidStructureException Exception 
      */
-	public static HashMap<CountryName,ArrayList<Teenager>> importFromCsv(String path) throws CsvRowInvalidStructureException, Exception {
+	public HashMap<CountryName,ArrayList<Teenager>> importFromCsv(File csvFile, boolean generateLogFile) throws Exception {
+		int totalImported = 0;
+		int totalRow = 0;
+		this.logText = new StringBuilder(csvFile.getAbsolutePath());
 		HashMap<String,Integer> csvStructure;
 		HashMap<CountryName,ArrayList<Teenager>> mapResult = new HashMap<CountryName,ArrayList<Teenager>>();
 		Map<Integer, List<String>> criterionLogMessages = new HashMap<Integer, List<String>>();
 		StringBuilder logFileContent = new StringBuilder();
 		//openning file
-		try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
 			//try to get csv structure
 			try {
 				csvStructure = getCsvStructure(reader.readLine());
@@ -238,6 +253,7 @@ public abstract class CsvFileImportator {
 			//lecture de toutes les lignes
 			int currentRowNumber = 2;
 			while (reader.ready()) {
+				totalRow++;
 				String currentRowContent = reader.readLine();
 				try {
 					Teenager currentTeenager = createTeenagerFromCsvRow(currentRowContent, csvStructure, criterionLogMessages, currentRowNumber);
@@ -246,21 +262,21 @@ public abstract class CsvFileImportator {
 						mapResult.put(currentTeenager.getCountry(), new ArrayList<Teenager>());
 					}
 					mapResult.get(currentTeenager.getCountry()).add(currentTeenager);
+					totalImported++;
 				} catch (CsvRowInvalidStructureException e) {
 					String logMessage = "(Invalid CSV Structcture)(Row " + currentRowNumber + ")" + e.getMessage();
-					System.out.println(logMessage);
+					this.logText.append("\n" + logMessage);
 					logFileContent.append(currentRowContent + CSV_SEPARATOR + logMessage + "\n");
 				} catch (TeenagerAttributeException e) {
 					String logMessage = "(Invalid Teenager attribute)(Row " + currentRowNumber + ")" + e.getMessage();
-					System.out.println(logMessage);
+					this.logText.append("\n" + logMessage);
 					logFileContent.append(currentRowContent + CSV_SEPARATOR + logMessage + "\n");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					//print out log messages
+					//add some hints to logFile
 					if (criterionLogMessages.containsKey(currentRowNumber)) {
 						for (String logMessage : criterionLogMessages.get(currentRowNumber)) {
-							System.out.println(logMessage);
 							logFileContent.append(currentRowContent + CSV_SEPARATOR);
 						}
 						logFileContent.append(String.join(CSV_SEPARATOR, criterionLogMessages.get(currentRowNumber)) + "\n");
@@ -268,18 +284,28 @@ public abstract class CsvFileImportator {
 					currentRowNumber++;
 				}
 			}
+			this.logText.append("\n" + totalImported + "/" + totalRow + " teenager(s) imported.");
 		} catch (CsvRowInvalidStructureException e) {
-			throw e;
+			//Impossible to get file structure from first row
+			this.logText.append("\n" + e.getMessage());
+			this.logText.append("\nImpossible to import any teenager.");
 		} catch (Exception e) {
 			throw e;
 		}
-		
 		//generate log file
-		if (!logFileContent.isEmpty()) {
+		if (!logFileContent.isEmpty() && generateLogFile) {
 			logFileContent.insert(0, getRowHeader() + "\n");
-			System.out.println("Log file path : " + generateLogFile(path, logFileContent.toString()));
+			try {
+				this.logText.append("\nFichier de log généré : " + this.generateLogFile(csvFile.getAbsolutePath(), logFileContent.toString()));
+			} catch (Exception e) {
+				this.logText.append("\nImpossible de export log file.");
+			}
 		}
 		return mapResult;
+	}
+	
+	public String getLogContent() {
+		return this.logText == null ? "" : this.logText.toString();
 	}
 	
 }

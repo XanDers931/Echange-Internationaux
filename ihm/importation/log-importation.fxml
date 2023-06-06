@@ -12,8 +12,8 @@
    <children>
       <VBox alignment="CENTER" layoutX="55.0" prefHeight="400.0" prefWidth="499.0">
          <children>
-            <Label text="Importation en cours..." />
-            <TextArea fx:id="logArea" prefHeight="253.0" prefWidth="339.0">
+            <Label fx:id="title" text="Importation en cours..." />
+            <TextArea fx:id="logArea" editable="false" prefHeight="253.0" prefWidth="339.0" wrapText="true">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -27,7 +27,7 @@
                   <Insets right="408.0" />
                </HBox.margin>
             </Button>
-            <Button disable="true" mnemonicParsing="false" text="Suivant" />
+            <Button fx:id="nextButton" disable="true" mnemonicParsing="false" text="Suivant" />
          </children>
       </HBox>
    </children>
