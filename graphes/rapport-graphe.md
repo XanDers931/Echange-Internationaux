@@ -55,14 +55,6 @@ Sera évaluée à partir du tag git `Graphes-v2`
 
 ### Exemple minimal pour la gestion de l'historique
 
-*Présenter un exemple minimal qui est pertinent pour tester l'historique. L'exemple contiendra:*
-- *huit adolescents de deux pays différents tels que* 
-  - *certains des adolescents expriment des préférences d'historique (critère HISTORY). Toutes les valeurs possibles pour ce critère doivent être présentes* 
-  - *aucun des adolescents n'est allergique aux animaux en aucun n'a exprimé de passe-temps, ainsi pour l'instant on peut se concentrer uniquement sur la gestion de l'historique*
-- *un historique, c'est à dire une collection de paires d'adolescents qui étaient correspondants l'année passée. Ces paires doivent permettre d'illustrer les différents cas de figure qui peuvent se présenter par rapport aux contraintes d'historique et les huit adolescents*
-
-*Puis, donner un appariement optimal qui tient compte des données d'historique, et expliquer pourquoi il est optimal. L'explication ne doit pas parler des graphes, mais uniquement des adolescents et les critères exprimés.*
-
 #### Jeu de données
 
 | Prénom       	| Nom    	| History 	|
@@ -72,9 +64,20 @@ Sera évaluée à partir du tag git `Graphes-v2`
 | Alexandre 	| Martel    	| other   	|
 | Maxime 	| Blot    	|    	|
 | Kais      	| Granjon   	| same    	|
-| Damand    	| Simplet   	|         	|
+| Armand    	| Simplet   	|         	|
 | Eric      	| Leprêtre 	|         	|
 | Léa       	| Demory    	|         	|
+
+Nous pouvons voir que Nicolas et Kais souhaite rester ensemble alors que Paul et Alexandre ne veulent pas se retrouver à 2. Les autres n'ont pas omis d'opinion.
+
+#### Historique
+
+| Ado 1    | Ado 2        |
+|--------- |--------      |
+| Nicolas  | Kais         |
+| Paul     | Alexandre    |
+| Maxime   | Mr. Leprêtre |
+| Armand   | Léa          |
 
 #### Résultat
 
@@ -85,7 +88,7 @@ Ci-dessous l'appariement optimal que nous obtenons. En effet, Nicolas et Kais qu
 | Nicolas      	| Dagneaux  	| Kais          	| Granjon    	|
 | Alexandre    	| Martel    	| Eric          	| Leprêtre  	|
 | Maxime       	| Blot      	| Léa           	| Demory     	|
-| Paul         	| Degraëve 	| Damand        	| Simplet    	|
+| Paul         	| Degraëve 	| Armand        	| Simplet    	|
 
 
 ### Deuxième exemple pour la gestion d'historique
@@ -104,16 +107,29 @@ Ci-dessous l'appariement optimal que nous obtenons. En effet, Nicolas et Kais qu
 
 ### Implémentation de l'historique de la Version 2
 
-*Quelles fonctions de votre code avez-vous modifié pour prendre en compte le critère historique ? Donnez ici les noms des méthodes (et leur classe), à quoi elles servent, et quelles modifications vous avez apportées. Essayez d'être synthétique.*
+#### AffectationUtil.weight()
 
-### Test pour l'historique de la Version 2
+Cette fonction calcule le poids d'une arrête entre 2 adolescents données.
 
-*Créer la classe de TestAffectationVersion2 qui contiendra deux méthodes de test, une pour chacun des exemples. Chacune de ces méthodes doit avoir la même structure que pour TestAffectationVersion1, c'est à dire créer les données d'entrée (adolescents, historique), créer le graphe, calculer l'affectation, et tester que le résultat est comme attendu.*
+Elle fait appel à la fonction `historyWeight()` pour calculer la modification apporter au poids de l'arrête.
+
+#### AffectationUtil.historyWeight()
+
+Cette fonction sert à calculer la modification du poids de l'arrête en fonction des préférences liées à l'historique.
+
+Cette fonction retourne -1 si les 2 adolescents veulent être à 2, Double.MAX_VALUE si l'un des 2 ne souhaite pas se rertouver avec l'autre, -0.1 si l'un des 2 a exprimé le choix "same", 0 sinon.
 
 ### Prendre en compte les autres préférences
 
-*Pour chacun des autres critères d'affinité que vous décidez de prendre en compte, décrire comment vous changez la fonction weight de la classe AffectationUtil.*
+#### Gender
+
+Pour le genre, si les 2 adolescents se "complète", on retire 0.5 au poids de l'arrête. Si un des 2 a émis un choix que l'autre rempli, on enlève 0.1 au poids de l'arrête. Sinon on ne touche pas au poids de l'arrête.
+
+#### Age
+
+Si les 2 adolescents ont moins d'un an et demie d'écart, on retire 0.1 au poids de l'arrête.
 
 ### L'incompatibilité en tant que malus
 
 *Proposer une formule ou une description précise qui explique comment calculer le poids d'une arête en considérant les incompatibilités comme des malus et les critères satisfaits comme des bonus. Implémenter cette formule dans une seconde méthode appelée `weightAdvanced`, ceci pour éviter de casser votre code. Puis, écrire une méthode de test qui permet d'illustrer le calcul d'affectation basé sur `weightAdvanced`. Vous pouvez égalmente tester l'affectation en utilisant le fichier de données `incompatibilityVsBonus.csv`.*
+
