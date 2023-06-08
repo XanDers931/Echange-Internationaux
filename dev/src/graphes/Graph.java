@@ -68,6 +68,7 @@ public class Graph {
                     graph.ajouterArete(hostTeenager, guestTeenager, Double.MAX_VALUE);
                 } else {
                     graph.ajouterArete(hostTeenager, guestTeenager, AffectationUtil.weight(hostTeenager, guestTeenager, history));
+                    System.out.println(hostTeenager.getFirstName() + " " + guestTeenager.getFirstName() + " " + AffectationUtil.weight(hostTeenager, guestTeenager, history));
                 }
             }
         }

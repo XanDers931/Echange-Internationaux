@@ -60,42 +60,44 @@ public class AffectationUtil {
 	}
 
 	private static double historyWeight(Teenager host, Teenager visitor, List<Tuple<Teenager>> history) {
-		try {
-			if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("same") && visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("same")) {
-				for (Tuple<Teenager> tuple : history) {
-					if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
-						return -1;
-					}
-				}
-			} else if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("other") || visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")) {
-				for (Tuple<Teenager> tuple : history) {
-					if (tuple.get(host).equals(visitor) && tuple.get(visitor).equals(host)) {
-						return Double.MAX_VALUE;
+		if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("same") && visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("same")) {
+			for (Tuple<Teenager> tuple : history) {
+				try {
+					if (tuple.get(host).equals(visitor)) return -1;
+				} catch (NullPointerException e1) {
+					try {
+						if (tuple.get(visitor).equals(host)) return -1;
+					} catch (NullPointerException e2) {
+						continue;
 					}
 				}
 			}
-		} catch (NullPointerException e) {
-			return -0.1;
+		} else if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("other") || visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("other")) {
+			for (Tuple<Teenager> tuple : history) {
+				try {
+					if (tuple.get(host).equals(visitor)) return Double.MAX_VALUE;
+				} catch (NullPointerException e1) {
+					try {
+						if (tuple.get(visitor).equals(host)) return Double.MAX_VALUE;
+					} catch (NullPointerException e2) {
+						continue;
+					}
+				}
+			}
 		}
-		return -0.1;
+		else if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("same") || visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("same")) {
+			for (Tuple<Teenager> tuple : history) {
+				try {
+					if (tuple.get(host).equals(visitor)) return -0.1;
+				} catch (NullPointerException e1) {
+					try {
+						if (tuple.get(visitor).equals(host)) return -0.1;
+					} catch (NullPointerException e2) {
+						continue;
+					}
+				}
+			}
+		}
+		return 0;
 	}
-
-	/* This method return a double representing the affinity between the host and the visitor, based on their hobbies.
-	 * @param host the {@code Teenager} host.
-	 * @param visitor the {@code Teenager} visitor.
-	 * @return a double that represents the affinity between the host and the visitor.
-	 *
-	private static double affinityHobbies(Teenager host, Teenager visitor) {
-		double affinity = 0;
-		String[] hostHobbies = host.getRequirement().get(CriterionName.HOBBIES).getValue().split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR);
-		String[] visitorHobbies = visitor.getRequirement().get(CriterionName.HOBBIES).getValue().split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR);
-		for (String hostHobby : hostHobbies) {
-			for (String visitorHobby : visitorHobbies) {
-				if (hostHobby.equals(visitorHobby)) {
-					affinity -= 0.1;
-				}
-			}
-		}
-		return affinity;
-	}*/
 }

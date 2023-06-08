@@ -57,15 +57,15 @@ Sera évaluée à partir du tag git `Graphes-v2`
 
 #### Jeu de données
 
-| Prénom       	| Nom    	| History 	|
+| Prénom       	| Nom    	    | History 	|
 |-----------	|-----------	|---------	|
-| Nicolas   	| Dagneaux  	| same    	|
-| Paul      	| Degraëve 	| other   	|
-| Alexandre 	| Martel    	| other   	|
-| Maxime 	| Blot    	|    	|
-| Kais      	| Granjon   	| same    	|
-| Armand    	| Simplet   	|         	|
-| Eric      	| Leprêtre 	|         	|
+| Nicolas   	| Dagneaux  	|  same    	|
+| Paul      	| Degraëve 	    |  other   	|
+| Alexandre 	| Martel    	|  other   	|
+| Maxime 	    | Blot    	    |    	    |
+| Kais      	| Granjon   	|  same    	|
+| Damand    	| Simplet   	|  same   	|
+| Eric      	| Leprêtre 	    |         	|
 | Léa       	| Demory    	|         	|
 
 Nous pouvons voir que Nicolas et Kais souhaite rester ensemble alors que Paul et Alexandre ne veulent pas se retrouver à 2. Les autres n'ont pas omis d'opinion.
@@ -77,18 +77,18 @@ Nous pouvons voir que Nicolas et Kais souhaite rester ensemble alors que Paul et
 | Nicolas  | Kais         |
 | Paul     | Alexandre    |
 | Maxime   | Mr. Leprêtre |
-| Armand   | Léa          |
+| Damand   | Léa          |
 
 #### Résultat
 
 Ci-dessous l'appariement optimal que nous obtenons. En effet, Nicolas et Kais qui ont souhaité rester ensemble le sont toujours, au contraire d'Alexandre et Paul qui ne sont pas ensemble, comme voulu.
 
-| Prénom hôte 	| Nom hôte 	| Prénom invité 	| Nom invité 	|
+| Prénom hôte 	| Nom hôte 	    | Prénom invité 	| Nom invité 	|
 |--------------	|-----------	|---------------	|------------	|
 | Nicolas      	| Dagneaux  	| Kais          	| Granjon    	|
-| Alexandre    	| Martel    	| Eric          	| Leprêtre  	|
-| Maxime       	| Blot      	| Léa           	| Demory     	|
-| Paul         	| Degraëve 	| Armand        	| Simplet    	|
+| Damand    	| Simplet   	| Léa          	    | Demory  	    |
+| Maxime       	| Blot      	| Alexandre        	| Martel     	|
+| Paul         	| Degraëve 	    | Eric     	        | Leprêtre      |
 
 
 ### Deuxième exemple pour la gestion d'historique
