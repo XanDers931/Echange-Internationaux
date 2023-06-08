@@ -1,5 +1,6 @@
 package voyages;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
  * @version 0.0.3, 05/10/23
  * @see Teenager
  */
-public class Criterion {
+public class Criterion implements Serializable {
     
     /**
      * The name of cretarion
