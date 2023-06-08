@@ -24,7 +24,7 @@ public class CsvFileExportator {
     /**
      *Create table columns
      */
-    private static final String HEADER = "nom hote, prénom hote, pays hote, nom invité, prénom invité, pays invité";
+    private static final String HEADER = "host name, host firstname, country host, guest name, guest firstname, country guest";
 
 
     /**Create and fill a csv file with the association from Graph.pairing() in the directory res
@@ -46,11 +46,11 @@ public class CsvFileExportator {
                 fileOutput.append(DELIMITER);
                 fileOutput.append(tuple.getFirst().getCountry().toString());
                 fileOutput.append(DELIMITER);
-                fileOutput.append(tuple.getFirst().getLastName());
+                fileOutput.append(tuple.getSecond().getLastName());
                 fileOutput.append(DELIMITER);
-                fileOutput.append(tuple.getFirst().getFirstName());
+                fileOutput.append(tuple.getSecond().getFirstName());
                 fileOutput.append(DELIMITER);
-                fileOutput.append(tuple.getFirst().getCountry().toString());
+                fileOutput.append(tuple.getSecond().getCountry().toString());
                 fileOutput.append(SEPARATOR);
             }
             //make sure the file is closed
