@@ -54,6 +54,11 @@ public class AffectationController extends SceneController {
 	@FXML ChoiceBox<CountryName> guestCountryChoiceBox;
 	
 	/**
+	 * A {@code Button} used to save generate optimal affectations.
+	 */
+	@FXML Button optimalAffectationsButton;
+	
+	/**
 	 * A {@code Button} used to save current platform.
 	 */
 	@FXML Button saveButton;
@@ -80,6 +85,10 @@ public class AffectationController extends SceneController {
 		this.guestCountryChoiceBox.getItems().addAll(representedCountries);
 		//Host country value change listener
 		this.hostCountryChoiceBox.valueProperty().addListener((arg, oldVal, newVal)-> {
+			if (this.hostCountryChoiceBox.getValue() == null) {
+				this.optimalAffectationsButton.setDisable(true);
+				this.saveButton.setDisable(true);
+			}
 			//Delete in guest choiceBox
 			if (this.guestCountryChoiceBox.getValue() == newVal) {
 				this.guestCountryChoiceBox.setValue(null);
@@ -93,7 +102,26 @@ public class AffectationController extends SceneController {
 		});
 		//Guest country value change listener
 		this.guestCountryChoiceBox.valueProperty().addListener(l -> {
+			if (this.guestCountryChoiceBox.getValue() == null) {
+				this.optimalAffectationsButton.setDisable(true);
+				this.saveButton.setDisable(true);
+			}
 			loadExchange();
+		});
+		//Optimal affectations listener
+		this.optimalAffectationsButton.addEventHandler(ActionEvent.ACTION, a -> {
+			System.out.println("current (optimal) : " + this.currentExchange);
+			if (this.currentExchange != null) {
+				try {
+					this.currentExchange.setOptimalAffectation(this.currentPlatform);
+				} catch (SameTeenagerException e) {
+					Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+					alert.showAndWait();
+					e.printStackTrace();
+					return;
+				}
+				this.updateAffectations();
+			}
 		});
 		//Save button listener
 		this.saveButton.addEventHandler(ActionEvent.ACTION, a -> {
@@ -117,6 +145,8 @@ public class AffectationController extends SceneController {
 		if (this.hostCountryChoiceBox.getValue() == null || this.guestCountryChoiceBox.getValue() == null) {
 			this.currentExchange = null;
 		} else {
+			this.optimalAffectationsButton.setDisable(false);
+			this.saveButton.setDisable(false);
 			//try to add exchange or get it if already exists
 			try {
 				this.currentExchange = this.currentPlatform.addExchange(this.hostCountryChoiceBox.getValue(), this.guestCountryChoiceBox.getValue());
@@ -133,6 +163,7 @@ public class AffectationController extends SceneController {
 			}	
 		}
 		this.updateAffectations();
+		System.out.println("current affect : " + this.currentExchange);
 	}
 	
 	/**

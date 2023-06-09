@@ -10,14 +10,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import voyages.CountryName;
-import voyages.Teenager;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Map.Entry;
 
 /** This {@code SceneController} is used to control the main menu scene.
  * @author Dagneaux Nicolas

@@ -2,6 +2,9 @@ package voyages;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import graphes.Graph;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -32,8 +35,49 @@ public class Exchange implements Serializable {
 		this.couples = new ArrayList<Affectation>();
 	}
 	
+	/**
+	 * This method generate an optimal affectation
+	 * @param p, a {@code Platform} to get teenagers
+	 */
+	public void setOptimalAffectation(Platform p) throws SameTeenagerException {
+		ArrayList<Teenager> teens = new ArrayList<Teenager>();
+		for (Affectation couple : this.couples) {
+			if (!couple.isLocked()) {
+				teens.add(couple.getHost());
+			}
+		}
+		for (Teenager guest : p.getTeenagersByCountry(this.getGuestCountry())) {
+			boolean isLocked = false;
+			int i = 0;
+			while (isLocked & i < this.couples.size()) {
+				if (this.couples.get(i).getGuest() != null & guest != null) {
+					if (this.couples.get(i).getGuest().equals(guest)) {
+						isLocked = this.couples.get(i).isLocked();
+					}
+				}
+				i++;
+			}
+			if (!isLocked) {
+				teens.add(guest);
+			}
+		}
+		List<Tuple<Teenager>> result = Graph.pairing(teens, this.getHostCountry(), this.getGuestCountry(), p.getHistory().getTeenagers());
+		for (Affectation couple : this.couples) {
+			boolean found = false;
+			int i = 0;
+			while (!found && i < result.size()) {
+				if (couple.getHost().equals(result.get(i).getFirst())) {
+					found = true;
+				} else {
+					i++;
+				}
+			}
+			if (found) {
+				couple.setGuest(result.get(i).getSecond());
+			}
+		}
+	}
 	
-
 	/**
 	 * @return the affectations
 	 */

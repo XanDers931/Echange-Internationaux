@@ -24,7 +24,14 @@ public class History implements Serializable {
         return year;
     }
 
-    /** Writes the object to the specified output stream.
+    /**
+	 * @return the teenagers
+	 */
+	public ArrayList<Tuple<Teenager>> getTeenagers() {
+		return teenagers;
+	}
+
+	/** Writes the object to the specified output stream.
      * @param out the output stream.
      * @throws IOException if an I/O error occurs while writing to the stream.
      */

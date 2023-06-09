@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,6 +52,7 @@ public class Platform implements Serializable {
     	this.teenagers = new HashMap<CountryName,ArrayList<Teenager>>();
     	this.exchanges = new ArrayList<Exchange>();
     	this.importator = new CsvFileImportator();
+    	this.history = new History(LocalDate.now());
     }
     
     /**
@@ -119,7 +121,14 @@ public class Platform implements Serializable {
 		return this.exchanges.get(this.exchanges.indexOf(toAdd));
     }
     
-    /** Writes the object to the specified output stream.
+    /**
+	 * @return the history
+	 */
+	public History getHistory() {
+		return history;
+	}
+
+	/** Writes the object to the specified output stream.
      * @param oos, the output stream.
      * @throws IOException if an I/O error occurs while writing to the stream.
      */

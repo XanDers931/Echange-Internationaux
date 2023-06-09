@@ -74,7 +74,7 @@ public class Affectation implements Serializable {
 	 */
 	public void setGuest(Teenager guest) throws SameTeenagerException {
 		if (this.getHost().equals(guest)) {
-			throw new SameTeenagerException("Une affectation ne peut pas avoir lieu  avec la même personne.");
+			throw new SameTeenagerException("Une affectation ne peut pas avoir lieu  avec la même personne : " + guest);
 		}
 		this.couple.setSecond(guest);
 		this.setRequirements();

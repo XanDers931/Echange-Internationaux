@@ -94,13 +94,17 @@
       </VBox>
    </center>
    <bottom>
-      <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="743.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="36.0" prefWidth="743.0" spacing="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="saveButton" contentDisplay="RIGHT" mnemonicParsing="false" text="Enregistrer" />
+            <Button fx:id="optimalAffectationsButton" disable="true" mnemonicParsing="false" text="Affectation optimale" />
+            <Button fx:id="saveButton" contentDisplay="RIGHT" defaultButton="true" disable="true" mnemonicParsing="false" text="Enregistrer" />
          </children>
          <BorderPane.margin>
-            <Insets right="10.0" />
+            <Insets top="25.0" />
          </BorderPane.margin>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
       </HBox>
    </bottom>
 </BorderPane>
