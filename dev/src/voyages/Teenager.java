@@ -25,7 +25,7 @@ public class Teenager implements java.io.Serializable, Comparable<Teenager> {
     /**
      * A counter for auto incrementing the id.
      */
-    public static int count = 0;
+    private static int count = 0;
     /**
      * The id of the teenager.
      */
@@ -255,8 +255,10 @@ public class Teenager implements java.io.Serializable, Comparable<Teenager> {
     }
     
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
-    	Teenager.count++;
     	ois.defaultReadObject();
+    	if (this.id > Teenager.count) {
+			Teenager.count = this.id;
+		}
     }
     
     @Override

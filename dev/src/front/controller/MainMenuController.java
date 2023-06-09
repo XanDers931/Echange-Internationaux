@@ -10,11 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import voyages.CountryName;
 import voyages.Teenager;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Map.Entry;
 
 /** This {@code SceneController} is used to control the main menu scene.
  * @author Dagneaux Nicolas
@@ -59,7 +62,6 @@ public class MainMenuController extends SceneController {
 				voyages.Platform platform = null;
 				try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(voyages.Platform.SAVE_PATH))) {
 					platform = (voyages.Platform)ois.readObject();
-					System.out.println(Teenager.count);
 				} catch (Exception e) {
 					Alert alert = new Alert(AlertType.ERROR, "Une erreur est survenue, impossible de charger la session précédente.\n\nDétail : " + e.getMessage());
 					alert.showAndWait();

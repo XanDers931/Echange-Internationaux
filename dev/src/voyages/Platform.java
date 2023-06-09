@@ -34,6 +34,12 @@ public class Platform implements Serializable {
     public List<Exchange> exchanges;
     
     /**
+     * The history of affectation
+     */
+    private History history;
+    
+    
+    /**
      * Csv file importator.
      */
     private transient CsvFileImportator importator;
@@ -120,6 +126,7 @@ public class Platform implements Serializable {
     private void writeObject(java.io.ObjectOutputStream oos) throws IOException {
         oos.writeObject(this.teenagers);
         oos.writeObject(this.exchanges);
+        oos.writeObject(this.history);
     }
     
     /** Reads the object from the specified input stream.
@@ -130,6 +137,7 @@ public class Platform implements Serializable {
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
         this.teenagers = (Map<CountryName,ArrayList<Teenager>>) ois.readObject();
         this.exchanges = (List<Exchange>) ois.readObject();
+        this.history = (History) ois.readObject();
         this.importator = new CsvFileImportator();
     }
     
@@ -148,6 +156,9 @@ public class Platform implements Serializable {
     public static void main(String[] args) {
 		Platform p = new Platform();
 		p.importTeenagerFromCsv(new File("./dev/res/adosAleatoires.csv"), false);
+		ArrayList<Tuple<Teenager>> x = new ArrayList<Tuple<Teenager>>();
+    	x.add(new Tuple<Teenager>(p.getTeenagersByCountry(CountryName.FRANCE).get(0), p.getTeenagersByCountry(CountryName.ITALY).get(0)));
+    	p.history = new History(x, null);
 		p.save();
 	}
 }
