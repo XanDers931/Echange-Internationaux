@@ -1,7 +1,9 @@
 package voyages;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import graphes.Graph;
@@ -34,10 +36,11 @@ public class CsvFileExportator {
      */
     public static void Exportator(List<Tuple<Teenager>> teen, CountryName countryHost, CountryName countryGuest, String chemin){        
           
-        try(BufferedWriter fileOutput = new BufferedWriter(new FileWriter(chemin))){
+        try(BufferedWriter fileOutput = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(chemin), StandardCharsets.UTF_8))){
             //Addition of the header
             fileOutput.append(HEADER);
             fileOutput.append(SEPARATOR);
+            //StringBuilder sb = new StringBuilder();
             for (Tuple<Teenager> tuple : teen) {
                 //Addition assoication by assocition into the file
                 fileOutput.append(tuple.getFirst().getLastName());
