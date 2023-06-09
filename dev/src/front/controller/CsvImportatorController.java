@@ -12,15 +12,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 import voyages.Platform;
 
-/** This {@code Controller} is used to manage the csv importation scene.
+/**
+ * This {@code SceneController} is used to control the csv importation scene.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.1, 06/06/23
  */
-public class CsvImportatorController extends Controller {
+public class CsvImportatorController extends SceneController {
 	
 	/** 
 	 * The platform used to perform the import.
@@ -68,10 +69,12 @@ public class CsvImportatorController extends Controller {
 	 * @param filesToImport a {@code Collection<? extends File>} with all files used to import teenagers.
 	 * @param generateLogFile a {@code boolean} to know if the controller has to generate log files.
 	 */
-	public CsvImportatorController(Collection<? extends File> filesToImport, boolean generateLogFile) {
+	public CsvImportatorController(Stage stage, Collection<? extends File> filesToImport, boolean generateLogFile) {
+		super(FXMLScene.IMPORT_CSV.getPath(), FXMLScene.IMPORT_CSV.getTitle(), stage);
 		this.currenPlatform = new Platform();
 		this.logText = new SimpleStringProperty();
 		this.task = new ImportCsvTask(this.currenPlatform, filesToImport, generateLogFile);
+		this.updateStage();
 	}
 	
 	/**
@@ -83,12 +86,14 @@ public class CsvImportatorController extends Controller {
 			//Stop secondary thread
 			this.secondaryThread.interrupt();
 			//Update the Stage
-			MainMenuController controller = new MainMenuController();
-			try {
-				this.parentSceneWrapper.updateScene(FXMLScene.MAIN_MENU, controller);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			SceneController controller = new MainMenuController(this.stage);
+			controller.getStage().show();
+		});
+		
+		//Next step button
+		this.nextButton.addEventHandler(ActionEvent.ACTION, e -> {
+			SceneController controller = new AffectationController(this.stage, this.currenPlatform);
+			controller.getStage().show();
 		});
 		
 		//Add a listener to update the log TextArea

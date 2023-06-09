@@ -1,54 +1,88 @@
 package voyages;
 
 import java.io.Serializable;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Exchange implements Serializable {
 	
 	/**
-	 * 
+	 * A {@code Tuple} of {@code CountryName}.
 	 */
-	private final CountryName hostCountry;
-	private final CountryName guestCountry;
-	private Map<Tuple<Teenager>, Boolean> affectations;
+	private final Tuple<CountryName> countries;
 	
-	public Exchange(CountryName host, CountryName guest) throws SameCountryException {
-		if (host == guest) {
+	/**
+	 * A {@code List<Affectation>} of couples.
+	 */
+	private List<Affectation> couples;
+	
+	
+	/**
+	 * Exchange constructor
+	 * @param hostCountry, a {@code CountryName} representing the host country.
+	 * @param guestCountry, a {@code CountryName} representing the guest country.
+	 * @throws SameCountryException if hostCountry and guestCountry are equals
+	 */
+	public Exchange(CountryName hostCountry, CountryName guestCountry) throws SameCountryException {
+		if (hostCountry == guestCountry) {
 			throw new SameCountryException("Il est impossible de créer un échange entre un même pays");
 		}
-		this.hostCountry = host;
-		this.guestCountry = guest;
-		this.affectations = new HashMap<Tuple<Teenager>, Boolean>();
+		this.countries = new Tuple<CountryName>(hostCountry, guestCountry);
+		this.couples = new ArrayList<Affectation>();
 	}
 	
 	
 
 	/**
+	 * @return the affectations
+	 */
+	public List<Affectation> getAffectations() {
+		return this.couples;
+	}
+
+	/**
 	 * @return the hostCountry
 	 */
 	public CountryName getHostCountry() {
-		return hostCountry;
+		return this.countries.getFirst();
 	}
 
 	/**
 	 * @return the guestCountry
 	 */
 	public CountryName getGuestCountry() {
-		return guestCountry;
+		return this.countries.getSecond();
 	}
-
+	
 	/**
-	 * @return the affectations
+	 * This method add an affectation
+	 * @param host, a {@code Teenager} representing the host.
+	 * @param guest, a {@code Teenager} representing the guest.
+	 * @throws SameTeenagerException if host and guest are equals.
 	 */
-	public Map<Tuple<Teenager>, Boolean> getAffectations() {
-		return affectations;
+	public void addAffectations(Teenager host, Teenager guest) throws SameTeenagerException {
+		this.couples.add(new Affectation(host, guest));
 	}
-	
-	public String toString() {
-		return this.hostCountry + " <-- " + this.guestCountry;
-	}
-	
-	
 
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(countries);
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Exchange other = (Exchange) obj;
+		return Objects.equals(countries, other.countries);
+	}
 }

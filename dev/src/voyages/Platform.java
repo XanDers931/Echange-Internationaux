@@ -7,14 +7,16 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**The Platform class. It represents the platform that contains all the teenagers.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.2, 05/12/23
  */
 public class Platform implements Serializable {
     
@@ -24,12 +26,12 @@ public class Platform implements Serializable {
 	/**
      * The list of teenagers, grouped by country.
      */
-    private HashMap<CountryName,ArrayList<Teenager>> teenagers;
+    private Map<CountryName, ArrayList<Teenager>> teenagers;
     
     /**
-     * Map of exchanges. Key is a tuple of country, and an Exchange as Object.
+     * A list of exchanges. Key is a tuple of country, and an Exchange as Object.
      */
-    private Map<Tuple<CountryName>, Exchange> exchanges;
+    public List<Exchange> exchanges;
     
     /**
      * Csv file importator.
@@ -41,7 +43,7 @@ public class Platform implements Serializable {
      */
     public Platform() {
     	this.teenagers = new HashMap<CountryName,ArrayList<Teenager>>();
-    	this.exchanges = new HashMap<Tuple<CountryName>, Exchange>();
+    	this.exchanges = new ArrayList<Exchange>();
     	this.importator = new CsvFileImportator();
     }
     
@@ -60,6 +62,7 @@ public class Platform implements Serializable {
 					this.teenagers.put(list.getKey(), new ArrayList<Teenager>());
 				}
 				this.teenagers.get(list.getKey()).addAll(list.getValue());
+				Collections.sort(this.teenagers.get(list.getKey()));
 			}
 		} catch (CsvRowInvalidStructureException e) {
 			System.out.println(e.getMessage());
@@ -78,16 +81,36 @@ public class Platform implements Serializable {
     	return this.teenagers.get(country);
     }
     
+    
     /**
-	 * @return the exchanges
-	 */
-	public Map<Tuple<CountryName>, Exchange> getExchanges() {
-		return exchanges;
-	}
+     * Get all represented countries in this platform.
+     * @return all represented countries in this platform as an {@code List<CountryName>}.
+     */
+    public List<CountryName> getAllRepresentedCountry() {
+    	ArrayList<CountryName> result = new ArrayList<CountryName>();
+    	for (Entry<CountryName, ArrayList<Teenager>> entry : this.teenagers.entrySet()) {
+    		result.add(entry.getKey());
+		}
+    	return result;
+    }
 
-	public void addExchange(CountryName host, CountryName guest) throws SameCountryException {
-    	Tuple<CountryName> toAdd = new Tuple<CountryName>();
-    	this.exchanges.put(new Tuple<CountryName>(host, guest), new Exchange(host, guest));
+	/**
+	 * 
+	 * @param host, a {@code CountryName} representing the host country
+	 * @param guest, a {@code CountryName} representing the guest country
+	 * @return An new {@code Exchange} if it was not already present, or unchanged Exchange if already here.
+	 * @throws SameCountryException
+	 */
+	public Exchange addExchange(CountryName hostCountry, CountryName guestCountry) throws SameCountryException, SameTeenagerException {
+		Exchange toAdd = new Exchange(hostCountry, guestCountry);
+		if (!this.exchanges.contains(toAdd)) {
+			this.exchanges.add(toAdd);
+			//initialize all affectations
+			for (Teenager hostTeenager : this.teenagers.get(hostCountry)) {
+				this.exchanges.get(this.exchanges.indexOf(toAdd)).addAffectations(hostTeenager, null);
+			}
+		}
+		return this.exchanges.get(this.exchanges.indexOf(toAdd));
     }
     
     /** Writes the object to the specified output stream.
@@ -105,9 +128,9 @@ public class Platform implements Serializable {
      * @throws ClassNotFoundException if the class of the serialized object cannot be found.
      */
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        this.teenagers = (HashMap<CountryName,ArrayList<Teenager>>) ois.readObject();
-        this.exchanges = (Map<Tuple<CountryName>, Exchange>) ois.readObject();
-        this.importator = new CsvFileImportator(); 
+        this.teenagers = (Map<CountryName,ArrayList<Teenager>>) ois.readObject();
+        this.exchanges = (List<Exchange>) ois.readObject();
+        this.importator = new CsvFileImportator();
     }
     
     public void save() {
@@ -125,12 +148,6 @@ public class Platform implements Serializable {
     public static void main(String[] args) {
 		Platform p = new Platform();
 		p.importTeenagerFromCsv(new File("./dev/res/adosAleatoires.csv"), false);
-		try {
-			p.addExchange(CountryName.GERMANY, CountryName.ITALY);
-		} catch (SameCountryException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		p.save();
 	}
 }

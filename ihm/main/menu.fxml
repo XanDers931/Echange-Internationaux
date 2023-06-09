@@ -9,12 +9,12 @@
    <children>
       <VBox alignment="CENTER" layoutX="154.0" prefHeight="400.0" prefWidth="287.0">
          <children>
-            <Button fx:id="importMenuButton" minWidth="200.0" mnemonicParsing="false" text="Importer les données" textAlignment="CENTER">
+            <Button fx:id="newSessionButton" minWidth="200.0" mnemonicParsing="false" text="Nouvelle session" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="50.0" />
                </VBox.margin>
             </Button>
-            <Button disable="true" minWidth="200.0" mnemonicParsing="false" text="Charger la session précédente" textAlignment="CENTER">
+            <Button fx:id="loadSessionButton" disable="true" minWidth="200.0" mnemonicParsing="false" text="Charger la session précédente" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="50.0" />
                </VBox.margin>

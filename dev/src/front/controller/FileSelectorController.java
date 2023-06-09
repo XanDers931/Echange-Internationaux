@@ -1,8 +1,6 @@
 package front.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,20 +8,29 @@ import front.FXMLScene;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 
-/** This {@code Controller} is used to manage the file selector scene.
+/**
+ * This {@code SceneController} is used to control the file selection scene.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.1, 06/06/23
  */
-public class FileSelectorController extends Controller {
+public class FileSelectorController extends SceneController {
 	
+	public FileSelectorController(Stage stage) {
+		super(FXMLScene.SELECT_FILES.getPath(), FXMLScene.SELECT_FILES.getTitle(), stage);
+		this.updateStage();
+	}
+
 	/**
 	 * A {@code Button} used to go back to main menu.
 	 */
@@ -55,12 +62,8 @@ public class FileSelectorController extends Controller {
 	public void initialize() {
 		//Close the scene and go back to main menu
 		this.closePopUpButton.addEventHandler(ActionEvent.ACTION, a -> {
-			MainMenuController controller = new MainMenuController();
-			try {
-				this.parentSceneWrapper.updateScene(FXMLScene.MAIN_MENU, controller);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			SceneController controller = new MainMenuController(this.stage);
+			controller.getStage().show();
 		});
 		
 		//Listen files list changes and perform some changes on button
@@ -83,7 +86,7 @@ public class FileSelectorController extends Controller {
 		//Perform file chooser operations
 		this.chooseFileButton.addEventHandler(ActionEvent.ACTION, e -> {
 			FileChooser chooser = new FileChooser();
-			List<File> choosenFiles = chooser.showOpenMultipleDialog(this.parentSceneWrapper.getStage());
+			List<File> choosenFiles = chooser.showOpenMultipleDialog(this.stage);
 			if (choosenFiles != null) {
 				for (File file : choosenFiles) {
 					this.filesListView.getItems().add(file);
@@ -102,23 +105,11 @@ public class FileSelectorController extends Controller {
 		//perform the importation
 		this.importButton.addEventHandler(ActionEvent.ACTION, a -> {
 			//ask if user want to generate log file
-			YesNoController yesNoPopUpController;
-			boolean generateLogFile = false;
-			try {
-				yesNoPopUpController = Controller.getYesNoPopUp("Souhaitez vous récupérer le fichier de synthèse ?", "Le fichier de synthèse sera enregistré au même endroit que celui d'origine");
-				yesNoPopUpController.getSceneWrapperParent().getStage().showAndWait();
-				generateLogFile = yesNoPopUpController.getResult();
-			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			CsvImportatorController controller = new CsvImportatorController(filesListView.getItems(), generateLogFile);
-			try {
-				this.parentSceneWrapper.updateScene(FXMLScene.IMPORT_CSV, controller);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			Alert alert = new Alert(AlertType.CONFIRMATION, "En cas d'anomalie sur un ou plusieurs fichier(s), souhaitez vous générer un fichier csv contenant les lignes en erreur ?\n\n", ButtonType.YES, ButtonType.NO);
+			alert.showAndWait();
+			boolean generateLogFile = alert.getResult() == ButtonType.YES;
+			CsvImportatorController controller = new CsvImportatorController(this.stage, filesListView.getItems(), generateLogFile);
+			controller.getStage().show();
 		});
 	}
 }

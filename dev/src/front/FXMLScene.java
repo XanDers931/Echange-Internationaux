@@ -11,22 +11,31 @@ public enum FXMLScene {
 	/**
 	 * The main menu scene.
 	 */
-	MAIN_MENU("ihm/main/menu.fxml", "Menu principal"),
+	MAIN_MENU("./ihm/main/menu.fxml", "Menu principal"),
+	
 	
 	/**
 	 * The import csv scene.
 	 */
-	IMPORT_CSV("ihm/importation/log-importation.fxml", "Importation des données"),
+	IMPORT_CSV("./ihm/importation/log-importation.fxml", "Importation des données"),
+	
 	
 	/**
 	 * The files selector scene.
 	 */
-	SELECT_FILES("ihm/main/popup-csv-import.fxml", "Sélection de fichiers"),
+	SELECT_FILES("./ihm/main/popup-csv-import.fxml", "Sélection de fichiers"),
 	
 	/**
-	 * The yes/no popup
+	 * The affectation manager scene
 	 */
-	YES_NO_POPUP("ihm/general/yes-no-popup.fxml", "");
+	AFFECTATION_MANAGER("./ihm/affectation.fxml", "Gestion des échanges"),
+	
+	/**
+	 * The affectation element row
+	 */
+	AFFECTATION_ROW("./ihm/element/affectation-row.fxml", "");
+	
+	
 	/**
 	 * The FXML scene's path 
 	 */
@@ -43,7 +52,7 @@ public enum FXMLScene {
 	 * @param title, a {@code String} representing the FXML scene's default title
 	 */
 	private FXMLScene(String path, String title) {
-		this.path = System.getProperty("user.dir") + "/" + path;
+		this.path = path;
 		this.title = title;
 	}
 

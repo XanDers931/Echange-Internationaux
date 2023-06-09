@@ -1,8 +1,10 @@
 package voyages;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -14,7 +16,7 @@ import java.util.Map.Entry;
  * @see Criterion
  * @see CriterionName
  */
-public class Teenager implements java.io.Serializable {
+public class Teenager implements java.io.Serializable, Comparable<Teenager> {
     
     /**
      * The list of requirements of the teenager.
@@ -23,7 +25,7 @@ public class Teenager implements java.io.Serializable {
     /**
      * A counter for auto incrementing the id.
      */
-    private static int count = 0;
+    public static int count = 0;
     /**
      * The id of the teenager.
      */
@@ -252,6 +254,11 @@ public class Teenager implements java.io.Serializable {
         this.addCriterion(critere);
     }
     
+    private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
+    	Teenager.count++;
+    	ois.defaultReadObject();
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -268,6 +275,11 @@ public class Teenager implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Teenager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+        return this.firstName + " " + this.lastName;
     }
+
+	@Override
+	public int compareTo(Teenager o) {
+		return this.toString().compareTo(o.toString());
+	}
 }
