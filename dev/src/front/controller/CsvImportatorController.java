@@ -45,6 +45,11 @@ public class CsvImportatorController extends SceneController {
 	 */
 	private SimpleStringProperty logText;
 	
+	/**
+	 * the {@code SceneController} who called that controller.
+	 */
+	private SceneController previousController;
+	
 	/** 
 	 * Title of the scene
 	 */
@@ -68,9 +73,11 @@ public class CsvImportatorController extends SceneController {
 	/** 
 	 * @param filesToImport a {@code Collection<? extends File>} with all files used to import teenagers.
 	 * @param generateLogFile a {@code boolean} to know if the controller has to generate log files.
+	 * @param previousController, the {@code SceneController} who called that controller.
 	 */
-	public CsvImportatorController(Stage stage, Collection<? extends File> filesToImport, boolean generateLogFile) {
+	public CsvImportatorController(Stage stage, Collection<? extends File> filesToImport, boolean generateLogFile, SceneController previousController) {
 		super(FXMLScene.IMPORT_CSV.getPath(), FXMLScene.IMPORT_CSV.getTitle(), stage);
+		this.previousController = previousController;
 		this.currenPlatform = new Platform();
 		this.logText = new SimpleStringProperty();
 		this.task = new ImportCsvTask(this.currenPlatform, filesToImport, generateLogFile);
@@ -86,8 +93,8 @@ public class CsvImportatorController extends SceneController {
 			//Stop secondary thread
 			this.secondaryThread.interrupt();
 			//Update the Stage
-			SceneController controller = new MainMenuController(this.stage);
-			controller.getStage().show();
+			this.previousController.updateStage();
+			this.previousController.getStage().show();
 		});
 		
 		//Next step button

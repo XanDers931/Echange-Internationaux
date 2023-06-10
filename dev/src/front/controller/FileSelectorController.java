@@ -26,10 +26,10 @@ import javafx.stage.Stage;
  */
 public class FileSelectorController extends SceneController {
 	
-	public FileSelectorController(Stage stage) {
-		super(FXMLScene.SELECT_FILES.getPath(), FXMLScene.SELECT_FILES.getTitle(), stage);
-		this.updateStage();
-	}
+	/**
+	 * the {@code SceneController} who called that controller.
+	 */
+	private SceneController previousController;
 
 	/**
 	 * A {@code Button} used to go back to main menu.
@@ -55,6 +55,17 @@ public class FileSelectorController extends SceneController {
 	 * A {@code ListView<File>} used to list all selected files.
 	 */
 	@FXML private ListView<File> filesListView;
+	
+	/**
+	 * FileSelectorController constructor.
+	 * @param stage, a {@Code Stage} used to show current Scene.
+	 * @param previousController, the {@code SceneController} who called that controller.
+	 */
+	public FileSelectorController(Stage stage, SceneController previousController) {
+		super(FXMLScene.SELECT_FILES.getPath(), FXMLScene.SELECT_FILES.getTitle(), stage);
+		this.previousController = previousController;
+		this.updateStage();
+	}
 
 	/**
 	 * Add all the event handler needed
@@ -62,8 +73,8 @@ public class FileSelectorController extends SceneController {
 	public void initialize() {
 		//Close the scene and go back to main menu
 		this.closePopUpButton.addEventHandler(ActionEvent.ACTION, a -> {
-			SceneController controller = new MainMenuController(this.stage);
-			controller.getStage().show();
+			this.previousController.updateStage();
+			this.previousController.getStage().show();
 		});
 		
 		//Listen files list changes and perform some changes on button
@@ -108,7 +119,7 @@ public class FileSelectorController extends SceneController {
 			Alert alert = new Alert(AlertType.CONFIRMATION, "En cas d'anomalie sur un ou plusieurs fichier(s), souhaitez vous générer un fichier csv contenant les lignes en erreur ?\n\n", ButtonType.YES, ButtonType.NO);
 			alert.showAndWait();
 			boolean generateLogFile = alert.getResult() == ButtonType.YES;
-			CsvImportatorController controller = new CsvImportatorController(this.stage, filesListView.getItems(), generateLogFile);
+			CsvImportatorController controller = new CsvImportatorController(this.stage, filesListView.getItems(), generateLogFile, this.previousController);
 			controller.getStage().show();
 		});
 	}

@@ -16,16 +16,15 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
          <menus>
-            <Menu mnemonicParsing="false" text="Paramètres">
+            <Menu mnemonicParsing="false" text="Menu">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Ajuster les pondérations" />
+                  <MenuItem fx:id="backToMainMenu" mnemonicParsing="false" text="Menu principal" />
+                  <MenuItem mnemonicParsing="false" text="Paramètres de l'application" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Gestion des adolescents">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Importer fichier(s) csv..." />
-                  <MenuItem mnemonicParsing="false" text="Modifier la liste des adolescents..." />
-                  <MenuItem mnemonicParsing="false" text="Ajouter un adolescent..." />
+                  <MenuItem fx:id="importCsvFile" mnemonicParsing="false" text="Importer fichier(s) csv..." />
                </items>
             </Menu>
          </menus>

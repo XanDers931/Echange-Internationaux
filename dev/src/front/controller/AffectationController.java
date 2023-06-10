@@ -8,8 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import voyages.Affectation;
@@ -41,7 +43,7 @@ public class AffectationController extends SceneController {
 	/**
 	 * A {@code VBox} container used to store all affectation rows.
 	 */
-	@FXML private VBox affectationContainer;
+	@FXML VBox affectationContainer;
 	
 	/**
 	 * A {@code ChoiceBox} used to select host country.
@@ -65,6 +67,18 @@ public class AffectationController extends SceneController {
 	
 	
 	/**
+	 * A {@code MenuItem} used to go back to main menu.
+	 */
+	@FXML MenuItem backToMainMenu;
+	
+	
+	/**
+	 * A {@code MenuItem} used to import csv file.
+	 */
+	@FXML MenuItem importCsvFile;
+	
+	
+	/**
 	 * AffectationController constructor.
 	 * @param stage, a {@Code Stage} used to show current Scene.
 	 * @param p, the {@Code Platform} to use.
@@ -80,6 +94,21 @@ public class AffectationController extends SceneController {
 	 */
 	@Override
 	public void initialize() {
+		//Back to main menu
+		this.backToMainMenu.addEventHandler(ActionEvent.ACTION, e -> {
+			Alert alert = new Alert(AlertType.INFORMATION, "Souhaitez vous sauvegarder avant de retourner au menu principal ?", ButtonType.YES, ButtonType.NO);
+			alert.showAndWait();
+			if (alert.getResult().equals(ButtonType.YES)) {
+				this.saveButton.fire();
+			}
+			SceneController controller = new MainMenuController(this.stage);
+			controller.getStage().show();
+		});
+		//import csv file
+		this.importCsvFile.addEventHandler(ActionEvent.ACTION, e -> {
+			SceneController controller = new FileSelectorController(this.stage, this);
+			controller.getStage().show();
+		});
 		List<CountryName> representedCountries = this.currentPlatform.getAllRepresentedCountry();
 		this.hostCountryChoiceBox.getItems().addAll(representedCountries);
 		this.guestCountryChoiceBox.getItems().addAll(representedCountries);
@@ -110,7 +139,6 @@ public class AffectationController extends SceneController {
 		});
 		//Optimal affectations listener
 		this.optimalAffectationsButton.addEventHandler(ActionEvent.ACTION, a -> {
-			System.out.println("current (optimal) : " + this.currentExchange);
 			if (this.currentExchange != null) {
 				try {
 					this.currentExchange.setOptimalAffectation(this.currentPlatform);
@@ -163,7 +191,6 @@ public class AffectationController extends SceneController {
 			}	
 		}
 		this.updateAffectations();
-		System.out.println("current affect : " + this.currentExchange);
 	}
 	
 	/**
@@ -176,6 +203,7 @@ public class AffectationController extends SceneController {
 		}
 		for (Affectation currentCouple : this.currentExchange.getAffectations()) {
 			AffectationRowController currentElementController = new AffectationRowController(currentCouple);
+			currentElementController.getGuestChoiceList().getItems().add(null);
 			currentElementController.getGuestChoiceList().getItems().addAll(this.currentPlatform.getTeenagersByCountry(this.currentExchange.getGuestCountry()));
 			this.affectationContainer.getChildren().add(currentElementController.getRoot());
 		}

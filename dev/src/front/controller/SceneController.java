@@ -46,7 +46,7 @@ public abstract class SceneController extends Controller {
 	/**
 	 * This method load the FXML element into the {@code Stage} attribute.
 	 */
-	protected final void updateStage() {
+	public final void updateStage() {
 		try {
 			FXMLLoader loader = new FXMLLoader(new File(this.fxmlPath).toURI().toURL());
 			loader.setController(this);

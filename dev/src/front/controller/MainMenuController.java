@@ -48,7 +48,7 @@ public class MainMenuController extends SceneController {
 	public void initialize() {
 		//Go to importation scene
 		this.newSessionButton.addEventHandler(ActionEvent.ACTION, a -> {
-			SceneController controller = new FileSelectorController(this.stage);
+			SceneController controller = new FileSelectorController(this.stage, this);
 			controller.getStage().show();
 		});
 		//load existing session

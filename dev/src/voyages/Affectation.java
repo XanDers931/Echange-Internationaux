@@ -116,6 +116,8 @@ public class Affectation implements Serializable {
 	 * This method set good and bad requirements
 	 */
 	private void setRequirements() {
+		this.goodRequirements.clear();
+		this.badRequirements.clear();
 		if (this.getGuest() == null | this.getHost() == null) {
 			return;
 		}
