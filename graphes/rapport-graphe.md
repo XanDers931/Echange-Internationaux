@@ -34,10 +34,11 @@ Ce qui nous laisse donc un seul appariement optimal pour satistaire tout le mond
 
 Voici la matrice d'adjacence du graphes que nous avons modélisé pour représenter le problème. Les lettres sont les noms des adolescents et les chiffres sont les poids des arrêtes.
 
-----A----B----C\
-X--0.9--0.9---1\
-Y---1----#---0.8\
-Z--0.9---1----1
+|   | A | B | C |
+|---|---|---|---|
+| X |0.9|0.9| 1 |
+| Y | 1 | # |0.8|
+| Z |0.9| 1 | 1 |
 
 Pour le poids des arrêtes, nous avons décidés :
 
@@ -57,7 +58,7 @@ Sera évaluée à partir du tag git `Graphes-v2`
 
 #### Jeu de données
 
-| Prénom       	| Nom    	    | History 	|
+| Prénom       	| Nom    	    | Historique|
 |-----------	|-----------	|---------	|
 | Nicolas   	| Dagneaux  	|  same    	|
 | Paul      	| Degraëve 	    |  other   	|
@@ -68,7 +69,7 @@ Sera évaluée à partir du tag git `Graphes-v2`
 | Eric      	| Leprêtre 	    |         	|
 | Léa       	| Demory    	|         	|
 
-Nous pouvons voir que Nicolas et Kais souhaite rester ensemble alors que Paul et Alexandre ne veulent pas se retrouver à 2. Les autres n'ont pas omis d'opinion.
+Nous pouvons voir que Nicolas et Kais souhaite rester ensemble alors que Paul et Alexandre ne veulent pas se retrouver à 2. Damand souhaite se retrouver avec la même personne, les autres n'ont pas omis d'opinion.
 
 #### Historique
 
@@ -81,7 +82,7 @@ Nous pouvons voir que Nicolas et Kais souhaite rester ensemble alors que Paul et
 
 #### Résultat
 
-Ci-dessous l'appariement optimal que nous obtenons. En effet, Nicolas et Kais qui ont souhaité rester ensemble le sont toujours, au contraire d'Alexandre et Paul qui ne sont pas ensemble, comme voulu.
+Ci-dessous l'appariement optimal que nous obtenons. En effet, Nicolas et Kais qui ont souhaité rester ensemble le sont toujours, au contraire d'Alexandre et Paul qui ne sont pas ensemble, comme voulu. Damand est lui aussi de nouveau avec Léa.
 
 | Prénom hôte 	| Nom hôte 	    | Prénom invité 	| Nom invité 	|
 |--------------	|-----------	|---------------	|------------	|
@@ -96,6 +97,37 @@ Ci-dessous l'appariement optimal que nous obtenons. En effet, Nicolas et Kais qu
 *Modifiez l'exemple précédent en ajoutant des préférences liées aux passe-temps. Donnez l'appariement que vous considérez optimal dans ce cas. En particulier, expliquez comment vous comptez combiner une éventuelle affinité liée à l'historique avec l'affinité liée aux passe-temps. Rappelons que l'historique peut compter comme une contrainte rédhibitoire ou comme une préférence, voir le sujet pour plus de précisions.*
 
 *Donner l'appariement que vous considérez optimal dans ce deuxième exemple, toujours sans parler de graphes.*
+
+#### Jeu de données
+
+| Prénom       	| Nom    	    | Historique| Passe-temps
+|-----------	|-----------    |-----------|-----------
+| Nicolas   	| Dagneaux  	|  same    	| sport,culture
+| Paul      	| Degraëve 	    |  other   	| reading,technology
+| Alexandre 	| Martel    	|  other   	| technology,culture
+| Maxime 	    | Blot    	    |    	    | science,technology
+| Kais      	| Granjon   	|  same    	| sport,culture
+| Damand    	| Simplet   	|  same   	| culture,reading,technology
+| Eric      	| Leprêtre 	    |         	| technology,science
+| Léa       	| Demory    	|         	| sport
+
+#### Historique
+
+| Ado 1    | Ado 2        |
+|--------- |--------      |
+| Nicolas  | Kais         |
+| Paul     | Alexandre    |
+| Maxime   | Mr. Leprêtre |
+| Damand   | Léa          |
+
+#### Résultat
+
+| Prénom hôte 	| Nom hôte 	    | Prénom invité  | Nom invité   |
+|--------------	|-----------	|--------------- |------------  |
+| Nicolas      	| Dagneaux  	| Kais           | Granjon      |
+| Damand    	| Simplet   	| Alexandre	     | Martel 	    |
+| Maxime       	| Blot      	| Eric        	 | Leprêtre     |
+| Paul         	| Degraëve 	    | Léa     	     | Demory       |
 
 ### Modélisation pour les exemples
 
@@ -117,7 +149,7 @@ Elle fait appel à la fonction `historyWeight()` pour calculer la modification a
 
 Cette fonction sert à calculer la modification du poids de l'arrête en fonction des préférences liées à l'historique.
 
-Cette fonction retourne -1 si les 2 adolescents veulent être à 2, Double.MAX_VALUE si l'un des 2 ne souhaite pas se rertouver avec l'autre, -0.1 si l'un des 2 a exprimé le choix "same", 0 sinon.
+Cette fonction retourne -10 si les 2 adolescents veulent être à 2, Double.MAX_VALUE si l'un des 2 ne souhaite pas se rertouver avec l'autre, -0.1 si l'un des 2 a exprimé le choix "same", 0 sinon.
 
 ### Prendre en compte les autres préférences
 

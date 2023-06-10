@@ -63,10 +63,10 @@ public class AffectationUtil {
 		if (host.getRequirement().get(CriterionName.HISTORY).getValue().equals("same") && visitor.getRequirement().get(CriterionName.HISTORY).getValue().equals("same")) {
 			for (Tuple<Teenager> tuple : history) {
 				try {
-					if (tuple.get(host).equals(visitor)) return -1;
+					if (tuple.get(host).equals(visitor)) return -10;
 				} catch (NullPointerException e1) {
 					try {
-						if (tuple.get(visitor).equals(host)) return -1;
+						if (tuple.get(visitor).equals(host)) return -10;
 					} catch (NullPointerException e2) {
 						continue;
 					}
