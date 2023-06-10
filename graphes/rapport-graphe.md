@@ -6,6 +6,20 @@ DAGNEAUX Nicolas - DEGRAEVE Paul -  MARTEL Alexandre
 Groupe D
 ___
 
+# Sommaire
+1. [Version_1](#version-1)
+    1. [Premier_exemple](#étude-dun-premier-exemple)
+    2. [Modélisation_exemple](#modélisation-de-lexemple)
+    3. [Modélisation_version_1](#modélisation-pour-la-version-1)
+2. [Version_2](#version-2)
+    1. [Exemple_minimal](#exemple-minimal-pour-la-gestion-de-lhistorique)
+    2. [Deuxième_exemple](#deuxième-exemple-pour-la-gestion-dhistorique)
+    3. [Modélisation_exemple](#modélisation-pour-les-exemples)
+    4. [Modélisation_version_2](#modélisation-pour-lhistorique-de-la-version-2)
+    5. [Implémentation](#implémentation-de-lhistorique-de-la-version-2)
+    6. [Autres_préférences](#prendre-en-compte-les-autres-préférences)
+    7. [Incompatiblité](#lincompatibilité-en-tant-que-malus)
+
 Version 1
 ---
 
@@ -94,10 +108,6 @@ Ci-dessous l'appariement optimal que nous obtenons. En effet, Nicolas et Kais qu
 
 ### Deuxième exemple pour la gestion d'historique
 
-*Modifiez l'exemple précédent en ajoutant des préférences liées aux passe-temps. Donnez l'appariement que vous considérez optimal dans ce cas. En particulier, expliquez comment vous comptez combiner une éventuelle affinité liée à l'historique avec l'affinité liée aux passe-temps. Rappelons que l'historique peut compter comme une contrainte rédhibitoire ou comme une préférence, voir le sujet pour plus de précisions.*
-
-*Donner l'appariement que vous considérez optimal dans ce deuxième exemple, toujours sans parler de graphes.*
-
 #### Jeu de données
 
 | Prénom       	| Nom    	    | Historique| Passe-temps
@@ -129,13 +139,41 @@ Ci-dessous l'appariement optimal que nous obtenons. En effet, Nicolas et Kais qu
 | Maxime       	| Blot      	| Eric        	 | Leprêtre     |
 | Paul         	| Degraëve 	    | Léa     	     | Demory       |
 
+Nous pouvons observer que les résultats sont un peu différents de tout à l'heure. En effet, malgrès que Damand souhaitait être avec Léa, il se retrouve avec Alexandre car il n'a aucun passe-temps en commun avec Léa. A contrario, il possède 2 passe-temps en commun avec Alexandre. Maxime et Mr. Leprêtre, quand à eux, partagent les mêmes passe-temps, ils se retrouvent donc ensembles. Il ne reste plus que Paul et Léa, bien qu'ils n'ont aucun passe-temps en commun. Nicolas et Kais sont toujours ensembles comme ils l'ont souhaité.
+
 ### Modélisation pour les exemples
 
-*Pour chacun des deux exemples précédents, donnez un graphe (donné par sa matrice d'adjacence) tel que l'affectation minimale dans ce graphe correspond à l'appariement optimal identifié plus haut. Expliquez comment vous avez choisi le poids pour chacune des arêtes.*
+#### Exemple 1
+
+Pour cet exemple, nous considérerons que si 2 ados veulent être ensemble, alors l'arrête vaut -10. Si seul l'un des 2 veut de nouveau être avec l'autre, alors l'arrête vaut -5. Si l'un des 2 (ou les 2) ne veut plus être avec l'autre, alors l'arrête vaut 10. Sinon, l'arrête vaut 0.
+
+|              | Nicolas | Paul | Maxime | Damand |
+|--------------|---------|------|--------|--------|
+| Kais         |   -10   |  0   |   0    |   0    |
+| Alexandre    |    0    |  10  |   0    |   0    |
+| Mr. Leprêtre |    0    |  0   |   0    |   0    |
+| Léa          |    0    |  0   |   0    |  -5    |
+
+#### Exemple 2
+
+Pour cet exemple, si 2 ados veulent être ensemble, alors l'arrête vaut toujours -10. Si seul l'un des 2 veut de nouveau être avec l'autre, alors l'arrête vaut -1. Si l'un des 2 (ou les 2) ne veut plus être avec l'autre, alors l'arrête vaut 10. Sinon, l'arrête vaut 0.
+
+Ensuite, pour chaque passe-temps en commun, on enlève 1 au poids de l'arrête.
+
+|              | Nicolas | Paul | Maxime | Damand |
+|--------------|---------|------|--------|--------|
+| Kais         |   -12   |  0   |   0    |  -1    |
+| Alexandre    |   -1    |  9   |  -1    |  -2    |
+| Mr. Leprêtre |    0    | -1   |  -2    |  -1    |
+| Léa          |   -1    |  0   |   0    |  -1    |
 
 ### Modélisation pour l'historique de la Version 2
 
-*Décrire une modélisation générale pour la Version 1. C'est à dire, donner une formule ou une description précise qui décrit comment, étant donné un adolescent hôte et un adolescent visiteur, on détermine le poids de l'arête entre ces deux adolescents en fonction des critères considérés dans la Version 1. Décrire également comment vous construisez le graphe modèle à partir des données en entrée.*
+Le poids d'une arrête par défaut est 1.
+
+Si 2 adolescent veulent être ensemble, alors on enlève 10 au poids de l'arrête. Si seul l'un des 2 adolescents veut de nouveau être avec l'autre, alors on enlève 0.1 au poids de l'arrète. Si l'un des 2 (ou les 2) ne veut plus être avec l'autre, alors on ajoute Double.MAX_VALUE au poids de l'arrête. Sinon, on ne change pas son poids.
+
+Pour construire le graphe, la fonction prend en paramètre une liste d'adolescents, un pays hôte, un pays invité et une liste de couple d'adolescents (l'historique). Puis les adolescents sont assignés à 2 listes différents en fonction de leur pays, une liste d'adolescents hôtes et une liste d'adolescents visiteurs. Ensuite, on construit le graphe `GrapheNonOrienteValue<Teenager>` du package de graphe fourni su Moodle.
 
 ### Implémentation de l'historique de la Version 2
 
@@ -149,7 +187,7 @@ Elle fait appel à la fonction `historyWeight()` pour calculer la modification a
 
 Cette fonction sert à calculer la modification du poids de l'arrête en fonction des préférences liées à l'historique.
 
-Cette fonction retourne -10 si les 2 adolescents veulent être à 2, Double.MAX_VALUE si l'un des 2 ne souhaite pas se rertouver avec l'autre, -0.1 si l'un des 2 a exprimé le choix "same", 0 sinon.
+Cette fonction retourne -10 si les 2 adolescents veulent être à 2, Double.MAX_VALUE si l'un des 2 ne souhaite pas se rertouver avec l'autre, -0.1 si seul l'un des 2 a exprimé le choix "same", 0 sinon.
 
 ### Prendre en compte les autres préférences
 
@@ -163,5 +201,4 @@ Si les 2 adolescents ont moins d'un an et demie d'écart, on retire 0.1 au poids
 
 ### L'incompatibilité en tant que malus
 
-*Proposer une formule ou une description précise qui explique comment calculer le poids d'une arête en considérant les incompatibilités comme des malus et les critères satisfaits comme des bonus. Implémenter cette formule dans une seconde méthode appelée `weightAdvanced`, ceci pour éviter de casser votre code. Puis, écrire une méthode de test qui permet d'illustrer le calcul d'affectation basé sur `weightAdvanced`. Vous pouvez égalmente tester l'affectation en utilisant le fichier de données `incompatibilityVsBonus.csv`.*
-
+Pour implémenter l'incompatibilté en tant que malus, nous avons repris les différentes sous-méthodes de la fonction `compatibleWithGuest()`, mais au lieu de définir le poids de l'arrête à Double.MAX_VALUE comme dans la version 1, ici nous retirons simplement une valeur "forte" au poids de l'arrête.
