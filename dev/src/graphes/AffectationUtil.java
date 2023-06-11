@@ -8,7 +8,7 @@ import voyages.*;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.2, 05/12/23
+ * @version 0.0.4, 06/11/23
  * @see Teenager
  */
 public class AffectationUtil {

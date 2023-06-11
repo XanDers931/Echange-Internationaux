@@ -12,7 +12,7 @@ import java.util.Map.Entry;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.5, 05/12/23
+ * @version 0.0.7, 06/11/23
  * @see Criterion
  * @see CriterionName
  */

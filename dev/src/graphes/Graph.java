@@ -14,7 +14,7 @@ import voyages.Tuple;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.1, 05/12/23
+ * @version 0.0.3, 06/11/23
  * @see Teenager
  */
 public class Graph {
