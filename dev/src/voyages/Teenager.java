@@ -284,4 +284,8 @@ public class Teenager implements java.io.Serializable, Comparable<Teenager> {
 	public int compareTo(Teenager o) {
 		return this.toString().compareTo(o.toString());
 	}
+
+    public boolean isGhost() {
+        return false;
+    }
 }

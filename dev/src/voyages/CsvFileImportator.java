@@ -306,6 +306,5 @@ public class CsvFileImportator {
 	
 	public String getLogContent() {
 		return this.logText == null ? "" : this.logText.toString();
-	}
-	
+	}	
 }

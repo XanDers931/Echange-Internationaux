@@ -6,6 +6,7 @@ import java.util.Map;
 
 import fr.ulille.but.sae2_02.graphes.*;
 import voyages.CountryName;
+import voyages.GhostTeenager;
 import voyages.Teenager;
 import voyages.Tuple;
 
@@ -52,11 +53,11 @@ public class Graph {
         }
         if (host.size() > guest.size()) {
             for (int i = 0; i < host.size() - guest.size(); i++) {
-                guest.add(new Teenager("dummy", "dummy", null, countryGuest));
+                guest.add(new GhostTeenager());
             }
         } else if (host.size() < guest.size()) {
             for (int i = 0; i < guest.size() - host.size(); i++) {
-                host.add(new Teenager("dummy", "dummy", null, countryHost));
+                host.add(new GhostTeenager());
             }
         }
         GrapheNonOrienteValue<Teenager> graph = new GrapheNonOrienteValue<Teenager>();
@@ -64,7 +65,7 @@ public class Graph {
             for (Teenager guestTeenager : guest) {
                 graph.ajouterSommet(hostTeenager);
                 graph.ajouterSommet(guestTeenager);
-                if (hostTeenager.getFirstName() == "dummy" || guestTeenager.getFirstName() == "dummy") {
+                if (hostTeenager.isGhost() || guestTeenager.isGhost()) {
                     graph.ajouterArete(hostTeenager, guestTeenager, Double.MAX_VALUE);
                 } else {
                     graph.ajouterArete(hostTeenager, guestTeenager, AffectationUtil.weight(hostTeenager, guestTeenager, history));
