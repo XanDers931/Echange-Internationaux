@@ -33,7 +33,9 @@ public enum FXMLScene {
 	/**
 	 * The affectation element row
 	 */
-	AFFECTATION_ROW("./ihm/element/affectation-row.fxml", "");
+	AFFECTATION_ROW("./ihm/element/affectation-row.fxml", ""),
+
+	COEFF_MANAGER("./ihm/coefWindow.fxml", "Gestion des coefficients");
 	
 	
 	/**
