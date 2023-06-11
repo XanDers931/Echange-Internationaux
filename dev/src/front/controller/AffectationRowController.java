@@ -1,22 +1,28 @@
 package front.controller;
 
 import java.io.File;
-import java.net.MalformedURLException;
 
 import front.FXMLScene;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Cursor;
+import javafx.animation.RotateTransition;
+import javafx.scene.effect.ColorAdjust;
 import voyages.Affectation;
 import voyages.SameTeenagerException;
 import voyages.Teenager;
@@ -46,9 +52,24 @@ public class AffectationRowController extends ElementController {
 	private Image unLockerImg;
 	
 	/**
-	 * A boolean to know we have to keep locker visible
+	 * A boolean to know we have to keep locker visible.
 	 */
 	private boolean keepLockerVisible;
+	
+	/**
+	 * A boolean to know if details are currently visible.
+	 */
+	private boolean detailVisible;
+	
+	/**
+	 * A {@code Tooltip} for locker.
+	 */
+	private Tooltip lockerTooltip;
+	
+	/**
+	 * A {@code Tooltip} for showDetailSVG.
+	 */
+	private Tooltip showDetailTooltip;
 	
 	/**
 	 * A {@code TextField} used to store host.
@@ -82,6 +103,26 @@ public class AffectationRowController extends ElementController {
 	@FXML VBox rootContainer;
 	
 	/**
+	 * A {@code SVGPath} to show more detail about teens.
+	 */
+	@FXML SVGPath showDetailSVG;
+	
+	/**
+	 * A {@code Label} container used to display host details.
+	 */
+	@FXML Label hostDetailLabel;
+	
+	/**
+	 * A {@code Label} container used to display guest details.
+	 */
+	@FXML Label guestDetailLabel;
+	
+	/**
+	 * A {@code HBox} container used to display host and guest details.
+	 */
+	@FXML HBox detailContainer;
+	
+	/**
 	 * AffectationRowController constructor.
 	 * @param affectation, the {@code Affectation} to manage.
 	 * @see Affectation
@@ -96,6 +137,9 @@ public class AffectationRowController extends ElementController {
 			e.printStackTrace();
 		}
 		this.keepLockerVisible = true;
+		this.detailVisible = false;
+		this.lockerTooltip = new Tooltip();
+		this.showDetailTooltip = new Tooltip("Afficher les détails");
 		this.loadElement();
 	}
 	
@@ -105,14 +149,15 @@ public class AffectationRowController extends ElementController {
 	 */
 	@Override
 	public void initialize() {
-		this.hostField.setText(this.currentAffectation.getHost().toString());
 		this.guestChoiceList.setValue(this.currentAffectation.getGuest());
 		this.setCrierions();
+		this.hostField.setText(this.currentAffectation.getHost().toString());
 		//guest choiceList listener
 		this.guestChoiceList.valueProperty().addListener((arg, oldVal, newVal)-> {
 			try {
 				this.currentAffectation.setGuest(newVal);
 				this.setCrierions();
+				this.guestDetailLabel.setText(this.currentAffectation.getGuestDetail());
 			} catch (SameTeenagerException e) {
 				Alert alert = new Alert(AlertType.ERROR, e.getMessage());
 				alert.showAndWait();
@@ -121,6 +166,7 @@ public class AffectationRowController extends ElementController {
 			}
 		});
 		//locker
+		Tooltip.install(this.lockCanvas, this.lockerTooltip);
 		if (this.currentAffectation.isLocked()) {
 			this.lockCanvas.setVisible(true);
 			this.lock();
@@ -130,11 +176,13 @@ public class AffectationRowController extends ElementController {
 		}
 		this.rootContainer.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
 			this.lockCanvas.setVisible(true);
+			this.showDetailSVG.setVisible(true);
 		});
 		this.rootContainer.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
 			if (!keepLockerVisible) {
 				this.lockCanvas.setVisible(false);
 			}
+			this.showDetailSVG.setVisible(false);
 		});
 		this.lockCanvas.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
 			this.lockCanvas.getScene().setCursor(Cursor.HAND);
@@ -149,6 +197,34 @@ public class AffectationRowController extends ElementController {
 				this.lock();
 			}
 		});
+		//show detail svg
+		Tooltip.install(this.showDetailSVG, this.showDetailTooltip);
+		this.showDetailSVG.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+			this.showDetailSVG.getScene().setCursor(Cursor.HAND);
+		});
+		this.showDetailSVG.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+			this.showDetailSVG.getScene().setCursor(Cursor.DEFAULT);
+		});
+		this.showDetailSVG.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+			if (!this.detailVisible) {
+				//show detail
+				this.detailVisible = true;
+				this.showDetailTooltip.setText("Masquer les détails");
+				this.showDetailSVG.setRotate(90);
+				this.detailContainer.setVisible(true);
+				this.detailContainer.setMaxHeight(Control.USE_COMPUTED_SIZE);
+			} else {
+				//hide detail
+				this.detailVisible = false;
+				this.showDetailTooltip.setText("Afficher les détails");
+				this.showDetailSVG.setRotate(0);
+				this.detailContainer.setMaxHeight(0);
+				this.detailContainer.setVisible(false);
+			}
+		});
+		//details
+		this.hostDetailLabel.setText(this.currentAffectation.getHostDetail());
+		this.guestDetailLabel.setText(this.currentAffectation.getGuestDetail());
 	}
 	
 	/**
@@ -166,8 +242,10 @@ public class AffectationRowController extends ElementController {
 		this.currentAffectation.setLocked(true);
 		this.keepLockerVisible = true;
 		this.guestChoiceList.setDisable(true);
+		this.lockerTooltip.setText("Dévérouiller affectation");
 		this.lockCanvas.getGraphicsContext2D().clearRect(0, 0, this.lockCanvas.getWidth(), this.lockCanvas.getHeight());
 		this.lockCanvas.getGraphicsContext2D().drawImage(lockerImg, 0, 0, this.lockCanvas.getWidth(), this.lockCanvas.getHeight());
+		this.rootContainer.setStyle("-fx-background-color:rgb(245,245,245)");
 	}
 	
 	/**
@@ -177,8 +255,10 @@ public class AffectationRowController extends ElementController {
 		this.currentAffectation.setLocked(false);
 		this.keepLockerVisible = false;
 		this.guestChoiceList.setDisable(false);
+		this.lockerTooltip.setText("Vérouiller affectation");
 		this.lockCanvas.getGraphicsContext2D().clearRect(0, 0, this.lockCanvas.getWidth(), this.lockCanvas.getHeight());
 		this.lockCanvas.getGraphicsContext2D().drawImage(unLockerImg, 0, 0, this.lockCanvas.getWidth(), this.lockCanvas.getHeight());
+		this.rootContainer.setStyle("-fx-background-color:white");
 	}
 
 	/**

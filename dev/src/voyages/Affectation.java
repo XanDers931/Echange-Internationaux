@@ -1,6 +1,8 @@
 package voyages;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -136,10 +138,109 @@ public class Affectation implements Serializable {
 		//hobbies
 		int totalCommonHobbies = this.getHost().totalCompatibleHobbies(this.getGuest());
 		if (totalCommonHobbies > 0) {
-			this.goodRequirements.add(totalCommonHobbies + "hobbie(s) en commun");
+			this.goodRequirements.add(totalCommonHobbies + " hobbie(s) en commun");
 		} else {
 			this.badRequirements.add("Aucun hobbie en commun");
 		}
+	}
+	
+	/**
+	 * This function build the host's description (age, genre, criterions...).
+	 * @return A {@code String} representing the the host's description.
+	 */
+	public String getHostDetail() {
+		Teenager host = this.couple.getFirst();
+		StringBuilder result = new StringBuilder();
+		int age = Period.between(host.getBirthday(), LocalDate.now()).getYears();
+		result.append(age + " ans");
+		//genre
+		if (!host.getRequirement().containsKey(CriterionName.GENDER) || host.getRequirement().get(CriterionName.GENDER).getValue().isEmpty()) {
+			result.append("\nGenre non communiquée");
+		} else {
+			result.append("\n" + host.getRequirement().get(CriterionName.GENDER).getValue());
+		}
+		//paire genre
+		if (!host.getRequirement().containsKey(CriterionName.PAIR_GENDER) || host.getRequirement().get(CriterionName.PAIR_GENDER).getValue().isEmpty()) {
+			result.append("\nAucun souhait sur le genre de l'invité");
+		} else {
+			result.append("\nSouhaite que le genre de l'invité soit : " + host.getRequirement().get(CriterionName.PAIR_GENDER).getValue());
+		}
+		//history
+		if (!host.getRequirement().containsKey(CriterionName.HISTORY) || host.getRequirement().get(CriterionName.HISTORY).getValue().isEmpty()) {
+			result.append("\nAucun souhait selon l'historique");
+		} else {
+			result.append("\nSouhait selon l'historique : " + host.getRequirement().get(CriterionName.HISTORY).getValue());
+		}
+		//animal
+		if (host.getRequirement().containsKey(CriterionName.HOST_HAS_ANIMAL) && host.getRequirement().get(CriterionName.HOST_HAS_ANIMAL).getValue().equals("yes")) {
+			result.append("\nPossède un animal");
+		} else {
+			result.append("\nNe possède pas d'animal");
+		}
+		//food
+		if (!host.getRequirement().containsKey(CriterionName.HOST_FOOD) || host.getRequirement().get(CriterionName.HOST_FOOD).getValue().isEmpty()) {
+			result.append("\nN'est compaible avec aucun régime alimentaire");
+		} else {
+			result.append("\nEst compatible avec le(s) régime(s) suivant(s) : " + host.getRequirement().get(CriterionName.HOST_FOOD).getValue());
+		}
+		//hobbies
+		if (!host.getRequirement().containsKey(CriterionName.HOBBIES) || host.getRequirement().get(CriterionName.HOBBIES).getValue().isEmpty()) {
+			result.append("\nAucun hobbie connu.");
+		} else {
+			result.append("\nHobbie(s) : " + host.getRequirement().get(CriterionName.HOBBIES).getValue());
+		}
+		return result.toString();
+	}
+	
+	/**
+	 * This function build the guest's description (age, genre, criterions...).
+	 * @return A {@code String} representing the the guest's description.
+	 */
+	public String getGuestDetail() {
+		Teenager guest = this.couple.getSecond();
+		if (guest == null) {
+			return "";
+		}
+		StringBuilder result = new StringBuilder();
+		int age = Period.between(guest.getBirthday(), LocalDate.now()).getYears();
+		result.append(age + " ans");
+		//genre
+		if (!guest.getRequirement().containsKey(CriterionName.GENDER) || guest.getRequirement().get(CriterionName.GENDER).getValue().isEmpty()) {
+			result.append("\nGenre non communiquée");
+		} else {
+			result.append("\n" + guest.getRequirement().get(CriterionName.GENDER).getValue());
+		}
+		//paire genre
+		if (!guest.getRequirement().containsKey(CriterionName.PAIR_GENDER) || guest.getRequirement().get(CriterionName.PAIR_GENDER).getValue().isEmpty()) {
+			result.append("\nAucun souhait sur le genre de l'hôte");
+		} else {
+			result.append("\nSouhaite que le genre de l'hôte soit : " + guest.getRequirement().get(CriterionName.PAIR_GENDER).getValue());
+		}
+		//history
+		if (!guest.getRequirement().containsKey(CriterionName.HISTORY) || guest.getRequirement().get(CriterionName.HISTORY).getValue().isEmpty()) {
+			result.append("\nAucun souhait selon l'historique");
+		} else {
+			result.append("\nSouhait selon l'historique : " + guest.getRequirement().get(CriterionName.HISTORY).getValue());
+		}
+		//animal
+		if (guest.getRequirement().containsKey(CriterionName.GUEST_ANIMAL_ALLERGY) && guest.getRequirement().get(CriterionName.GUEST_ANIMAL_ALLERGY).getValue().equals("yes")) {
+			result.append("\nAllergique aux animaux");
+		} else {
+			result.append("\nN'est pas allergique aux animaux");
+		}
+		//food
+		if (!guest.getRequirement().containsKey(CriterionName.GUEST_FOOD) || guest.getRequirement().get(CriterionName.GUEST_FOOD).getValue().isEmpty()) {
+			result.append("\nN'a pas de régime alimentaire particulier");
+		} else {
+			result.append("\nRégime(s) alimentaire(s) particulier(s) : " + guest.getRequirement().get(CriterionName.GUEST_FOOD).getValue());
+		}
+		//hobbies
+		if (!guest.getRequirement().containsKey(CriterionName.HOBBIES) || guest.getRequirement().get(CriterionName.HOBBIES).getValue().isEmpty()) {
+			result.append("\nAucun hobbie connu.");
+		} else {
+			result.append("\nHobbie(s) : " + guest.getRequirement().get(CriterionName.HOBBIES).getValue());
+		}
+		return result.toString();
 	}
 
 	@Override
