@@ -1,16 +1,27 @@
 package front.controller;
 
 import front.FXMLScene;
+
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
@@ -21,6 +32,7 @@ import voyages.Exchange;
 import voyages.Platform;
 import voyages.SameCountryException;
 import voyages.SameTeenagerException;
+import voyages.Teenager;
 
 /** 
  * This {@code SceneController} is used to control the affectation scene.
@@ -36,10 +48,24 @@ public class AffectationController extends SceneController {
 	private Platform currentPlatform;
 	
 	/**
+	 * A list of row element controller.
+	 */
+	private List<AffectationRowController> rowsControllers;
+	/**
 	 * Current selected {@code Exchange}.
 	 * @see Exchange
 	 */
 	private Exchange currentExchange;
+	
+	/**
+	 * Locker img.
+	 */
+	private Image lockerImg;
+	
+	/**
+	 * Unlocker img.
+	 */
+	private Image unLockerImg;
 	
 	/**
 	 * A {@code VBox} container used to store all affectation rows.
@@ -72,11 +98,25 @@ public class AffectationController extends SceneController {
 	 */
 	@FXML MenuItem backToMainMenu;
 	
-	
 	/**
 	 * A {@code MenuItem} used to import csv file.
 	 */
 	@FXML MenuItem importCsvFile;
+	
+	/**
+	 * A {@code Canvas} container used to display lock img.
+	 */
+	@FXML Canvas lockCanvas;
+	
+	/**
+	 * A {@code Canvas} container used to display unlock img.
+	 */
+	@FXML Canvas unLockCanvas;
+	
+	/**
+	 * A {@code Label} container used to display non effected teens.
+	 */
+	@FXML Label nonAffectedTeensLabel;
 	
 	
 	/**
@@ -86,7 +126,14 @@ public class AffectationController extends SceneController {
 	 */
 	public AffectationController(Stage stage, Platform p) {
 		super(FXMLScene.AFFECTATION_MANAGER.getPath(), FXMLScene.AFFECTATION_MANAGER.getTitle(), stage);
+		try {
+			this.lockerImg = new Image(new File("./dev/res/img/lock-svgrepo-com.png").toURI().toURL().toString());
+			this.unLockerImg = new Image(new File("./dev/res/img/lock-unlocked-svgrepo-com.png").toURI().toURL().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.currentPlatform = p;
+		this.rowsControllers = new ArrayList<AffectationRowController>();
 		this.updateStage();
 	}
 	
@@ -138,6 +185,31 @@ public class AffectationController extends SceneController {
 			}
 			loadExchange();
 		});
+		//locker
+		Tooltip lockTip = new Tooltip("Vérouiller toutes les affectations");
+		Tooltip unlockTip = new Tooltip("Libérer toutes les affectations");
+		Tooltip.install(this.lockCanvas, lockTip);
+		Tooltip.install(this.unLockCanvas, unlockTip);
+		this.lockCanvas.getGraphicsContext2D().drawImage(lockerImg, 0, 0, this.lockCanvas.getWidth(), this.lockCanvas.getHeight());
+		this.unLockCanvas.getGraphicsContext2D().drawImage(unLockerImg, 0, 0, this.unLockCanvas.getWidth(), this.unLockCanvas.getHeight());
+		this.lockCanvas.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+			this.lockCanvas.getScene().setCursor(Cursor.HAND);
+		});
+		this.lockCanvas.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+			this.lockCanvas.getScene().setCursor(Cursor.DEFAULT);
+		});
+		this.unLockCanvas.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+			this.unLockCanvas.getScene().setCursor(Cursor.HAND);
+		});
+		this.unLockCanvas.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+			this.unLockCanvas.getScene().setCursor(Cursor.DEFAULT);
+		});
+		this.lockCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+			this.lockAll();
+		});
+		this.unLockCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+			this.unlockAll();
+		});
 		//Optimal affectations listener
 		this.optimalAffectationsButton.addEventHandler(ActionEvent.ACTION, a -> {
 			if (this.currentExchange != null) {
@@ -173,12 +245,22 @@ public class AffectationController extends SceneController {
 	private void loadExchange() {
 		if (this.hostCountryChoiceBox.getValue() == null || this.guestCountryChoiceBox.getValue() == null) {
 			this.currentExchange = null;
+			this.lockCanvas.setVisible(false);
+			this.unLockCanvas.setVisible(false);
 		} else {
 			this.optimalAffectationsButton.setDisable(false);
 			this.saveButton.setDisable(false);
 			//try to add exchange or get it if already exists
 			try {
 				this.currentExchange = this.currentPlatform.addExchange(this.hostCountryChoiceBox.getValue(), this.guestCountryChoiceBox.getValue());
+				this.updateAffectations();
+				//non affected teens
+				this.currentExchange.getNonAffectedTeens().addListener((ListChangeListener<? super Teenager>)e -> {
+					this.updateNonAffectedLabel();
+				});
+				this.updateNonAffectedLabel();
+				this.lockCanvas.setVisible(true);
+				this.unLockCanvas.setVisible(true);
 			} catch (SameCountryException e) {
 				Alert alert = new Alert(AlertType.ERROR, e.getMessage());
 				alert.showAndWait();
@@ -191,7 +273,6 @@ public class AffectationController extends SceneController {
 				return;
 			}	
 		}
-		this.updateAffectations();
 	}
 	
 	/**
@@ -199,14 +280,69 @@ public class AffectationController extends SceneController {
 	 */
 	private void updateAffectations() {
 		this.affectationContainer.getChildren().clear();
+		this.rowsControllers.clear();
 		if (this.currentExchange == null) {
 			return;
 		}
 		for (Affectation currentCouple : this.currentExchange.getAffectations()) {
 			AffectationRowController currentElementController = new AffectationRowController(currentCouple);
+			//save controller
+			this.rowsControllers.add(currentElementController);
 			currentElementController.getGuestChoiceList().getItems().add(null);
 			currentElementController.getGuestChoiceList().getItems().addAll(this.currentPlatform.getTeenagersByCountry(this.currentExchange.getGuestCountry()));
 			this.affectationContainer.getChildren().add(currentElementController.getRoot());
+		}		
+	}
+	
+	/**
+	 * This method lock all affectation
+	 */
+	private void lockAll() {
+		Alert alert = new Alert(AlertType.INFORMATION, "Êtes vous sur de bien vouloir verrouiller toutes les affectations ?", ButtonType.YES, ButtonType.NO);
+		alert.showAndWait();
+		if (alert.getResult().equals(ButtonType.YES)) {
+			for (AffectationRowController controller : this.rowsControllers) {
+				controller.lock();
+			}
 		}
+	}
+	
+	/**
+	 * This method lock all affectation
+	 */
+	private void unlockAll() {
+		Alert alert = new Alert(AlertType.INFORMATION, "Êtes vous sur de bien vouloir libérer toutes les affectations ?", ButtonType.YES, ButtonType.NO);
+		alert.showAndWait();
+		if (alert.getResult().equals(ButtonType.YES)) {
+			for (AffectationRowController controller : this.rowsControllers) {
+				controller.unlock(false);
+			}
+		}
+	}
+	
+	/**
+	 * This method update non affected teens label
+	 */
+	private void updateNonAffectedLabel() {
+		if (this.currentExchange == null) {
+			return;
+		}
+		String result = "";
+		System.out.println("Taille liste : " + this.currentExchange.getNonAffectedTeens().size());
+		if (this.currentExchange.getNonAffectedTeens().size() == 0) {
+			result = "Tous les invités sont affectés.";
+		} else {
+			List<Teenager> copy = this.currentExchange.getNonAffectedTeens().sorted();
+			result = "Liste des invités non affectés : \n\n";
+			int i = 0;
+			for (Teenager teen : copy) {
+				result += teen.getFirstName() + " " + teen.getLastName();
+				if (i < this.currentExchange.getNonAffectedTeens().size() - 1) {
+					result += ", ";
+				}
+				i++;
+			}
+		}
+		this.nonAffectedTeensLabel.setText(result);
 	}
 }

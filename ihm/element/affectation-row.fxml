@@ -23,8 +23,8 @@
             <ChoiceBox fx:id="guestChoiceList" disable="true" maxWidth="220.0" minWidth="220.0" prefWidth="220.0" />
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="goodCriterionsLabel" text="Hobbies, régime" textFill="#67a805" wrapText="true" VBox.vgrow="ALWAYS" />
-                  <Label fx:id="badCriterionsLabel" text="Hobbies, régime" textFill="#a60505" VBox.vgrow="ALWAYS" />
+                  <Label fx:id="goodCriterionsLabel" textFill="#67a805" />
+                  <Label fx:id="badCriterionsLabel" textFill="#a60505" />
                </children>
             </VBox>
          </children>

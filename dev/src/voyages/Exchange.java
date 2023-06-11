@@ -4,9 +4,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import graphes.Graph;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Exchange implements Serializable {
 	
@@ -19,6 +24,11 @@ public class Exchange implements Serializable {
 	 * A {@code List<Affectation>} of couples.
 	 */
 	private List<Affectation> couples;
+	
+	/**
+	 * A {@code ObservableListBase<Teenager>} of non affected teen.
+	 */
+	private ObservableList<Teenager> nonAffectedTeens;
 	
 	
 	/**
@@ -33,6 +43,15 @@ public class Exchange implements Serializable {
 		}
 		this.countries = new Tuple<CountryName>(hostCountry, guestCountry);
 		this.couples = new ArrayList<Affectation>();
+		this.nonAffectedTeens = FXCollections.observableArrayList();
+	}
+	
+	/**
+	 * This method initalize the list of non affected teens.
+	 * @param nonAffectedTeens the list of non affected teens.
+	 */
+	public void initNonAffectedTeens(Collection<? extends Teenager> nonAffectedTeens) {
+		this.nonAffectedTeens.addAll(nonAffectedTeens);
 	}
 	
 	/**
@@ -106,10 +125,20 @@ public class Exchange implements Serializable {
 	 * @throws SameTeenagerException if host and guest are equals.
 	 */
 	public void addAffectations(Teenager host, Teenager guest) throws SameTeenagerException {
-		this.couples.add(new Affectation(host, guest));
+		this.couples.add(new Affectation(host, guest, this));
+		if (guest != null && this.nonAffectedTeens.contains(guest)) {
+			this.nonAffectedTeens.remove(guest);
+		}
 	}
 
 
+
+	/**
+	 * @return the nonAffectedTeens
+	 */
+	public ObservableList<Teenager> getNonAffectedTeens() {
+		return nonAffectedTeens;
+	}
 
 	@Override
 	public int hashCode() {

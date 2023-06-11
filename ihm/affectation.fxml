@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -8,11 +9,14 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 
-<BorderPane minWidth="700.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane minHeight="800.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
          <menus>
@@ -55,18 +59,28 @@
                      <children>
                         <Label text="Hôte">
                            <HBox.margin>
-                              <Insets right="100.0" />
+                              <Insets />
                            </HBox.margin>
                         </Label>
+                        <Canvas fx:id="lockCanvas" accessibleHelp="test" height="20.0" visible="false" width="20.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="200.0" />
+                           </HBox.margin>
+                        </Canvas>
+                        <Canvas fx:id="unLockCanvas" accessibleHelp="test" height="20.0" visible="false" width="20.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" />
+                           </HBox.margin>
+                        </Canvas>
                         <Label text="Invité">
-                           <padding>
-                              <Insets left="150.0" />
-                           </padding>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
                         </Label>
                         <Label text="Critères">
-                           <padding>
-                              <Insets left="210.0" />
-                           </padding>
+                           <HBox.margin>
+                              <Insets left="200.0" />
+                           </HBox.margin>
                         </Label>
                      </children>
                      <VBox.margin>
@@ -83,27 +97,45 @@
             </VBox>
             <ScrollPane fitToWidth="true" prefHeight="214.0" prefWidth="783.0" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox fx:id="affectationContainer" minWidth="651.0" spacing="15.0" style="-fx-background-color: white;" />
+                  <VBox fx:id="affectationContainer" minWidth="651.0" style="-fx-background-color: white;" />
                </content>
                <padding>
                   <Insets top="10.0" />
                </padding>
+               <effect>
+                  <InnerShadow offsetY="-5.0" radius="4.75" width="0.0">
+                     <color>
+                        <Color opacity="0.12810707092285156" />
+                     </color>
+                  </InnerShadow>
+               </effect>
             </ScrollPane>
          </children>
       </VBox>
    </center>
    <bottom>
-      <HBox alignment="CENTER" prefHeight="36.0" prefWidth="743.0" spacing="100.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="1.7976931348623157E308" minWidth="20.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="optimalAffectationsButton" disable="true" mnemonicParsing="false" text="Affectation optimale" />
-            <Button fx:id="saveButton" contentDisplay="RIGHT" defaultButton="true" disable="true" mnemonicParsing="false" text="Enregistrer" />
+            <Separator prefWidth="200.0" />
+            <Label fx:id="nonAffectedTeensLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Separator prefWidth="200.0" />
+            <HBox alignment="CENTER" prefHeight="36.0" prefWidth="743.0" spacing="100.0">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+               <children>
+                  <Button fx:id="optimalAffectationsButton" disable="true" mnemonicParsing="false" text="Affectation optimale" />
+                  <Button fx:id="saveButton" contentDisplay="RIGHT" defaultButton="true" disable="true" mnemonicParsing="false" text="Enregistrer" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
          </children>
-         <BorderPane.margin>
-            <Insets top="25.0" />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="10.0" />
-         </padding>
-      </HBox>
+      </VBox>
    </bottom>
 </BorderPane>

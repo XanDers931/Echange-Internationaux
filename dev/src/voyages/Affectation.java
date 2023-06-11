@@ -36,14 +36,19 @@ public class Affectation implements Serializable {
 	 */
 	private List<String> badRequirements;
 	
+	/**
+	 * The {@code Exchange} of that affectation.
+	 */
+	private Exchange currentExchange;
 	
 	/**
 	 * Affectation constructor
 	 * @param host, a {@code Teenager} representing the host.
 	 * @param guest, a {@code Teenager} representing the guest.
+	 * @param e, the {@code Exchange} of that affectation.
 	 * @throws SameTeenagerException
 	 */
-	public Affectation(Teenager host, Teenager guest) throws SameTeenagerException {
+	public Affectation(Teenager host, Teenager guest, Exchange e) throws SameTeenagerException {
 		if (host.equals(guest)) {
 			throw new SameTeenagerException("Une affectation ne peut pas avoir lieu  avec la même personne.");
 		}
@@ -51,6 +56,7 @@ public class Affectation implements Serializable {
 		this.locked = false;
 		this.goodRequirements = new ArrayList<String>();
 		this.badRequirements = new ArrayList<String>();
+		this.currentExchange = e;
 	}
 	
 	/**
@@ -77,6 +83,14 @@ public class Affectation implements Serializable {
 	public void setGuest(Teenager guest) throws SameTeenagerException {
 		if (this.getHost().equals(guest)) {
 			throw new SameTeenagerException("Une affectation ne peut pas avoir lieu  avec la même personne : " + guest);
+		}
+		//s'il y avait quelqu'un avant, on l'ajoute aux non affectés
+		if (this.getGuest() != null) {
+			this.currentExchange.getNonAffectedTeens().add(this.getGuest());
+		}
+		//autrement, si le nouveau guest n'est pas null, on l'enlève des non affectés
+		if (guest != null) {
+			this.currentExchange.getNonAffectedTeens().remove(guest);
 		}
 		this.couple.setSecond(guest);
 		this.setRequirements();

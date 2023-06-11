@@ -118,6 +118,7 @@ public class Platform implements Serializable {
 				this.exchanges.get(this.exchanges.indexOf(toAdd)).addAffectations(hostTeenager, null);
 			}
 		}
+		toAdd.initNonAffectedTeens(this.teenagers.get(guestCountry));
 		return this.exchanges.get(this.exchanges.indexOf(toAdd));
     }
     

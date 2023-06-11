@@ -168,11 +168,9 @@ public class AffectationRowController extends ElementController {
 		//locker
 		Tooltip.install(this.lockCanvas, this.lockerTooltip);
 		if (this.currentAffectation.isLocked()) {
-			this.lockCanvas.setVisible(true);
 			this.lock();
 		} else {
-			this.lockCanvas.setVisible(false);
-			this.unlock();
+			this.unlock(false);
 		}
 		this.rootContainer.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
 			this.lockCanvas.setVisible(true);
@@ -192,7 +190,7 @@ public class AffectationRowController extends ElementController {
 		});
 		this.lockCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 			if (this.currentAffectation.isLocked()) {
-				this.unlock();
+				this.unlock(true);
 			} else {
 				this.lock();
 			}
@@ -231,16 +229,17 @@ public class AffectationRowController extends ElementController {
 	 * This method update criterions labels.
 	 */
 	private void setCrierions() {
-		this.goodCriterionsLabel.setText(String.join(", ", this.currentAffectation.getGoodRequirements()));
-		this.badCriterionsLabel.setText(String.join(", ", this.currentAffectation.getBadRequirements()));
+		this.goodCriterionsLabel.setText(String.join(", ", this.currentAffectation.getGoodRequirements()) + "\n");
+		this.badCriterionsLabel.setText(String.join(", ", this.currentAffectation.getBadRequirements()) + "\n");
 	}
 	
 	/**
 	 * This method lock the current affectation
 	 */
-	private void lock() {
+	public void lock() {
 		this.currentAffectation.setLocked(true);
 		this.keepLockerVisible = true;
+		this.lockCanvas.setVisible(true);
 		this.guestChoiceList.setDisable(true);
 		this.lockerTooltip.setText("Dévérouiller affectation");
 		this.lockCanvas.getGraphicsContext2D().clearRect(0, 0, this.lockCanvas.getWidth(), this.lockCanvas.getHeight());
@@ -251,9 +250,10 @@ public class AffectationRowController extends ElementController {
 	/**
 	 * This method unlock the current affectation
 	 */
-	private void unlock() {
+	public void unlock(boolean setLockerVisible) {
 		this.currentAffectation.setLocked(false);
 		this.keepLockerVisible = false;
+		this.lockCanvas.setVisible(setLockerVisible);
 		this.guestChoiceList.setDisable(false);
 		this.lockerTooltip.setText("Vérouiller affectation");
 		this.lockCanvas.getGraphicsContext2D().clearRect(0, 0, this.lockCanvas.getWidth(), this.lockCanvas.getHeight());
