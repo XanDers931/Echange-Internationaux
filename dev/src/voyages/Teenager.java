@@ -271,6 +271,10 @@ public class Teenager implements java.io.Serializable {
         return "Teenager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
     }
 
+    /**This method return {@code true} if this teenager is a ghost.
+     * @return {@code false} because this teenager is not a ghost.
+     * @see GhostTeenager
+     */
     public boolean isGhost() {
         return false;
     }
