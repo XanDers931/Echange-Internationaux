@@ -270,4 +270,8 @@ public class Teenager implements java.io.Serializable {
     public String toString() {
         return "Teenager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
     }
+
+    public boolean isGhost() {
+        return false;
+    }
 }
