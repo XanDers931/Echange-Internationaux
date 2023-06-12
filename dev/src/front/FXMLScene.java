@@ -11,31 +11,34 @@ public enum FXMLScene {
 	/**
 	 * The main menu scene.
 	 */
-	MAIN_MENU("./ihm/main/menu.fxml", "Menu principal"),
+	MAIN_MENU("./dev/res/fxml/main/menu.fxml", "Menu principal"),
 	
 	
 	/**
 	 * The import csv scene.
 	 */
-	IMPORT_CSV("./ihm/importation/log-importation.fxml", "Importation des données"),
+	IMPORT_CSV("./dev/res/fxml/importation/log-importation.fxml", "Importation des données"),
 	
 	
 	/**
 	 * The files selector scene.
 	 */
-	SELECT_FILES("./ihm/main/popup-csv-import.fxml", "Sélection de fichiers"),
+	SELECT_FILES("./dev/res/fxml/main/popup-csv-import.fxml", "Sélection de fichiers"),
 	
 	/**
 	 * The affectation manager scene
 	 */
-	AFFECTATION_MANAGER("./ihm/affectation.fxml", "Gestion des échanges"),
+	AFFECTATION_MANAGER("./dev/res/fxml/affectation.fxml", "Gestion des échanges"),
 	
 	/**
 	 * The affectation element row
 	 */
-	AFFECTATION_ROW("./ihm/element/affectation-row.fxml", ""),
-
-	COEFF_MANAGER("./ihm/coefWindow.fxml", "Gestion des coefficients");
+	AFFECTATION_ROW("./dev/res/fxml/element/affectation-row.fxml", ""),
+	
+	/**
+	 * The coefficient affectation manager scene
+	 */
+	COEFF_MANAGER("./dev/res/fxml/coefWindow.fxml", "Gestion des coefficients");
 	
 	
 	/**

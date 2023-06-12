@@ -110,7 +110,7 @@ public class Platform implements Serializable {
 	 * @throws SameCountryException
 	 */
 	public Exchange addExchange(CountryName hostCountry, CountryName guestCountry) throws SameCountryException, SameTeenagerException {
-		Exchange toAdd = new Exchange(hostCountry, guestCountry);
+		Exchange toAdd = new Exchange(hostCountry, guestCountry, this);
 		if (!this.exchanges.contains(toAdd)) {
 			this.exchanges.add(toAdd);
 			//initialize all affectations
@@ -118,7 +118,6 @@ public class Platform implements Serializable {
 				this.exchanges.get(this.exchanges.indexOf(toAdd)).addAffectations(hostTeenager, null);
 			}
 		}
-		toAdd.initNonAffectedTeens(this.teenagers.get(guestCountry));
 		return this.exchanges.get(this.exchanges.indexOf(toAdd));
     }
     
