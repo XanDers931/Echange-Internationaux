@@ -250,18 +250,15 @@ public class AffectationController extends SceneController {
 			this.currentExchange = null;
 			this.lockCanvas.setVisible(false);
 			this.unLockCanvas.setVisible(false);
+			this.optimalAffectationsButton.setDisable(true);
+			this.saveButton.setDisable(true);
 		} else {
 			this.optimalAffectationsButton.setDisable(false);
 			this.saveButton.setDisable(false);
 			//try to add exchange or get it if already exists
 			try {
 				this.currentExchange = this.currentPlatform.addExchange(this.hostCountryChoiceBox.getValue(), this.guestCountryChoiceBox.getValue());
-				this.updateAffectations();
-				//non affected teens
-				this.currentExchange.getNonAffectedTeens().addListener((ListChangeListener<? super Teenager>)e -> {
-					this.updateNonAffectedLabel();
-				});
-				this.updateNonAffectedLabel();
+				this.currentExchange.initNonAffectedTeens();
 				this.lockCanvas.setVisible(true);
 				this.unLockCanvas.setVisible(true);
 			} catch (SameCountryException e) {
@@ -276,6 +273,7 @@ public class AffectationController extends SceneController {
 				return;
 			}	
 		}
+		this.updateAffectations();
 	}
 	
 	/**
@@ -284,17 +282,21 @@ public class AffectationController extends SceneController {
 	private void updateAffectations() {
 		this.affectationContainer.getChildren().clear();
 		this.rowsControllers.clear();
-		if (this.currentExchange == null) {
-			return;
+		if (this.currentExchange != null) {
+			for (Affectation currentCouple : this.currentExchange.getAffectations()) {
+				AffectationRowController currentElementController = new AffectationRowController(currentCouple);
+				//save controller
+				this.rowsControllers.add(currentElementController);
+				currentElementController.getGuestChoiceList().getItems().add(null);
+				currentElementController.getGuestChoiceList().getItems().addAll(this.currentPlatform.getTeenagersByCountry(this.currentExchange.getGuestCountry()));
+				this.affectationContainer.getChildren().add(currentElementController.getRoot());
+			}
+			//non affected teens
+			this.currentExchange.getNonAffectedTeens().addListener((ListChangeListener<? super Teenager>)e -> {
+				this.updateNonAffectedLabel();
+			});
 		}
-		for (Affectation currentCouple : this.currentExchange.getAffectations()) {
-			AffectationRowController currentElementController = new AffectationRowController(currentCouple);
-			//save controller
-			this.rowsControllers.add(currentElementController);
-			currentElementController.getGuestChoiceList().getItems().add(null);
-			currentElementController.getGuestChoiceList().getItems().addAll(this.currentPlatform.getTeenagersByCountry(this.currentExchange.getGuestCountry()));
-			this.affectationContainer.getChildren().add(currentElementController.getRoot());
-		}		
+		this.updateNonAffectedLabel();
 	}
 	
 	/**
@@ -327,23 +329,21 @@ public class AffectationController extends SceneController {
 	 * This method update non affected teens label
 	 */
 	private void updateNonAffectedLabel() {
-		if (this.currentExchange == null) {
-			return;
-		}
 		String result = "";
-		System.out.println("Taille liste : " + this.currentExchange.getNonAffectedTeens().size());
-		if (this.currentExchange.getNonAffectedTeens().size() == 0) {
-			result = "Tous les invités sont affectés.";
-		} else {
-			List<Teenager> copy = this.currentExchange.getNonAffectedTeens().sorted();
-			result = "Liste des invités non affectés : \n\n";
-			int i = 0;
-			for (Teenager teen : copy) {
-				result += teen.getFirstName() + " " + teen.getLastName();
-				if (i < this.currentExchange.getNonAffectedTeens().size() - 1) {
-					result += ", ";
+		if (this.currentExchange != null) {
+			if (this.currentExchange.getNonAffectedTeens().size() == 0) {
+				result = "Tous les invités sont affectés.";
+			} else {
+				List<Teenager> copy = this.currentExchange.getNonAffectedTeens().sorted();
+				result = "Liste des invités non affectés : \n\n";
+				int i = 0;
+				for (Teenager teen : copy) {
+					result += teen.getFirstName() + " " + teen.getLastName();
+					if (i < this.currentExchange.getNonAffectedTeens().size() - 1) {
+						result += ", ";
+					}
+					i++;
 				}
-				i++;
 			}
 		}
 		this.nonAffectedTeensLabel.setText(result);

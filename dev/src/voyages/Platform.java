@@ -64,14 +64,15 @@ public class Platform implements Serializable {
     public String importTeenagerFromCsv(File fileToImport, boolean generateLogFile) {
     	try {
     		HashMap<CountryName,ArrayList<Teenager>> importedResult = this.importator.importFromCsv(fileToImport, generateLogFile);
-    		//for each country, add the list
+    		this.teenagers = this.importator.importFromCsv(fileToImport, generateLogFile);
+    		for (Exchange exchange : exchanges) {
+				exchange.initNonAffectedTeens();
+			}
+    		//for each country, sort teenagers
     		for (Map.Entry<CountryName,ArrayList<Teenager>> list : importedResult.entrySet()) {
-				if (!this.teenagers.containsKey(list.getKey())) {
-					this.teenagers.put(list.getKey(), new ArrayList<Teenager>());
-				}
-				this.teenagers.get(list.getKey()).addAll(list.getValue());
 				Collections.sort(this.teenagers.get(list.getKey()));
 			}
+
 		} catch (CsvRowInvalidStructureException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {

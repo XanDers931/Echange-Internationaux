@@ -47,8 +47,22 @@ public class Exchange implements Serializable {
 		this.countries = new Tuple<CountryName>(hostCountry, guestCountry);
 		this.couples = new ArrayList<Affectation>();
 		this.nonAffectedTeens = FXCollections.observableArrayList();
-		this.nonAffectedTeens.addAll(p.getTeenagersByCountry(guestCountry));
+		this.currentPlatform = p;
 	}
+	
+	/**
+	 * This method initalize the list of non affected teens.
+	 */
+	public void initNonAffectedTeens() {
+		this.nonAffectedTeens = FXCollections.observableArrayList();
+		this.nonAffectedTeens.addAll(this.currentPlatform.getTeenagersByCountry(this.getGuestCountry()));
+		for (Affectation affectation : couples) {
+			if (affectation.getGuest() != null) {
+				this.nonAffectedTeens.remove(affectation.getGuest());
+			}
+		}
+	}
+
 	
 	/**
 	 * This method generate an optimal affectation
@@ -155,13 +169,6 @@ public class Exchange implements Serializable {
         this.countries = (Tuple<CountryName>) ois.readObject();
         this.couples = (List<Affectation>) ois.readObject();
         this.currentPlatform = (Platform) ois.readObject();
-        this.nonAffectedTeens = FXCollections.observableArrayList();
-		this.nonAffectedTeens.addAll(this.currentPlatform.getTeenagersByCountry(this.getGuestCountry()));
-		for (Affectation affectation : couples) {
-			if (affectation.getGuest() != null) {
-				this.nonAffectedTeens.remove(affectation.getGuest());
-			}
-		}
     }
 
 	@Override

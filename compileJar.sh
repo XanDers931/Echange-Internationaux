@@ -10,7 +10,7 @@ grep -q -e "Class-Path:" $MANIFESTPATH && sed -i -s '/^Class-Path:/d' $MANIFESTP
 echo "$CLASSPATH" 1>> $MANIFESTPATH
 
 
-jar cvmf $MANIFESTPATH $JARNAME -C bin . ihm/* dev/res/*[^.] lib/*.jar -p lib
+jar cvmf $MANIFESTPATH $JARNAME -C bin . dev/res/*[^.] lib/*.jar
 
 echo "Contient : "
 jar tf $JARNAME
