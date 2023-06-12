@@ -92,18 +92,18 @@ public class Exchange implements Serializable {
 		}
 		List<Tuple<Teenager>> result = Graph.pairing(teens, this.getHostCountry(), this.getGuestCountry(), p.getHistory().getTeenagers());
 		for (Affectation couple : this.couples) {
-			boolean found = false;
+			//Pour chaque couple
+			Teenager guest = null;
 			int i = 0;
-			while (!found && i < result.size()) {
-				if (couple.getHost().equals(result.get(i).getFirst())) {
-					found = true;
-				} else {
-					i++;
-				}
+			//On cherche le guest correspondant
+			while (guest == null && i < result.size()) {
+				guest = result.get(i).get(couple.getHost());
+				i++;
 			}
-			if (found) {
-				couple.setGuest(result.get(i).getSecond());
+			if (guest.isGhost()) {
+				guest = null;
 			}
+			couple.setGuest(guest);
 		}
 	}
 	

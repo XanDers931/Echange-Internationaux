@@ -51,12 +51,15 @@ public class Graph {
                 guest.add(teenager);
             }
         }
+        System.out.println("Hosts sans ghost : " + host.size());
+        System.out.println("Guests sans ghost : " + guest.size());
+        System.out.println("ajout de ghosts...");
         if (host.size() > guest.size()) {
-            for (int i = 0; i < host.size() - guest.size(); i++) {
+            for (int i = guest.size(); i < host.size(); i++) {
                 guest.add(new GhostTeenager());
             }
-        } else if (host.size() < guest.size()) {
-            for (int i = 0; i < guest.size() - host.size(); i++) {
+        } else {
+        	for (int i = host.size(); i < guest.size(); i++) {
                 host.add(new GhostTeenager());
             }
         }
@@ -72,6 +75,8 @@ public class Graph {
                 }
             }
         }
+        System.out.println("Hosts avec ghost : " + host.size());
+        System.out.println("Guests avec ghost : " + guest.size());
         CalculAffectation<Teenager> calcul = new CalculAffectation<Teenager>(graph, host, guest);
         return calcul.calculerAffectation();
     }
