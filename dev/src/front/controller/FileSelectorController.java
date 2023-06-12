@@ -119,7 +119,7 @@ public class FileSelectorController extends SceneController {
 			Alert alert = new Alert(AlertType.CONFIRMATION, "En cas d'anomalie sur un ou plusieurs fichier(s), souhaitez vous générer un fichier csv contenant les lignes en erreur ?\n\n", ButtonType.YES, ButtonType.NO);
 			alert.showAndWait();
 			boolean generateLogFile = alert.getResult() == ButtonType.YES;
-			CsvImportatorController controller = new CsvImportatorController(this.stage, filesListView.getItems(), generateLogFile, this.previousController);
+			CsvImportatorController controller = new CsvImportatorController(this.stage, filesListView.getItems(), generateLogFile);
 			controller.getStage().show();
 		});
 	}

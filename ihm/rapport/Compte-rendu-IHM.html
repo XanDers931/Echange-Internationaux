@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="DAGNEAUX Nicolas - DEGRAEVE Paul - MARTEL Alexandre - Groupe D1" />
+  <title>Compte rendu SAE2-01 - IHM</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="styles/style-pdf.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Compte rendu SAE2-01 - IHM</h1>
+<p class="author">DAGNEAUX Nicolas - DEGRAEVE Paul - MARTEL Alexandre -
+Groupe D1</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#présentation-de-lapplication"
+id="toc-présentation-de-lapplication">Présentation de l’application</a>
+<ul>
+<li><a href="#menu-principal" id="toc-menu-principal">Menu
+principal</a></li>
+<li><a href="#création-dune-nouvelle-session"
+id="toc-création-dune-nouvelle-session">Création d’une nouvelle
+session</a></li>
+<li><a href="#gestion-des-échanges"
+id="toc-gestion-des-échanges">Gestion des échanges</a></li>
+<li><a href="#ajuster-les-pondérations-des-critères"
+id="toc-ajuster-les-pondérations-des-critères">Ajuster les pondérations
+des critères</a></li>
+</ul></li>
+<li><a href="#implémenation-en-javafx"
+id="toc-implémenation-en-javafx">Implémenation en JavaFX</a>
+<ul>
+<li><a href="#un-exemple" id="toc-un-exemple">Un exemple</a></li>
+</ul></li>
+<li><a href="#contributions-de-chaque-membres-du-groupe"
+id="toc-contributions-de-chaque-membres-du-groupe">Contributions de
+chaque membres du groupe</a></li>
+</ul>
+</nav>
+<p><img src="images/univ-lille-logo.png" class="logo" alt="logo-univ" />
+<img src="images/logo-iut.png" class="logo" alt="logo-iut" /></p>
+<section id="introduction" class="level2">
+<h2>Introduction</h2>
+<p>Dans le cadre de notre BUT Informatique, nous avons comme projet la
+création d’une application d’aide à la prise de décision lors d’échanges
+scolaires dans différents pays. Ce rapport se concentrera sur la partie
+<em>Interface Humain Machine</em>, où nous avons fait de notre mieux
+pour créer une interface graphique élégante, simple, et efficace.</p>
+<p>Notre projet est disponible <a
+href="https://gitlab.univ-lille.fr/sae2.01-2.02/2023/D1">sur notre page
+Gitlab</a>.</p>
+<p><em>Référence du dernier commit:</em></p>
+</section>
+<section id="présentation-de-lapplication" class="level2">
+<h2>Présentation de l’application</h2>
+<section id="menu-principal" class="level3">
+<h3>Menu principal</h3>
+<figure>
+<img src="images/menu-principal.png" alt="Menu principal" />
+<figcaption aria-hidden="true">Menu principal</figcaption>
+</figure>
+<p>Ici rien, de très compliqué : 3 simples boutons pour 3 actions
+différntes :</p>
+<ul>
+<li>Créer une nouvelle session. Cette fonctionnalité n’était pas
+demandé, mais nous avons néanmoins voulu laisser cette possibilité. Cela
+dirige l’utilisateur vers une fenêtre qui lui permet de sélectionner un
+ou plusieurs fichier(s) csv, afin d’ajouter des adolescents à
+l’application.</li>
+<li>Charger une précédente session. Ici, l’utilisateur pourra reprendre
+là où il en était en récupérant toutes les informations sur les
+adolescents, les échanges et affectations. Il est important de noter que
+ce bouton est désactivé dans le cas où une sauvegarde n’est pas
+présente.</li>
+<li>Quitter l’application.</li>
+</ul>
+</section>
+<section id="création-dune-nouvelle-session" class="level3">
+<h3>Création d’une nouvelle session</h3>
+<figure>
+<img src="images/selection-fichiers.png" alt="Sélection de fichiers" />
+<figcaption aria-hidden="true">Sélection de fichiers</figcaption>
+</figure>
+<p>Ce sélecteur nous permet d’ajouter, un ou plusieurs fichiers à
+importer. Pour éviter les erreurs inutiles, lorsque la liste est vide,
+il n’est pas possible de passer à l’étape suivante.</p>
+<p>Quant à lui, le bouton “Annuler” permet de retourner à l’écran
+précédent, peu importe d’où cette fenêtre a été affiché.</p>
+<figure>
+<img src="images/import-ados.png" alt="Import des adolescents" />
+<figcaption aria-hidden="true">Import des adolescents</figcaption>
+</figure>
+<p>Enfin, l’import des adolescents se déroule en arrière plan. Nous
+avons ajouté la possibilité d’afficher le détail de l’importation, pour
+connaitre les éventuelles erreurs. Par défaut, les détails sont masqués
+car ce n’est pas forcément digeste pour un utilisateur lambda.</p>
+</section>
+<section id="gestion-des-échanges" class="level3">
+<h3>Gestion des échanges</h3>
+<p>Nous arrivons au coeur de notre application : gérer les différentes
+affectations entre adolescents de pays différents.</p>
+<figure>
+<img src="images/gestion-echanges-1.png" alt="Gestion des échanges" />
+<figcaption aria-hidden="true">Gestion des échanges</figcaption>
+</figure>
+<p>Premièrement, nous avons un menu dans la partie haute qui nous permet
+d’accéder à des paramètres, ou de gérer la liste des adolescents.</p>
+<p>Ensuite, nous avons 2 listes déroulantes qui permettent de sélection
+un pays hôte et un pays visiteur. Les pays présents sont uniquement ceux
+pour lesquels il existe des adolescents. Aussi, nous avons accordé une
+attention toute particulière pour empêcher de sélectionner le même pays
+:</p>
+<ul>
+<li>Lors de la sélection du pays hôte, ce dernier est retiré de la liste
+des pays invités</li>
+<li>Lors du changement de pays hôte, ce dernier est ajouté à la liste
+des pays invités</li>
+<li>Si l’utilisateur modifie le pays hôte et sélectionne le pays qui est
+déjà sélectionné en tant qu’invité, il n’est plus présent en tant
+qu’invité.</li>
+</ul>
+<figure>
+<img src="images/gestion-echanges-2.png" alt="Gestion des échanges" />
+<figcaption aria-hidden="true">Gestion des échanges</figcaption>
+</figure>
+<p>Après la sélection des 2 pays, plusieurs choses évoluent :</p>
+<ul>
+<li>Les boutons Enregistrer et Affectation optimale deviennent
+actifs</li>
+<li>La liste des affectations est affichée</li>
+<li>Des cadenas apparaissent au dessus de la <em>Scrollpane</em> pour
+verrouiller ou déverrouiller toutes les affectations.</li>
+</ul>
+<p>Cette fenêtre nous permet de répondre à l’ensemble du cahier des
+charges :</p>
+<ul>
+<li>Visualiser l’ensemble des appariements :
+<ul>
+<li>Chaque hôte est lié à un invité ou non</li>
+</ul></li>
+<li>Visualiser les détails sur un appariement :
+<ul>
+<li>Pour éviter d’alourdir l’affichage, il est nécessaire de cliquer sur
+la flèche pour dérouler les détails</li>
+</ul></li>
+<li>Visualiser les contraintes rédhibitoires :
+<ul>
+<li>A droite de l’écran, en rouge les contraintes non respectées.</li>
+</ul></li>
+<li>Fixer au préalable des affectations
+<ul>
+<li>Chaque ligne peut être verrouiller/libérer avec le cadenas qui
+apparaît lorsque la souris survole un appariement, et il est possible de
+faire cela pour tous les appariements d’un coup</li>
+</ul></li>
+<li>Eviter d’affecter des adolescents
+<ul>
+<li>Cela est possible en ne sélectionnant pas d’invité, puis en
+verrouillant la ligne.</li>
+</ul></li>
+</ul>
+<p>Il est également possible de visualiser en temps réel tous les
+invités qui ne sont pas affectés. Cette liste se met évidemment à jour
+toute seule.</p>
+<p>Pour finir, d’un simple clique nous pouvons calculer une affectation
+optimal, sans toucher aux lignes verrouillées.</p>
+</section>
+<section id="ajuster-les-pondérations-des-critères" class="level3">
+<h3>Ajuster les pondérations des critères</h3>
+<figure>
+<img src="images/ponderation.png" alt="Ajustement des pondérations" />
+<figcaption aria-hidden="true">Ajustement des pondérations</figcaption>
+</figure>
+<p>Cette écran s’affiche en superposant l’écran principal de
+l’application, et permet de mettre à jour le poids de chaque critère. Il
+n’est pas possible de saisir une donnée incorrecte.</p>
+</section>
+</section>
+<section id="implémenation-en-javafx" class="level2">
+<h2>Implémenation en JavaFX</h2>
+<p>Il s’agissait de notre première application en JavaFX, et nous
+estimons intéressant d’expliquer notre démarche pour implémenter cette
+interface graphique.</p>
+<p>Premièrement, pour la création des fenêtres, nous avons utilisé <a
+href="https://gluonhq.com/products/scene-builder/">JavaFX Scene
+Builder</a>. Cela nous a permis de créer aisément les visuels, en les
+modifiants facilement.</p>
+<p>Ici, la plus grande difficulté était de bien gérer la disposition, et
+de s’adapter à la taille de la fenêtre : Label qui s’agrandit
+automatiquement, figer certaines tailles…</p>
+<p>Ensuite, pour la partie évènementielle, nous n’avons pas trouvé
+pertinent d’utiliser les fonctionnalité de <em>JavaFX Scene
+Builder</em>. En effet, nous n’avons pas assez de contrôle, puis cela
+rend difficile de modifier le code.</p>
+<p>Pour pallier à cela nous avons créer plusieurs classes :</p>
+<figure>
+<img src="images/uml.png" alt="UML" />
+<figcaption aria-hidden="true">UML</figcaption>
+</figure>
+<p>La classe abstraite <em>Controller</em> définit ce qu’est un
+contrôleur : Un chemin vers un fichier fxml, un élément de type
+<code>Parent</code> qui définit l’élément JavaFX parent de la scene
+correspondante, puis une méthode initialize() qui doit forcément être
+définit : elle est exécuté lors de l’import d’un fichier fxml.</p>
+<p>Ensuite, nous avons deux sous définitions de contrôleurs : un
+contrôleur de scene, qui gère une scène complète (donc une fenêtre avec
+un élément de type <code>Stage</code>). Puis, un contrôleur d’élément
+qui gère les éléments complexes qui sont rajoutés à une scene. Par
+exemple, une ligne d’affectation de notre application qui nécessite des
+méthodes qui lui sont propres.</p>
+<p>Cette gestion nous facilite grandement la gestion des évènements et
+nous permet d’éviter la redondance de code : Ce sont les méthodes
+<code>updateStage</code> et <code>loadElement</code> qui s’occupe
+d’importer le fichier fxml.</p>
+<section id="un-exemple" class="level3">
+<h3>Un exemple</h3>
+<p>Pour illustrer cela, nous pouvons nous concentrer sur le menu
+principal :</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MainMenuController <span class="kw">extends</span> SceneController <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">MainMenuController</span><span class="op">(</span>Stage stage<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span><span class="op">(</span>FXMLScene<span class="op">.</span><span class="fu">MAIN_MENU</span><span class="op">.</span><span class="fu">getPath</span><span class="op">(),</span> FXMLScene<span class="op">.</span><span class="fu">MAIN_MENU</span><span class="op">.</span><span class="fu">getTitle</span><span class="op">(),</span> stage<span class="op">);</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">updateStage</span><span class="op">();</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div>
+<p>Ici, ce contrôleur met à jour l’élément <code>stage</code> qui lui a
+été donné en paramètre. en précisant le chemin vers le fichier .xml à
+utiliser.</p>
+<p>Enfin, nous définissons la méthode <code>initialize()</code> pour
+ajouter la gestion des évènements :</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">initialize</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="co">//Go to importation scene</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">newSessionButton</span><span class="op">.</span><span class="fu">addEventHandler</span><span class="op">(</span><span class="bu">ActionEvent</span><span class="op">.</span><span class="fu">ACTION</span><span class="op">,</span> a <span class="op">-&gt;</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            SceneController controller <span class="op">=</span> <span class="kw">new</span> <span class="fu">FileSelectorController</span><span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">stage</span><span class="op">,</span> <span class="kw">this</span><span class="op">);</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            controller<span class="op">.</span><span class="fu">getStage</span><span class="op">().</span><span class="fu">show</span><span class="op">();</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">});</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">//load existing session</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span><span class="kw">new</span> <span class="bu">File</span><span class="op">(</span>voyages<span class="op">.</span><span class="fu">Platform</span><span class="op">.</span><span class="fu">SAVE_PATH</span><span class="op">).</span><span class="fu">exists</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="kw">...</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                SceneController controller <span class="op">=</span> <span class="kw">new</span> <span class="fu">AffectationController</span><span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">stage</span><span class="op">,</span> platform<span class="op">);</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                controller<span class="op">.</span><span class="fu">getStage</span><span class="op">().</span><span class="fu">show</span><span class="op">();</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">//Exit the app</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">quitButton</span><span class="op">.</span><span class="fu">addEventHandler</span><span class="op">(</span><span class="bu">ActionEvent</span><span class="op">.</span><span class="fu">ACTION</span><span class="op">,</span> a <span class="op">-&gt;</span> <span class="op">{</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            Platform<span class="op">.</span><span class="fu">exit</span><span class="op">();</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">exit</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">});</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div>
+<p>Nous pouvons voir que le changement de fenêtre se fait uniquement en
+créeant un objet de type <code>SceneController</code>.</p>
+</section>
+</section>
+<section id="contributions-de-chaque-membres-du-groupe" class="level2">
+<h2>Contributions de chaque membres du groupe</h2>
+<p>Pour ce projet d’interface graphique, nous pouvons le découper en 3
+phases :</p>
+<ul>
+<li>Maquettage basse qualité</li>
+<li>Maquettage haute qualité</li>
+<li>Implémentation réelle</li>
+</ul>
+<p>Pour les différentes étapes de maquettage, nous avons tous collaboré
+ensemble, en donnant tous des idées, en itérant…</p>
+<p>Cependant, l’implémentation réelle a été réalisé en très grande
+partie par une seule personne, avec de l’aide des autres membres de
+façon poncutelle.</p>
+<p>Nous avons opté pour cette organisation car nous avions beaucoup
+d’autres choses à réaliser : Une partie graphe avec rapport et
+développement, mais aussi développement d’une version en ligne de
+commande. Le fait que chacun s’occupe d’une seule partie nous a permis
+d’être plus efficace, car chacun maîtrisait ce qu’il avait à faire.</p>
+</section>
+</body>
+</html>
