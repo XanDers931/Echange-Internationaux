@@ -29,6 +29,7 @@
             <Menu mnemonicParsing="false" text="Gestion des adolescents">
                <items>
                   <MenuItem fx:id="importCsvFile" mnemonicParsing="false" text="Importer fichier(s) csv..." />
+                  <MenuItem fx:id="gestionCoeff" mnemonicParsing="false" text="Gérer les coeffs" />
                </items>
             </Menu>
          </menus>

@@ -117,6 +117,8 @@ public class AffectationController extends SceneController {
 	 * A {@code Label} container used to display non effected teens.
 	 */
 	@FXML Label nonAffectedTeensLabel;
+
+	@FXML MenuItem gestionCoeff;
 	
 	
 	/**
@@ -156,6 +158,10 @@ public class AffectationController extends SceneController {
 		this.importCsvFile.addEventHandler(ActionEvent.ACTION, e -> {
 			SceneController controller = new FileSelectorController(this.stage, this);
 			controller.getStage().show();
+		});
+		this.gestionCoeff.addEventHandler(ActionEvent.ACTION, e -> {
+			SceneController controller = new CoeffController(new Stage());
+			controller.getStage().showAndWait();
 		});
 		List<CountryName> representedCountries = this.currentPlatform.getAllRepresentedCountry();
 		this.hostCountryChoiceBox.getItems().addAll(representedCountries);

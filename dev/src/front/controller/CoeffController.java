@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class CoeffController extends SceneController {
 
-    @FXML private Button newSessionButton;
+    @FXML private Button quitbutton;
     
     public CoeffController(Stage stage) {
         super(FXMLScene.COEFF_MANAGER.getPath(), FXMLScene.COEFF_MANAGER.getTitle(), stage);
@@ -17,9 +17,8 @@ public class CoeffController extends SceneController {
 
     @Override
     public void initialize() {
-        this.newSessionButton.addEventHandler(ActionEvent.ACTION, a -> {
-            SceneController controller = new FileSelectorController(this.stage, this);
-            controller.getStage().show();
+        this.quitbutton.addEventHandler(ActionEvent.ACTION, a -> {
+            this.stage.close();
         });
     }
 }
