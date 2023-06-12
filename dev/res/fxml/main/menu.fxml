@@ -2,12 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox alignment="CENTER" layoutX="154.0" prefHeight="400.0" prefWidth="287.0">
+<BorderPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="287.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="newSessionButton" minWidth="200.0" mnemonicParsing="false" text="Nouvelle session" textAlignment="CENTER">
                <VBox.margin>
@@ -22,5 +22,5 @@
             <Button fx:id="quitButton" minWidth="200.0" mnemonicParsing="false" text="Quitter l'application" textAlignment="CENTER" />
          </children>
       </VBox>
-   </children>
-</Pane>
+   </center>
+</BorderPane>

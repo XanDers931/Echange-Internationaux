@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
@@ -45,11 +46,6 @@ public class CsvImportatorController extends SceneController {
 	 */
 	private SimpleStringProperty logText;
 	
-	/**
-	 * the {@code SceneController} who called that controller.
-	 */
-	private SceneController previousController;
-	
 	/** 
 	 * Title of the scene
 	 */
@@ -61,23 +57,21 @@ public class CsvImportatorController extends SceneController {
 	@FXML TextArea logArea;
 	
 	/**
-	 * A {@Button} to go back to main Menu
-	 */
-	@FXML Button backButton;
-	
-	/**
-	 * A {@Button} to go to the next step
+	 * A {@code Button} to go to the next step
 	 */
 	@FXML Button nextButton;
+	
+	/**
+	 * A {@code Checkbox} show or not the detail messages.
+	 */
+	@FXML CheckBox showDetailCheckBox;
 	
 	/** 
 	 * @param filesToImport a {@code Collection<? extends File>} with all files used to import teenagers.
 	 * @param generateLogFile a {@code boolean} to know if the controller has to generate log files.
-	 * @param previousController, the {@code SceneController} who called that controller.
 	 */
-	public CsvImportatorController(Stage stage, Collection<? extends File> filesToImport, boolean generateLogFile, SceneController previousController) {
+	public CsvImportatorController(Stage stage, Collection<? extends File> filesToImport, boolean generateLogFile) {
 		super(FXMLScene.IMPORT_CSV.getPath(), FXMLScene.IMPORT_CSV.getTitle(), stage);
-		this.previousController = previousController;
 		this.currenPlatform = new Platform();
 		this.logText = new SimpleStringProperty();
 		this.task = new ImportCsvTask(this.currenPlatform, filesToImport, generateLogFile);
@@ -87,16 +81,7 @@ public class CsvImportatorController extends SceneController {
 	/**
 	 * Add all the event handler needed
 	 */
-	public void initialize() {
-		//Go back to menu
-		this.backButton.addEventHandler(ActionEvent.ACTION, a -> {
-			//Stop secondary thread
-			this.secondaryThread.interrupt();
-			//Update the Stage
-			this.previousController.updateStage();
-			this.previousController.getStage().show();
-		});
-		
+	public void initialize() {		
 		//Next step button
 		this.nextButton.addEventHandler(ActionEvent.ACTION, e -> {
 			SceneController controller = new AffectationController(this.stage, this.currenPlatform);
@@ -119,7 +104,8 @@ public class CsvImportatorController extends SceneController {
 			this.nextButton.setDisable(false);
 			this.nextButton.setDefaultButton(true);
 		});
-		
+		//Bind log text visibility
+		this.logArea.visibleProperty().bind(this.showDetailCheckBox.selectedProperty());
 		//Bind logTextValue
 		this.logText.bind(this.task.messageProperty());
 		this.secondaryThread = new Thread(this.task);
