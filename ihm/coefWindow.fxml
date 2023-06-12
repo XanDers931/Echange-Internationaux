@@ -13,70 +13,70 @@
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Coeff Animal">
+                  <Label maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Coeff Animal">
                      <font>
                         <Font size="18.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="50.0" />
+                        <Insets left="75.0" right="50.0" />
                      </HBox.margin>
                   </Label>
                   <TextField alignment="CENTER_RIGHT" promptText="Number between 0 and 1">
                      <HBox.margin>
-                        <Insets left="50.0" />
+                        <Insets left="75.0" />
                      </HBox.margin>
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Coeff Nourriture">
+                  <Label maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Coeff Nourriture">
                      <font>
                         <Font size="18.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="50.0" />
+                        <Insets left="75.0" right="50.0" />
                      </HBox.margin>
                   </Label>
                   <TextField promptText="Number between 0 and 1">
                      <HBox.margin>
-                        <Insets left="50.0" />
+                        <Insets left="75.0" />
                      </HBox.margin>
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Coeff Age">
+                  <Label maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Coeff Age">
                      <font>
                         <Font size="18.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="50.0" />
+                        <Insets left="75.0" right="50.0" />
                      </HBox.margin>
                   </Label>
                   <TextField promptText="Number between 0 and 1">
                      <HBox.margin>
-                        <Insets left="50.0" />
+                        <Insets left="75.0" />
                      </HBox.margin>
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Coeff Sexe">
+                  <Label maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Coeff Sexe">
                      <font>
                         <Font size="18.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="50.0" />
+                        <Insets left="75.0" right="50.0" />
                      </HBox.margin>
                   </Label>
                   <TextField promptText="Number between 0 and 1">
                      <HBox.margin>
-                        <Insets left="50.0" />
+                        <Insets left="75.0" />
                      </HBox.margin>
                   </TextField>
                </children>
@@ -85,7 +85,7 @@
       </VBox>
    </center>
    <bottom>
-      <Button fx:id="quitbutton" mnemonicParsing="false" text="Quitter" textAlignment="CENTER" BorderPane.alignment="CENTER">
+      <Button fx:id="quitbutton" mnemonicParsing="false" text="Sauvegarder et quitter" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="20.0" />
          </BorderPane.margin>
