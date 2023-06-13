@@ -29,7 +29,6 @@ public abstract class Controller {
 		this.fxmlPath = fxmlPath;
 	}
 	
-	
 	/**
 	 * @return the root element
 	 */

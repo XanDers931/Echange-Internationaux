@@ -17,7 +17,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-
 /**
  * This {@code SceneController} is used to control the file selection scene.
  * @author Dagneaux Nicolas

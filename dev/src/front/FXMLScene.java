@@ -8,6 +8,7 @@ package front;
  */
 public enum FXMLScene {
 	
+
 	/**
 	 * The main menu scene.
 	 */
@@ -25,16 +26,19 @@ public enum FXMLScene {
 	 */
 	SELECT_FILES("./dev/res/fxml/main/popup-csv-import.fxml", "Sélection de fichiers"),
 	
+
 	/**
 	 * The affectation manager scene
 	 */
 	AFFECTATION_MANAGER("./dev/res/fxml/affectation.fxml", "Gestion des échanges"),
 	
+
 	/**
 	 * The affectation element row
 	 */
 	AFFECTATION_ROW("./dev/res/fxml/element/affectation-row.fxml", ""),
 	
+
 	/**
 	 * The coefficient affectation manager scene
 	 */
@@ -52,7 +56,7 @@ public enum FXMLScene {
 	private final String title;
 	
 	/**
-	 * 
+	 * A {@code FXMLScene} constructor.
 	 * @param path, a {@code String} representing the FXML scene's path
 	 * @param title, a {@code String} representing the FXML scene's default title
 	 */
@@ -61,19 +65,17 @@ public enum FXMLScene {
 		this.title = title;
 	}
 
-	/**
+	/** The {@code FXMLScene} path getter.
 	 * @return the path
 	 */
 	public String getPath() {
 		return path;
 	}
 
-	/**
+	/** The {@code FXMLScene} title getter.
 	 * @return the title
 	 */
 	public String getTitle() {
 		return title;
 	}
-	
-	
 }

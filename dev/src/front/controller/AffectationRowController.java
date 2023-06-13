@@ -109,7 +109,6 @@ public class AffectationRowController extends ElementController {
 	 */
 	@FXML Label badCriterionsLabel;
 	
-	
 	/**
 	 * A {@code Canvas} container used to display lock img.
 	 */
@@ -150,8 +149,6 @@ public class AffectationRowController extends ElementController {
 	 */
 	@FXML Label questionMarkLabel;
 	
-	
-	
 	/**
 	 * AffectationRowController constructor.
 	 * @param rootController, the {@code AffectationController} who called that constructor.
@@ -180,7 +177,6 @@ public class AffectationRowController extends ElementController {
 		this.rootController = rootController;
 		this.loadElement();
 	}
-	
 	
 	/** 
 	 * That method is called by the {@code FXMLLoader}, it is used to add all event handler.
@@ -369,20 +365,17 @@ public class AffectationRowController extends ElementController {
 		}
 	}
 
-	/**
+	/** Getter for list of choices.
 	 * @return the guestChoiceList
 	 */
 	public ChoiceBox<Teenager> getGuestChoiceList() {
 		return guestChoiceList;
 	}
 
-
-	/**
+	/** Getter for the current affectation.
 	 * @return the currentAffectation
 	 */
 	public Affectation getCurrentAffectation() {
 		return currentAffectation;
 	}
-	
-	
 }

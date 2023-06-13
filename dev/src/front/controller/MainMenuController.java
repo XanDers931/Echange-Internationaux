@@ -22,6 +22,10 @@ import java.io.ObjectInputStream;
  */
 public class MainMenuController extends SceneController {
 	
+	/**
+	 * MainMenuController constructor.
+	 * @param stage, a {@Code Stage} used to show the current Scene.
+	 */
 	public MainMenuController(Stage stage) {
 		super(FXMLScene.MAIN_MENU.getPath(), FXMLScene.MAIN_MENU.getTitle(), stage);
 		this.updateStage();

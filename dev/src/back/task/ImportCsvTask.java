@@ -1,6 +1,3 @@
-/**
- * 
- */
 package back.task;
 
 import java.io.File;
@@ -36,7 +33,6 @@ public class ImportCsvTask extends Task<Void> {
 	 * A {@code boolean} to know if the controller has to generate log files.
 	 */
 	private boolean generateLogFile;
-	
 	
 	/**
 	 * @param p, a {@code Platform} to use.

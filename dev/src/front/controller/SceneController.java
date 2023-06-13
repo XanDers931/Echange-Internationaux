@@ -15,6 +15,7 @@ import javafx.stage.Stage;
  * @author Martel Alexandre
  */
 public abstract class SceneController extends Controller {
+
 	/**
 	 * The stage's title.
 	 */
@@ -29,7 +30,6 @@ public abstract class SceneController extends Controller {
 	 * A {@Code Scene} container to contain {@code Parent} root attribute.
 	 */
 	protected Scene scene;
-	
 	
 	/**
 	 * Scene controller constructor
@@ -74,6 +74,4 @@ public abstract class SceneController extends Controller {
 	public Scene getScene() {
 		return scene;
 	}
-	
-	
 }

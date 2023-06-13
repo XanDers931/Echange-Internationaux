@@ -41,8 +41,9 @@ import voyages.Teenager;
  * @author Martel Alexandre
  */
 public class AffectationController extends SceneController {
+
 	/**
-	 * Current {@code Platform}.
+	 * The current {@code Platform}.
 	 * @see Platform
 	 */
 	private Platform currentPlatform;
@@ -51,6 +52,7 @@ public class AffectationController extends SceneController {
 	 * A list of row element controller.
 	 */
 	private List<AffectationRowController> rowsControllers;
+
 	/**
 	 * Current selected {@code Exchange}.
 	 * @see Exchange
@@ -83,7 +85,7 @@ public class AffectationController extends SceneController {
 	private ListChangeListener<Teenager> nonAffectedHostsListener;
 	
 	/**
-	 * A {@code ListChangeListener<Teenager>} of non affected hosts.
+	 * A {@code ListChangeListener<Teenager>} of non affected guests.
 	 */
 	private ListChangeListener<Teenager> nonAffectedGuestsListener;
 	
@@ -121,7 +123,6 @@ public class AffectationController extends SceneController {
 	 * A {@code Button} used to save current platform.
 	 */
 	@FXML Button saveButton;
-	
 	
 	/**
 	 * A {@code MenuItem} used to go back to main menu.
@@ -163,11 +164,10 @@ public class AffectationController extends SceneController {
 	 */
 	@FXML Label nonAffectedGuestsQuestionMark;
 	
-	
-	
-
+	/**
+	 * A {@code MenuItem} used to manage coefficients.
+	 */
 	@FXML MenuItem gestionCoeff;
-	
 	
 	/**
 	 * AffectationController constructor.
@@ -408,8 +408,6 @@ public class AffectationController extends SceneController {
 	public List<AffectationRowController> getRowsControllers() {
 		return rowsControllers;
 	}
-
-
 
 	/**
 	 * Listener for non affected hosts
