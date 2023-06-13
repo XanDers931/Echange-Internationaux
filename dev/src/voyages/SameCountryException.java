@@ -1,6 +1,10 @@
 package voyages;
 
+/**Thrown when two teenagers are from the same country.
+ * @see Platform#addExchange
+ */
 public class SameCountryException extends Exception {
+
 	/**
      * Constructs a {@code SameCountryException} with no detail message.
      */

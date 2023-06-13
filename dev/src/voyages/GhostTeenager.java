@@ -8,6 +8,9 @@ package voyages;
  */
 public class GhostTeenager extends Teenager {
 
+    /**
+     * GhostTeenager constructor
+     */
     public GhostTeenager() {
         super("Dummy", "Dummy", null, null);
     }

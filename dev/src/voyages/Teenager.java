@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -22,26 +21,32 @@ public class Teenager implements java.io.Serializable, Comparable<Teenager> {
      * The list of requirements of the teenager.
      */
     private HashMap<CriterionName, Criterion> requirements;
+
     /**
      * A counter for auto incrementing the id.
      */
     private static int count = 0;
+
     /**
      * The id of the teenager.
      */
     private int id;
+
     /**
      * The first name of the teenager.
      */
     private String firstName;
+
     /**
      * The last name of the teenager.
      */
     private String lastName;
+
     /**
      * The date of birth of the teenager.
      */
     private LocalDate birthday;
+
     /**
      * The country of the teenager.
      */
@@ -254,6 +259,11 @@ public class Teenager implements java.io.Serializable, Comparable<Teenager> {
         this.addCriterion(critere);
     }
     
+    /** Reads the object from the specified input stream.
+     * @param ois the input stream.
+     * @throws IOException if an I/O error occurs while reading from the stream.
+     * @throws ClassNotFoundException if the class of the serialized object cannot be found.
+     */
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
     	ois.defaultReadObject();
     	if (this.id > Teenager.count) {
@@ -285,6 +295,10 @@ public class Teenager implements java.io.Serializable, Comparable<Teenager> {
 		return this.toString().compareTo(o.toString());
 	}
 
+    /** This method always returns {@code false}.
+     * @return {@code false}.
+     * @see GhostTeenager#isGhost
+     */
     public boolean isGhost() {
         return false;
     }

@@ -21,7 +21,9 @@ import java.util.Map.Entry;
  */
 public class Platform implements Serializable {
     
-    
+    /**
+     * The path to save the file.
+     */
     public static final String SAVE_PATH = "./dev/res/platform.bin";
 
 	/**
@@ -30,15 +32,14 @@ public class Platform implements Serializable {
     private Map<CountryName, ArrayList<Teenager>> teenagers;
     
     /**
-     * A list of exchanges. Key is a tuple of country, and an Exchange as Object.
+     * A list of exchanges.
      */
     public List<Exchange> exchanges;
     
     /**
-     * The history of affectation
+     * The history containing the last affectations.
      */
     private History history;
-    
     
     /**
      * Csv file importator.
@@ -57,7 +58,7 @@ public class Platform implements Serializable {
     
     /**
      * Import teenagers from a .csv file
-     * @param path a {@code String} representing the csv file's path.
+     * @param fileToImport the file to import.
      * @param generateLogFile a {@code boolean} to know if the controller has to generate log files.
      * @return log content.
      */
@@ -87,7 +88,6 @@ public class Platform implements Serializable {
     	return this.teenagers.get(country);
     }
     
-    
     /**
      * Get all represented countries in this platform.
      * @return all represented countries in this platform as an {@code List<CountryName>}.
@@ -101,11 +101,12 @@ public class Platform implements Serializable {
     }
 
 	/**
-	 * 
-	 * @param host, a {@code CountryName} representing the host country
-	 * @param guest, a {@code CountryName} representing the guest country
-	 * @return An new {@code Exchange} if it was not already present, or unchanged Exchange if already here.
+	 * This method add an exchange to the platform.
+	 * @param host, a {@code CountryName} representing the host country.
+	 * @param guest, a {@code CountryName} representing the guest country.
+	 * @return A new {@code Exchange} if it was not already present, or unchanged Exchange if already here.
 	 * @throws SameCountryException
+     * @throws SameTeenagerException
 	 */
 	public Exchange addExchange(CountryName hostCountry, CountryName guestCountry) throws SameCountryException, SameTeenagerException {
 		Exchange toAdd = new Exchange(hostCountry, guestCountry, this);
@@ -119,8 +120,8 @@ public class Platform implements Serializable {
 		return this.exchanges.get(this.exchanges.indexOf(toAdd));
     }
     
-    /**
-	 * @return the history
+    /** The history getter.
+	 * @return the history.
 	 */
 	public History getHistory() {
 		return history;
@@ -148,6 +149,9 @@ public class Platform implements Serializable {
         this.importator = new CsvFileImportator();
     }
     
+    /**
+     * Save the platform using the {@code writeObject} method.
+     */
     public void save() {
     	try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(Platform.SAVE_PATH))){
 			oos.writeObject(this);

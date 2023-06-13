@@ -5,27 +5,53 @@ import java.time.LocalDate;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/** The {@code History} class, it represents the last affectations of an exchange.
+ */
 public class History implements Serializable {
     
+    /**
+     * An {@code ArrayList<Tuple<Teenager>>} of teenagers.
+     */
     private ArrayList<Tuple<Teenager>> teenagers;
+
+    /**
+     * A {@code LocalDate} representing the year of the exchange.
+     */
     private LocalDate year;
+
+    /**
+     * Serial version ID.
+     */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * History constructor
+     * @param teenagers an {@code ArrayList<Tuple<Teenager>>} of teenagers.
+     * @param year a {@code LocalDate} representing the year of the exchange.
+     */
     public History(ArrayList<Tuple<Teenager>> teenagers, LocalDate year) {
         this.teenagers = teenagers;
         this.year = year;
     }
 
+    /**
+     * Another history constructor
+     * @param year a {@code LocalDate} representing the year of the exchange.
+     */
     public History(LocalDate year) {
         this(new ArrayList<>(), year);
     }
 
+    /**
+     * The year getter.
+     * @return the year.
+     */
     public LocalDate getYear() {
         return year;
     }
 
-    /**
-	 * @return the teenagers
+    /** The teenagers getter.
+	 * @return the teenagers.
 	 */
 	public ArrayList<Tuple<Teenager>> getTeenagers() {
 		return teenagers;
