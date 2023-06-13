@@ -8,22 +8,45 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**The {@code CoeffController} class is used to control the coefficient manager scene.
+ * @author Dagneaux Nicolas
+ * @author Degraeve Paul
+ * @author Martel Alexandre
+ * @version 0.0.3, 06/11/23
+ */
 public class CoeffController extends SceneController {
 
+    /**A {@code Button} used to quit the scene.
+     */
     @FXML private Button quitbutton;
 
+    /**A {@code TextField} used to set the coefficient of the animal allergy.
+     */
     @FXML private TextField coeffAnimal;
 
+    /**A {@code TextField} used to set the coefficient of the diet.
+     */
     @FXML private TextField coeffDiet;
 
+    /**A {@code TextField} used to set the coefficient of the age.
+     */
     @FXML private TextField coeffAge;
 
+    /**A {@code TextField} used to set the coefficient of the gender.
+     */
     @FXML private TextField coeffSexe;
 
+    /**A {@code TextField} used to set the coefficient of the history.
+     */
     @FXML private TextField coeffHistory;
 
+    /**A {@code TextField} used to set the coefficient of the hobbies.
+     */
     @FXML private TextField coeffHobbies;
     
+    /**CoeffController constructor.
+     * @param stage a {@Code Stage} used to show the current Scene.
+     */
     public CoeffController(Stage stage) {
         super(FXMLScene.COEFF_MANAGER.getPath(), FXMLScene.COEFF_MANAGER.getTitle(), stage);
         this.updateStage();
@@ -35,6 +58,8 @@ public class CoeffController extends SceneController {
         this.coeffHobbies.setText(Integer.toString(AffectationUtil.getCoefficientHobbies()));
     }
 
+    /**Initialize the scene and add all the event handler needed.
+     */
     @Override
     public void initialize() {
         this.quitbutton.addEventHandler(ActionEvent.ACTION, a -> {
@@ -60,6 +85,8 @@ public class CoeffController extends SceneController {
         });
     }
 
+    /**Check if the text in the textfield is a number between 1 and 10.
+     */
     public void numberTest() {
         if (!this.coeffAnimal.getText().matches("^[1-9]{0,1}+$|^$")) {
             this.coeffAnimal.setText("");

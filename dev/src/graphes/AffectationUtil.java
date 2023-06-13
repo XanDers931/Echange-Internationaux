@@ -8,7 +8,7 @@ import voyages.*;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.4, 06/11/23
+ * @version 0.0.5, 06/13/23
  * @see Teenager
  */
 public class AffectationUtil {
@@ -23,7 +23,6 @@ public class AffectationUtil {
 
 	public static void setCoefficientHistory(int coefficientHistory) {
 		AffectationUtil.coefficientHistory = coefficientHistory;
-		System.out.println("History coefficient set to " + coefficientHistory);
 	}
 
 	public static int getCoefficientHistory() {
@@ -32,7 +31,6 @@ public class AffectationUtil {
 
 	public static void setCoefficientAge(int coefficientAge) {
 		AffectationUtil.coefficientAge = coefficientAge;
-		System.out.println("Age coefficient set to " + coefficientAge);
 	}
 
 	public static int getCoefficientAge() {

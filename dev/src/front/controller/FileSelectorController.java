@@ -58,7 +58,7 @@ public class FileSelectorController extends SceneController {
 	
 	/**
 	 * FileSelectorController constructor.
-	 * @param stage, a {@Code Stage} used to show current Scene.
+	 * @param stage, a {@Code Stage} used to show the current Scene.
 	 * @param previousController, the {@code SceneController} who called that controller.
 	 */
 	public FileSelectorController(Stage stage, SceneController previousController) {
