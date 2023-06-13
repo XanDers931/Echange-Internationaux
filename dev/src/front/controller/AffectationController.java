@@ -6,7 +6,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -65,6 +67,26 @@ public class AffectationController extends SceneController {
 	private Image unLockerImg;
 	
 	/**
+	 * A {@code ObservableListBase<Teenager>} of non affected guests.
+	 */
+	private ObservableList<Teenager> nonAffectedGuests;
+	
+	/**
+	 * A {@code ObservableListBase<Teenager>} of non affected hosts.
+	 */
+	private ObservableList<Teenager> nonAffectedHosts;
+	
+	/**
+	 * A {@code ListChangeListener<Teenager>} of non affected hosts.
+	 */
+	private ListChangeListener<Teenager> nonAffectedHostsListener;
+	
+	/**
+	 * A {@code ListChangeListener<Teenager>} of non affected hosts.
+	 */
+	private ListChangeListener<Teenager> nonAffectedGuestsListener;
+	
+	/**
 	 * A {@code VBox} container used to store all affectation rows.
 	 */
 	@FXML VBox affectationContainer;
@@ -113,7 +135,12 @@ public class AffectationController extends SceneController {
 	/**
 	 * A {@code Label} container used to display non effected teens.
 	 */
-	@FXML Label nonAffectedTeensLabel;
+	@FXML Label nonAffectedGuestsLabel;
+	
+	/**
+	 * A {@code Label} container used to display non effected teens.
+	 */
+	@FXML Label nonAffectedHostsLabel;
 
 	@FXML MenuItem gestionCoeff;
 	
@@ -133,6 +160,8 @@ public class AffectationController extends SceneController {
 		}
 		this.currentPlatform = p;
 		this.rowsControllers = new ArrayList<AffectationRowController>();
+		this.nonAffectedHostsListener = null;
+		this.nonAffectedGuestsListener = null;
 		this.updateStage();
 	}
 	
@@ -217,7 +246,7 @@ public class AffectationController extends SceneController {
 		this.optimalAffectationsButton.addEventHandler(ActionEvent.ACTION, a -> {
 			if (this.currentExchange != null) {
 				try {
-					this.currentExchange.setOptimalAffectation(this.currentPlatform);
+					this.currentExchange.setOptimalAffectation();
 				} catch (SameTeenagerException e) {
 					Alert alert = new Alert(AlertType.ERROR, e.getMessage());
 					alert.showAndWait();
@@ -258,7 +287,6 @@ public class AffectationController extends SceneController {
 			//try to add exchange or get it if already exists
 			try {
 				this.currentExchange = this.currentPlatform.addExchange(this.hostCountryChoiceBox.getValue(), this.guestCountryChoiceBox.getValue());
-				this.currentExchange.initNonAffectedTeens();
 				this.lockCanvas.setVisible(true);
 				this.unLockCanvas.setVisible(true);
 			} catch (SameCountryException e) {
@@ -283,20 +311,29 @@ public class AffectationController extends SceneController {
 		this.affectationContainer.getChildren().clear();
 		this.rowsControllers.clear();
 		if (this.currentExchange != null) {
+			this.nonAffectedHosts = FXCollections.observableArrayList();
+			this.nonAffectedGuests = FXCollections.observableArrayList();
 			for (Affectation currentCouple : this.currentExchange.getAffectations()) {
-				AffectationRowController currentElementController = new AffectationRowController(currentCouple);
+				AffectationRowController currentElementController = new AffectationRowController(currentCouple, this.nonAffectedHosts, this.nonAffectedGuests);
 				//save controller
 				this.rowsControllers.add(currentElementController);
 				currentElementController.getGuestChoiceList().getItems().add(null);
 				currentElementController.getGuestChoiceList().getItems().addAll(this.currentPlatform.getTeenagersByCountry(this.currentExchange.getGuestCountry()));
 				this.affectationContainer.getChildren().add(currentElementController.getRoot());
 			}
-			//non affected teens
-			this.currentExchange.getNonAffectedTeens().addListener((ListChangeListener<? super Teenager>)e -> {
-				this.updateNonAffectedLabel();
-			});
+			//non affected hosts
+			if (this.nonAffectedHostsListener != null) {
+				this.nonAffectedHosts.removeListener(this.nonAffectedHostsListener);
+			}
+			this.nonAffectedHostsListener = new nonAffectedHostsListener();
+			this.nonAffectedHosts.addListener(this.nonAffectedHostsListener);
+			//non affected guests
+			if (this.nonAffectedGuestsListener != null) {
+				this.nonAffectedGuests.removeListener(this.nonAffectedGuestsListener);
+			}
+			this.nonAffectedGuestsListener = new nonAffectedGuestsListener();
+			this.nonAffectedGuests.addListener(this.nonAffectedGuestsListener);
 		}
-		this.updateNonAffectedLabel();
 	}
 	
 	/**
@@ -326,26 +363,95 @@ public class AffectationController extends SceneController {
 	}
 	
 	/**
-	 * This method update non affected teens label
+	 * Listener for non affected hosts
 	 */
-	private void updateNonAffectedLabel() {
-		String result = "";
-		if (this.currentExchange != null) {
-			if (this.currentExchange.getNonAffectedTeens().size() == 0) {
-				result = "Tous les invités sont affectés.";
-			} else {
-				List<Teenager> copy = this.currentExchange.getNonAffectedTeens().sorted();
-				result = "Liste des invités non affectés : \n\n";
-				int i = 0;
-				for (Teenager teen : copy) {
-					result += teen.getFirstName() + " " + teen.getLastName();
-					if (i < this.currentExchange.getNonAffectedTeens().size() - 1) {
-						result += ", ";
-					}
-					i++;
+	public class nonAffectedHostsListener implements ListChangeListener<Teenager> {
+		
+		//setting the list
+		public nonAffectedHostsListener() {
+			//get all host
+			List<Teenager> hosts = currentPlatform.getTeenagersByCountry(currentExchange.getHostCountry());
+			for (Teenager teenager : hosts) {
+				if (!currentExchange.isAffected(teenager)) {
+					nonAffectedHosts.add(teenager);
 				}
 			}
+			this.updateNonAffectedHostsLabel();
 		}
-		this.nonAffectedTeensLabel.setText(result);
+		
+		private void updateNonAffectedHostsLabel() {
+			String result = "";
+			if (currentExchange != null) {
+				if (nonAffectedHosts.size() == 0) {
+					result = "Tous les hôtes sont affectés.";
+				} else if (nonAffectedHosts.size() == currentPlatform.getTeenagersByCountry(currentExchange.getHostCountry()).size()) {
+					result = "Aucun des hôtes n'est affecté.";
+				} else {
+					List<Teenager> copy = nonAffectedHosts.sorted();
+					result = "Liste des hôtes non affectés : \n\n";
+					int i = 0;
+					for (Teenager teen : copy) {
+						result += teen.getFirstName() + " " + teen.getLastName();
+						if (i < nonAffectedHosts.size() - 1) {
+							result += ", ";
+						}
+						i++;
+					}
+				}
+			}
+			nonAffectedHostsLabel.setText(result);
+		}
+
+		@Override
+		public void onChanged(Change<? extends Teenager> arg0) {
+			this.updateNonAffectedHostsLabel();
+		}
+		
+	}
+	
+	/**
+	 * Listener for non affected guests
+	 */
+	public class nonAffectedGuestsListener implements ListChangeListener<Teenager> {
+		
+		//setting the list
+		public nonAffectedGuestsListener() {
+			//get all host
+			List<Teenager> guests = currentPlatform.getTeenagersByCountry(currentExchange.getGuestCountry());
+			for (Teenager teenager : guests) {
+				if (!currentExchange.isAffected(teenager)) {
+					nonAffectedGuests.add(teenager);
+				}
+			}
+			this.updateNonAffectedGuestsLabel();
+		}
+		
+		private void updateNonAffectedGuestsLabel() {
+			String result = "";
+			if (currentExchange != null) {
+				if (nonAffectedGuests.size() == 0) {
+					result = "Tous les invités sont affectés.";
+				} else if (nonAffectedGuests.size() == currentPlatform.getTeenagersByCountry(currentExchange.getGuestCountry()).size()) {
+					result = "Aucun des invités n'est affecté.";
+				} else {
+					List<Teenager> copy = nonAffectedGuests.sorted();
+					result = "Liste des invités non affectés : \n\n";
+					int i = 0;
+					for (Teenager teen : copy) {
+						result += teen.getFirstName() + " " + teen.getLastName();
+						if (i < nonAffectedGuests.size() - 1) {
+							result += ", ";
+						}
+						i++;
+					}
+				}
+			}
+			nonAffectedGuestsLabel.setText(result);
+		}
+
+		@Override
+		public void onChanged(Change<? extends Teenager> arg0) {
+			this.updateNonAffectedGuestsLabel();
+		}
 	}
 }

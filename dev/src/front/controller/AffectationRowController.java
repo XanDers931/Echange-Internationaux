@@ -3,6 +3,7 @@ package front.controller;
 import java.io.File;
 
 import front.FXMLScene;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
@@ -67,6 +68,16 @@ public class AffectationRowController extends ElementController {
 	private Tooltip showDetailTooltip;
 	
 	/**
+	 * A {@code ObservableListBase<Teenager>} of non affected guests.
+	 */
+	private ObservableList<Teenager> nonAffectedGuests;
+	
+	/**
+	 * A {@code ObservableListBase<Teenager>} of non affected hosts.
+	 */
+	private ObservableList<Teenager> nonAffectedHosts;
+	
+	/**
 	 * A {@code TextField} used to store host.
 	 */
 	@FXML TextField hostField;
@@ -120,9 +131,11 @@ public class AffectationRowController extends ElementController {
 	/**
 	 * AffectationRowController constructor.
 	 * @param affectation, the {@code Affectation} to manage.
+	 * @param nonAffectedHosts, an {@code ObservableList} of non affected hosts
+	 * @param nonAffectedHosts, an {@code ObservableList} of non affected guests
 	 * @see Affectation
 	 */
-	public AffectationRowController(Affectation affectation) {
+	public AffectationRowController(Affectation affectation, ObservableList<Teenager> nonAffectedHosts, ObservableList<Teenager> nonAffectedGuests) {
 		super(FXMLScene.AFFECTATION_ROW.getPath());
 		this.currentAffectation = affectation;
 		try {
@@ -135,6 +148,8 @@ public class AffectationRowController extends ElementController {
 		this.detailVisible = false;
 		this.lockerTooltip = new Tooltip();
 		this.showDetailTooltip = new Tooltip("Afficher les détails");
+		this.nonAffectedHosts = nonAffectedHosts;
+		this.nonAffectedGuests = nonAffectedGuests;
 		this.loadElement();
 	}
 	
@@ -158,6 +173,27 @@ public class AffectationRowController extends ElementController {
 				alert.showAndWait();
 				e.printStackTrace();
 				return;
+			}
+			//update non affected teens			
+			if (oldVal == null && newVal != null) {
+				//L'hôte et l'invité sont forcément affectés
+				this.nonAffectedHosts.remove(this.currentAffectation.getHost());
+				this.nonAffectedGuests.remove(newVal);
+			} else if (oldVal != null && newVal == null) {
+				//Vérif ancien guest, faut il le rajouter ?
+				if (!this.currentAffectation.getCurrentExchange().isAffected(oldVal)) {
+					this.nonAffectedGuests.add(oldVal);
+				}
+				//Hôte plus affecté
+				this.nonAffectedHosts.add(this.currentAffectation.getHost());
+			} else if (oldVal != null && newVal != null) {
+				//Hôte toujours affecté
+				//vérif ancien guest, faut il le rajouter ?
+				if (!this.currentAffectation.getCurrentExchange().isAffected(oldVal)) {
+					this.nonAffectedGuests.add(oldVal);
+				}
+				//nouveau guest forcément affecté
+				this.nonAffectedGuests.remove(newVal);
 			}
 		});
 		//locker

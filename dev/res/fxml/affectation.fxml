@@ -118,7 +118,12 @@
       <VBox maxHeight="1.7976931348623157E308" minWidth="20.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
             <Separator prefWidth="200.0" />
-            <Label fx:id="nonAffectedTeensLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS">
+            <Label fx:id="nonAffectedGuestsLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="nonAffectedHostsLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="10.0" left="20.0" top="10.0" />
                </VBox.margin>

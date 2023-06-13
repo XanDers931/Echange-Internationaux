@@ -74,6 +74,14 @@ public class Affectation implements Serializable {
 	public Teenager getGuest() {
 		return this.couple.getSecond();
 	}
+	
+	/** Returns the element of the tuple associated with the given element.
+     * @param e the "key" element.
+     * @return the element of the tuple associated with the given element or null if the element is not in the tuple.
+     */
+	public Teenager get(Teenager e) {
+		return this.couple.get(e);
+	}
 
 	/**
 	 * The guest setter.
@@ -83,14 +91,6 @@ public class Affectation implements Serializable {
 	public void setGuest(Teenager guest) throws SameTeenagerException {
 		if (this.getHost().equals(guest)) {
 			throw new SameTeenagerException("Une affectation ne peut pas avoir lieu  avec la même personne : " + guest);
-		}
-		//s'il y avait quelqu'un avant, on l'ajoute aux non affectés
-		if (this.getGuest() != null) {
-			this.currentExchange.getNonAffectedTeens().add(this.getGuest());
-		}
-		//autrement, si le nouveau guest n'est pas null, on l'enlève des non affectés
-		if (guest != null) {
-			this.currentExchange.getNonAffectedTeens().remove(guest);
 		}
 		this.couple.setSecond(guest);
 		this.setRequirements();
@@ -126,6 +126,13 @@ public class Affectation implements Serializable {
 	 */
 	public List<String> getBadRequirements() {
 		return badRequirements;
+	}
+
+	/**
+	 * @return the currentExchange
+	 */
+	public Exchange getCurrentExchange() {
+		return currentExchange;
 	}
 
 	/**

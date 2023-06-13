@@ -23,15 +23,10 @@ public class Exchange implements Serializable {
 	 */
 	private List<Affectation> couples;
 	
-	/**,
+	/**
 	 * A {@code Platform} linked to this exchange.
 	 */
-	private Platform currentPlatform;
-	/**
-	 * A {@code ObservableListBase<Teenager>} of non affected teen.
-	 */
-	private ObservableList<Teenager> nonAffectedTeens;
-	
+	private Platform currentPlatform;	
 	
 	/**
 	 * Exchange constructor
@@ -46,36 +41,21 @@ public class Exchange implements Serializable {
 		}
 		this.countries = new Tuple<CountryName>(hostCountry, guestCountry);
 		this.couples = new ArrayList<Affectation>();
-		this.nonAffectedTeens = FXCollections.observableArrayList();
 		this.currentPlatform = p;
-	}
-	
-	/**
-	 * This method initalize the list of non affected teens.
-	 */
-	public void initNonAffectedTeens() {
-		this.nonAffectedTeens = FXCollections.observableArrayList();
-		this.nonAffectedTeens.addAll(this.currentPlatform.getTeenagersByCountry(this.getGuestCountry()));
-		for (Affectation affectation : couples) {
-			if (affectation.getGuest() != null) {
-				this.nonAffectedTeens.remove(affectation.getGuest());
-			}
-		}
 	}
 
 	
 	/**
 	 * This method generate an optimal affectation
-	 * @param p, a {@code Platform} to get teenagers
 	 */
-	public void setOptimalAffectation(Platform p) throws SameTeenagerException {
+	public void setOptimalAffectation() throws SameTeenagerException {
 		ArrayList<Teenager> teens = new ArrayList<Teenager>();
 		for (Affectation couple : this.couples) {
 			if (!couple.isLocked()) {
 				teens.add(couple.getHost());
 			}
 		}
-		for (Teenager guest : p.getTeenagersByCountry(this.getGuestCountry())) {
+		for (Teenager guest : this.currentPlatform.getTeenagersByCountry(this.getGuestCountry())) {
 			boolean isLocked = false;
 			int i = 0;
 			while (isLocked & i < this.couples.size()) {
@@ -90,7 +70,7 @@ public class Exchange implements Serializable {
 				teens.add(guest);
 			}
 		}
-		List<Tuple<Teenager>> result = Graph.pairing(teens, this.getHostCountry(), this.getGuestCountry(), p.getHistory().getTeenagers());
+		List<Tuple<Teenager>> result = Graph.pairing(teens, this.getHostCountry(), this.getGuestCountry(), this.currentPlatform.getHistory().getTeenagers());
 		for (Affectation couple : this.couples) {
 			//Pour chaque couple
 			Teenager guest = null;
@@ -136,40 +116,23 @@ public class Exchange implements Serializable {
 	 */
 	public void addAffectations(Teenager host, Teenager guest) throws SameTeenagerException {
 		this.couples.add(new Affectation(host, guest, this));
-		if (guest != null && this.nonAffectedTeens.contains(guest)) {
-			this.nonAffectedTeens.remove(guest);
-		}
-	}
-
-
-
-	/**
-	 * @return the nonAffectedTeens
-	 */
-	public ObservableList<Teenager> getNonAffectedTeens() {
-		return nonAffectedTeens;
 	}
 	
-	/** Writes the object to the specified output stream.
-     * @param oos, the output stream.
-     * @throws IOException if an I/O error occurs while writing to the stream.
-     */
-    private void writeObject(java.io.ObjectOutputStream oos) throws IOException {
-        oos.writeObject(this.countries);
-        oos.writeObject(this.couples);
-        oos.writeObject(this.currentPlatform);
-    }
-    
-    /** Reads the object from the specified input stream.
-     * @param ois the input stream.
-     * @throws IOException if an I/O error occurs while reading from the stream.
-     * @throws ClassNotFoundException if the class of the serialized object cannot be found.
-     */
-    private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        this.countries = (Tuple<CountryName>) ois.readObject();
-        this.couples = (List<Affectation>) ois.readObject();
-        this.currentPlatform = (Platform) ois.readObject();
-    }
+	/**
+	 * This method if a teen is currently affected in any of couples
+	 * @param teen, a {@code Teenager}.
+	 * @return true or false, if teen is affected or not.
+	 */
+	public boolean isAffected(Teenager teen) {
+		boolean affected = false;
+		int i = 0;
+		//look all couples, and stop when found an affectation
+		while (!affected && i < this.couples.size()) {
+			affected = this.couples.get(i).get(teen) != null;
+			i++;
+		}
+		return affected;
+	}
 
 	@Override
 	public int hashCode() {

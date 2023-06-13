@@ -65,9 +65,6 @@ public class Platform implements Serializable {
     	try {
     		HashMap<CountryName,ArrayList<Teenager>> importedResult = this.importator.importFromCsv(fileToImport, generateLogFile);
     		this.teenagers = this.importator.importFromCsv(fileToImport, generateLogFile);
-    		for (Exchange exchange : exchanges) {
-				exchange.initNonAffectedTeens();
-			}
     		//for each country, sort teenagers
     		for (Map.Entry<CountryName,ArrayList<Teenager>> list : importedResult.entrySet()) {
 				Collections.sort(this.teenagers.get(list.getKey()));
