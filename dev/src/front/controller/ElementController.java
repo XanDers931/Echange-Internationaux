@@ -2,6 +2,7 @@ package front.controller;
 
 import java.io.File;
 
+import front.FXMLScene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -16,10 +17,10 @@ public abstract class ElementController extends Controller {
 	
 	/**
 	 * Element controller constructor.
-	 * @param fxmlPath a {@code String} representing the fxml file path.
+	 * @param fxmlScene a {@code FXMLScene} representing the fxml file path.
 	 */
-	public ElementController(String fxmlPath) {
-		super(fxmlPath);
+	public ElementController(FXMLScene fxmlScene) {
+		super(fxmlScene.getPath());
 	}
 	
 	/**

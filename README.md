@@ -10,9 +10,11 @@ JavaFX version 17.0.2
 
 ### Installation
 
-L'installation nécessite uniquement le téléchargement de [Affectator-SIMULATOR3000.jar](https://nextcloud.univ-lille.fr/index.php/f/228679189)
+Vous devez télécharger l'application disponible [ici](https://nextcloud.univ-lille.fr/index.php/s/mSnaDHGyFdB8MPo)
 
 ### Utilisation
+
+ATTENTION : les dossiers res et lib doivent absolument se situer à côté du fichier .jar
 
 ```Bash
 java --module-path /chemin/vers/javafx-sdk-17.0.2/lib --add-modules javafx.controls,javafx.fxml -jar Affectator-SIMULATOR3000.jar

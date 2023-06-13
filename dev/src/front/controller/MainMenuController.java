@@ -22,12 +22,15 @@ import java.io.ObjectInputStream;
  */
 public class MainMenuController extends SceneController {
 	
+	private voyages.Platform platform;
+	
 	/**
 	 * MainMenuController constructor.
 	 * @param stage, a {@code Stage} used to show the current Scene.
 	 */
 	public MainMenuController(Stage stage) {
-		super(FXMLScene.MAIN_MENU.getPath(), FXMLScene.MAIN_MENU.getTitle(), stage);
+		super(FXMLScene.MAIN_MENU, stage);
+		this.platform = new voyages.Platform();
 		this.updateStage();
 	}
 
@@ -59,9 +62,9 @@ public class MainMenuController extends SceneController {
 		if (new File(voyages.Platform.SAVE_PATH).exists()) {
 			this.loadSessionButton.setDisable(false);
 			this.loadSessionButton.addEventHandler(ActionEvent.ACTION, a -> {
-				voyages.Platform platform = null;
-				try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(voyages.Platform.SAVE_PATH))) {
-					platform = (voyages.Platform)ois.readObject();
+				try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(voyages.Platform.SAVE_PATH)))) {
+					this.platform = null;
+					this.platform = (voyages.Platform)ois.readObject();
 				} catch (Exception e) {
 					Alert alert = new Alert(AlertType.ERROR, "Une erreur est survenue, impossible de charger la session précédente.\n\nDétail : " + e.getMessage());
 					alert.showAndWait();

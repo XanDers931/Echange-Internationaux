@@ -71,7 +71,7 @@ public class CsvImportatorController extends SceneController {
 	 * @param generateLogFile a {@code boolean} to know if the controller has to generate log files.
 	 */
 	public CsvImportatorController(Stage stage, Collection<? extends File> filesToImport, boolean generateLogFile) {
-		super(FXMLScene.IMPORT_CSV.getPath(), FXMLScene.IMPORT_CSV.getTitle(), stage);
+		super(FXMLScene.IMPORT_CSV, stage);
 		this.currenPlatform = new Platform();
 		this.logText = new SimpleStringProperty();
 		this.task = new ImportCsvTask(this.currenPlatform, filesToImport, generateLogFile);

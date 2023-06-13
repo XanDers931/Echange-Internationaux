@@ -1,5 +1,11 @@
 package front;
 
+import java.io.File;
+import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 /** This {@code Enum} is used to store all information about that app's FXML Scenes.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
@@ -12,37 +18,37 @@ public enum FXMLScene {
 	/**
 	 * The main menu scene.
 	 */
-	MAIN_MENU("./dev/res/fxml/main/menu.fxml", "Menu principal"),
+	MAIN_MENU("fxml/main/menu.fxml", "Menu principal"),
 	
 	
 	/**
 	 * The import csv scene.
 	 */
-	IMPORT_CSV("./dev/res/fxml/importation/log-importation.fxml", "Importation des données"),
+	IMPORT_CSV("fxml/importation/log-importation.fxml", "Importation des données"),
 	
 	
 	/**
 	 * The files selector scene.
 	 */
-	SELECT_FILES("./dev/res/fxml/main/popup-csv-import.fxml", "Sélection de fichiers"),
+	SELECT_FILES("fxml/main/popup-csv-import.fxml", "Sélection de fichiers"),
 	
 
 	/**
 	 * The affectation manager scene
 	 */
-	AFFECTATION_MANAGER("./dev/res/fxml/affectation.fxml", "Gestion des échanges"),
+	AFFECTATION_MANAGER("fxml/affectation.fxml", "Gestion des échanges"),
 	
 
 	/**
 	 * The affectation element row
 	 */
-	AFFECTATION_ROW("./dev/res/fxml/element/affectation-row.fxml", ""),
+	AFFECTATION_ROW("fxml/element/affectation-row.fxml", ""),
 	
 
 	/**
 	 * The coefficient affectation manager scene
 	 */
-	COEFF_MANAGER("./dev/res/fxml/coefWindow.fxml", "Gestion des coefficients");
+	COEFF_MANAGER("fxml/coefWindow.fxml", "Gestion des coefficients");
 	
 	
 	/**
@@ -69,7 +75,7 @@ public enum FXMLScene {
 	 * @return the path
 	 */
 	public String getPath() {
-		return path;
+		return Main.Main.RES_PATH + this.path;
 	}
 
 	/** The {@code FXMLScene} title getter.

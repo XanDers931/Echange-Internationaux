@@ -158,11 +158,11 @@ public class AffectationRowController extends ElementController {
 	 * @see Affectation
 	 */
 	public AffectationRowController(AffectationController rootController, Affectation affectation, ObservableList<Teenager> nonAffectedHosts, ObservableList<Teenager> nonAffectedGuests) {
-		super(FXMLScene.AFFECTATION_ROW.getPath());
+		super(FXMLScene.AFFECTATION_ROW);
 		this.currentAffectation = affectation;
 		try {
-			this.lockerImg = new Image(new File("./dev/res/img/lock-svgrepo-com.png").toURI().toURL().toString());
-			this.unLockerImg = new Image(new File("./dev/res/img/lock-unlocked-svgrepo-com.png").toURI().toURL().toString());
+			this.lockerImg = new Image(new File(Main.Main.RES_PATH + File.separator + "img/lock-svgrepo-com.png").toURI().toURL().toString());
+			this.unLockerImg = new Image(new File(Main.Main.RES_PATH + File.separator + "img/lock-unlocked-svgrepo-com.png").toURI().toURL().toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -61,7 +61,7 @@ public class FileSelectorController extends SceneController {
 	 * @param previousController, the {@code SceneController} who called that controller.
 	 */
 	public FileSelectorController(Stage stage, SceneController previousController) {
-		super(FXMLScene.SELECT_FILES.getPath(), FXMLScene.SELECT_FILES.getTitle(), stage);
+		super(FXMLScene.SELECT_FILES, stage);
 		this.previousController = previousController;
 		this.updateStage();
 	}

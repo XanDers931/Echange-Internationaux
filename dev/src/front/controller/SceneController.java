@@ -2,6 +2,7 @@ package front.controller;
 
 import java.io.File;
 
+import front.FXMLScene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,13 +34,13 @@ public abstract class SceneController extends Controller {
 	
 	/**
 	 * Scene controller constructor
-	 * @param fxmlPath, a {@code String} representing the fxml file path.
+	 * @param fxmlScene, a {@code FXMLScene} representing the fxml file.
 	 * @param title, a {@code String} representing the stage's title.
 	 * @param stage, a {@code Stage} used to show current Scene.
 	 */
-	public SceneController(String fxmlPath, String title, Stage stage) {
-		super(fxmlPath);
-		this.title = title;
+	public SceneController(FXMLScene fxmlScene, Stage stage) {
+		super(fxmlScene.getPath());
+		this.title = fxmlScene.getTitle();
 		this.stage = stage;
 	}
 	

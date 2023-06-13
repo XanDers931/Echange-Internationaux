@@ -3,6 +3,7 @@ package front.controller;
 import front.FXMLScene;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,10 +176,10 @@ public class AffectationController extends SceneController {
 	 * @param p, the {@code Platform} to use.
 	 */
 	public AffectationController(Stage stage, Platform p) {
-		super(FXMLScene.AFFECTATION_MANAGER.getPath(), FXMLScene.AFFECTATION_MANAGER.getTitle(), stage);
+		super(FXMLScene.AFFECTATION_MANAGER, stage);
 		try {
-			this.lockerImg = new Image(new File("./dev/res/img/lock-svgrepo-com.png").toURI().toURL().toString());
-			this.unLockerImg = new Image(new File("./dev/res/img/lock-unlocked-svgrepo-com.png").toURI().toURL().toString());
+			this.lockerImg = new Image(new File(Main.Main.RES_PATH + "img/lock-svgrepo-com.png").toURI().toURL().toString());
+			this.unLockerImg = new Image(new File(Main.Main.RES_PATH + "img/lock-unlocked-svgrepo-com.png").toURI().toURL().toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

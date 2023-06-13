@@ -49,7 +49,7 @@ public class CoeffController extends SceneController {
      * @param stage a {@code Stage} used to show the current Scene.
      */
     public CoeffController(Stage stage) {
-        super(FXMLScene.COEFF_MANAGER.getPath(), FXMLScene.COEFF_MANAGER.getTitle(), stage);
+        super(FXMLScene.COEFF_MANAGER, stage);
         this.updateStage();
         this.coeffAnimal.setText(Integer.toString(AffectationUtil.getCoefficientAnimalAllergy()));
         this.coeffDiet.setText(Integer.toString(AffectationUtil.getCoefficientDiet()));

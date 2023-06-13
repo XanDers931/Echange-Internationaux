@@ -5,6 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -13,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import front.FXMLScene;
 
 /**The Platform class. It represents the platform that contains all the teenagers.
  * @author Dagneaux Nicolas
@@ -24,7 +30,7 @@ public class Platform implements Serializable {
     /**
      * The path to save the file.
      */
-    public static final String SAVE_PATH = "./dev/res/platform.bin";
+    public static String SAVE_PATH = System.getProperty("user.dir") + File.separator + "res" + File.separator + "platform.bin";
 
 	/**
      * The list of teenagers, grouped by country.
@@ -153,12 +159,9 @@ public class Platform implements Serializable {
      * Save the platform using the {@code writeObject} method.
      */
     public void save() {
-    	try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(Platform.SAVE_PATH))){
+    	try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Platform.SAVE_PATH)))) {
 			oos.writeObject(this);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -166,7 +169,7 @@ public class Platform implements Serializable {
     
     public static void main(String[] args) {
 		Platform p = new Platform();
-		p.importTeenagerFromCsv(new File("./dev/res/adosAleatoires.csv"), false);
+		p.importTeenagerFromCsv(new File("./res/adosAleatoires.csv"), false);
 		ArrayList<Tuple<Teenager>> x = new ArrayList<Tuple<Teenager>>();
     	x.add(new Tuple<Teenager>(p.getTeenagersByCountry(CountryName.FRANCE).get(0), p.getTeenagersByCountry(CountryName.ITALY).get(0)));
     	p.history = new History(x, null);
