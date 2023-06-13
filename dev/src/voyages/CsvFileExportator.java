@@ -15,24 +15,27 @@ import graphes.Graph;
  * @see Graph
  */
 public class CsvFileExportator {
+
     /**
      *Use to delimit the space between two columns
      */
     private static final String DELIMITER = ",";
+
     /**
      *Use to skip a line after each import
      */
     private static final String SEPARATOR = "\n";
+
     /**
      *Create table columns
      */
     private static final String HEADER = "host name, host firstname, country host, guest name, guest firstname, country guest";
 
 
-    /**Create and fill a csv file with the association from Graph.pairing() in the directory res
-     * @param teen
-     * @param countryHost
-     * @param countryGuest
+    /**Create and fill a csv file with the association from {@link Graph#pairing} in the directory res
+     * @param teen the list of association to export.
+     * @param countryHost the host country.
+     * @param countryGuest the guest country.
      */
     public static void Exportator(List<Tuple<Teenager>> teen, CountryName countryHost, CountryName countryGuest, String chemin){        
           

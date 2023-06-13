@@ -1,16 +1,18 @@
 package voyages;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
 
 import graphes.Graph;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 import java.util.ArrayList;
 
+/** The {@code Exchange} class, it represents an exchange between two countries.
+ * @author Dagneaux Nicolas
+ * @author Degraeve Paul
+ * @author Martel Alexandre
+ */
 public class Exchange implements Serializable {
 	
 	/**
@@ -44,7 +46,6 @@ public class Exchange implements Serializable {
 		this.currentPlatform = p;
 	}
 
-	
 	/**
 	 * This method generate an optimal affectation
 	 */
@@ -87,21 +88,21 @@ public class Exchange implements Serializable {
 		}
 	}
 	
-	/**
+	/** The affectations getter.
 	 * @return the affectations
 	 */
 	public List<Affectation> getAffectations() {
 		return this.couples;
 	}
 
-	/**
+	/** The hostCountry getter.
 	 * @return the hostCountry
 	 */
 	public CountryName getHostCountry() {
 		return this.countries.getFirst();
 	}
 
-	/**
+	/** The guestCountry getter.
 	 * @return the guestCountry
 	 */
 	public CountryName getGuestCountry() {
@@ -154,8 +155,6 @@ public class Exchange implements Serializable {
 	public int hashCode() {
 		return Objects.hash(countries);
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {

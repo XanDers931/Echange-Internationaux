@@ -1,6 +1,6 @@
 package voyages;
 
-/**Thrown when a csv row does not respect the structure like the number of column.
+/**Thrown when a csv row does not respect the wanted structure.
  */
 public class CsvRowInvalidStructureException extends Exception {
     

@@ -9,10 +9,11 @@ import java.util.Objects;
 
 
 /** 
- * This class is describe an affectation between two {@code Teenager}.
+ * This class describe an affectation between two {@code Teenager}.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
+ * @version 0.0.3, 06/13/23
  */
 public class Affectation implements Serializable {
 	
@@ -22,7 +23,7 @@ public class Affectation implements Serializable {
 	private Tuple<Teenager> couple;
 	
 	/**
-	 * A {@boolean} value representing if the current affectation is locked or not.
+	 * A {@code boolean} value representing if the current affectation is locked or not.
 	 */
 	private boolean locked;
 	
@@ -75,9 +76,9 @@ public class Affectation implements Serializable {
 		return this.couple.getSecond();
 	}
 	
-	/** Returns the element of the tuple associated with the given element.
-     * @param e the "key" element.
-     * @return the element of the tuple associated with the given element or null if the element is not in the tuple.
+	/** Returns the {@code Teegnager} associated with the given {@code Teenager}.
+     * @param e the "key" teenager.
+     * @return the teenager associated with the given teenager or null if the teenager is not in the couple.
      */
 	public Teenager get(Teenager e) {
 		return this.couple.get(e);

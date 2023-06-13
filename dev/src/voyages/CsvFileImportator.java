@@ -15,44 +15,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 public class CsvFileImportator {
+
 	/**
-     * The number of csv column expected
+     * The number of column expected
      */
 	public static final int TOTAL_COLUMN_EXPECTED = 12;
-	
 	
 	/**
      * The separator to use for csv parsing.
      */
 	public static final String CSV_SEPARATOR = ";";
 	
-	
 	/**
-	 * The columns' name of Teenager attributes
+	 * The columns' name of Teenager attributes.
 	 */
 	public static final String[] TEENAGERS_COLUMNS_NAMES = new String[]{"FORENAME", "NAME", "BIRTH_DATE", "COUNTRY"};
 	
-	
 	/**
-	 * The columns' name of Criterions, associated with criterion
+	 * The columns' name of Criterions, associated with criterion.
 	 */
 	public static final String[] CRITERIONS_COLUMNS_NAMES = CriterionName.getCriterionNames();
 	
     /**
-     * Observable value, used to log some messages to user
+     * Observable value, used to log some messages to user.
      */
     private StringBuilder logText;
 	
 	/**
-	 * content of the logFile.
+	 * Content of the logFile.
 	 */
 	private StringBuilder logFileContent;
 	
     /**
-     * Construct the csv header row;
+     * Construct the csv header row.
      * @return the csv header row as {@code String}.
      */
 	private String getRowHeader() {
@@ -61,9 +57,8 @@ public class CsvFileImportator {
 		return result;
 	}
 	
-	
     /**
-     * Split a csv row using the separator static attribute
+     * Split a csv row using the separator static attribute.
      * @param rowContent a {@code String} representing a csv row.
      * @return {@code String[]} representing the splitted row.
      */
@@ -76,11 +71,10 @@ public class CsvFileImportator {
     	return rowSplittedContent;
 	}
 	
-	
     /**
      * Generate a HashMap with columns' name as key, index as value.
      * @param headerRow a {@code String} representing the csv header row.
-     * @return a Teenager instantiated object.
+     * @return a {@code Teenager} instantiated object.
      * @throws CsvRowInvalidStructureException
      */
 	private HashMap<String,Integer> getCsvStructure(String headerRow) throws CsvRowInvalidStructureException {
@@ -113,7 +107,7 @@ public class CsvFileImportator {
 	}
 	
     /**
-     * Create a Teenager Object from a csv splitted row.
+     * Create a {@code Teenager} Object from a csv splitted row.
      * @param rowContent a {@code String} representing a csv row.
      * @param csvStructure a {@code HashMap<String,Integer>} representating the csv structure.
      * @param criterionLogMessages a {@code Map<Integer, List<String>>} representating the current log messages.
@@ -223,7 +217,6 @@ public class CsvFileImportator {
 		return logFileFullPath;
 	}
 	
-	
 	/**
      * Import teenagers from a .csv file
      * @param csvFile a {@code File} representing the file to import.
@@ -238,7 +231,7 @@ public class CsvFileImportator {
 		HashMap<String,Integer> csvStructure;
 		HashMap<CountryName,ArrayList<Teenager>> mapResult = new HashMap<CountryName,ArrayList<Teenager>>();
 		Map<Integer, List<String>> criterionLogMessages = new HashMap<Integer, List<String>>();
-		StringBuilder logFileContent = new StringBuilder();
+		logFileContent = new StringBuilder();
 		//openning file
 		try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
 			//try to get csv structure
@@ -304,6 +297,10 @@ public class CsvFileImportator {
 		return mapResult;
 	}
 	
+	/**
+	 * Get the content of log file.
+	 * @return a {@code String} representing the content of log file.
+	 */
 	public String getLogContent() {
 		return this.logText == null ? "" : this.logText.toString();
 	}	

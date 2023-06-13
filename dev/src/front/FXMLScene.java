@@ -4,7 +4,7 @@ package front;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.1, 06/06/23
+ * @version 0.0.5, 06/13/23
  */
 public enum FXMLScene {
 	

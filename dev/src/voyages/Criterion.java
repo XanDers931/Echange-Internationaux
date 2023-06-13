@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-/**The Criterion class, it represents a criterion for a teenager.
- * It uses the CriterionName enum.
+/**The {@code Criterion} class, it represents a criterion for a teenager.
+ * It uses the {@link CriterionName} enum.
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class Criterion implements Serializable {
     
     /**
-     * The name of cretarion
+     * The name of the critarion
      * @see CritarionName
      */
     private CriterionName label;
@@ -27,7 +27,7 @@ public class Criterion implements Serializable {
     private String value;
     
 
-    /** The constructor for the Criterion class.
+    /** The constructor for the {@code Criterion} class.
 	 * @param label The name of the criterion, it uses the {@code CriterionName} enum.
 	 * @param value The value of the criterion.
 	 * @see CriterionName
@@ -54,8 +54,8 @@ public class Criterion implements Serializable {
 		return value;
 	}
 	
-	/** Return the values of this criterion.
-	 * @return a {@code ArrayList<String>} with all values
+	/** Return the values of this criterion as a list.
+	 * @return a {@code ArrayList<String>} with all values.
 	 */
 	public ArrayList<String> getValuesAsList() {
 		return new ArrayList<>(Arrays.asList(this.value.split("" + CriterionName.MULTIPLE_VALUES_SEPARATOR)));
@@ -63,7 +63,7 @@ public class Criterion implements Serializable {
 
     
     /** This function check if this criterion is valid.
-	 * @return {@code true} if this criterion is valid.
+	 * @return {@code true} if this criterion is valid, false otherwise.
 	 * @throws CriterionValueException if the value is not valid.
 	 */
     public boolean isValid() throws CriterionValueException {

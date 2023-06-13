@@ -4,12 +4,11 @@ package voyages;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.2, 05/05/23
+ * @version 0.0.4, 06/11/23
  * @see Criterion
  */
 public enum CriterionName {
 	
-    
     /**
      * The GUEST_ANIMAL_ALLERGY constant, it's a boolean type.
      */
@@ -49,7 +48,7 @@ public enum CriterionName {
     private final char TYPE;
     
     /**
-     *The constant defining the regular expression used to know if value is valid.
+     *The constant defining the regular expression used to know if the value is valid.
      */
     private final String REGEX;
     
@@ -58,16 +57,14 @@ public enum CriterionName {
      */
     private final String EXCEPTION_MESSAGE;
  
-    
-
     /**
      * The constant defining the separator for fields with multiple values.
      */
     public static final char MULTIPLE_VALUES_SEPARATOR = ',';
 
-    /**The constructor of the CriterionName enum.
+    /**The constructor of the {@code CriterionName} enum.
      * @param type The character defining the type of the enum constant. Either 'B' for boolean or 'T' for text.
-     * @param regex The String representation of regular expression used to know if value is valid.
+     * @param regex The string representation of the regular expression used to know if the value is valid.
      * @param exceptionMessage The message displayed by the exception.
      */
     CriterionName(char type, String regex, String exceptionMessage) {
@@ -76,7 +73,7 @@ public enum CriterionName {
         this.EXCEPTION_MESSAGE = "[" + this.name() + "] " + exceptionMessage;
     }
     
-    /**The constructor of the CriterionName enum.
+    /**Another constructor for the {@code CriterionName} enum.
      * @param type The character defining the type of the enum constant. Either 'B' for boolean or 'T' for text.
      */
     CriterionName(char type) {
@@ -90,8 +87,8 @@ public enum CriterionName {
         return this.TYPE;
     }
     
-    /**Return the regex String representation.
-     * @return the regex String representation.
+    /**Return the regex string representation.
+     * @return the regex string representation.
      */
     public String getRegex() {
         return this.REGEX;
@@ -103,7 +100,6 @@ public enum CriterionName {
     public String getExceptionMessage() {
         return this.EXCEPTION_MESSAGE;
     }
-    
     
     /**Return all the criterion names in a {@code String[]}.
      * @return all the criterion names in a {@code String[]}.
