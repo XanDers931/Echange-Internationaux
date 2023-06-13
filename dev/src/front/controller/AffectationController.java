@@ -24,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import voyages.Affectation;
 import voyages.CountryName;
@@ -87,6 +88,16 @@ public class AffectationController extends SceneController {
 	private ListChangeListener<Teenager> nonAffectedGuestsListener;
 	
 	/**
+	 * A {@code Tooltip} for non affected hosts.
+	 */
+	private Tooltip nonAffectedHostsTip;
+	
+	/**
+	 * A {@code Tooltip} for non affected guests.
+	 */
+	private Tooltip nonAffectedGuestsTip;
+	
+	/**
 	 * A {@code VBox} container used to store all affectation rows.
 	 */
 	@FXML VBox affectationContainer;
@@ -133,14 +144,27 @@ public class AffectationController extends SceneController {
 	@FXML Canvas unLockCanvas;
 	
 	/**
-	 * A {@code Label} container used to display non effected teens.
+	 * A {@code Label} container used to display total of non effected guest.
 	 */
 	@FXML Label nonAffectedGuestsLabel;
 	
 	/**
-	 * A {@code Label} container used to display non effected teens.
+	 * A {@code Label} container used to display total of non effected host.
 	 */
 	@FXML Label nonAffectedHostsLabel;
+	
+	/**
+	 * A {@code Label} container used to display non effected guest list.
+	 */
+	@FXML Label nonAffectedHostsQuestionMark;
+	
+	/**
+	 * A {@code Label} container used to display non effected hosts list.
+	 */
+	@FXML Label nonAffectedGuestsQuestionMark;
+	
+	
+	
 
 	@FXML MenuItem gestionCoeff;
 	
@@ -162,6 +186,10 @@ public class AffectationController extends SceneController {
 		this.rowsControllers = new ArrayList<AffectationRowController>();
 		this.nonAffectedHostsListener = null;
 		this.nonAffectedGuestsListener = null;
+		this.nonAffectedHostsTip = new Tooltip();
+		this.nonAffectedHostsTip.setFont(new Font(12));
+		this.nonAffectedGuestsTip = new Tooltip();
+		this.nonAffectedGuestsTip.setFont(new Font(12));
 		this.updateStage();
 	}
 	
@@ -242,6 +270,9 @@ public class AffectationController extends SceneController {
 		this.unLockCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 			this.unlockAll();
 		});
+		//non affected tips
+		Tooltip.install(this.nonAffectedHostsQuestionMark, this.nonAffectedHostsTip);
+		Tooltip.install(this.nonAffectedGuestsQuestionMark, this.nonAffectedGuestsTip);
 		//Optimal affectations listener
 		this.optimalAffectationsButton.addEventHandler(ActionEvent.ACTION, a -> {
 			if (this.currentExchange != null) {
@@ -337,6 +368,11 @@ public class AffectationController extends SceneController {
 			for (AffectationRowController controller : this.rowsControllers) {
 				controller.updateAlreadyAffectedLabel();
 			}
+		} else {
+			this.nonAffectedGuestsLabel.setVisible(false);
+			this.nonAffectedGuestsQuestionMark.setVisible(false);
+			this.nonAffectedHostsLabel.setVisible(false);
+			this.nonAffectedHostsQuestionMark.setVisible(false);
 		}
 	}
 	
@@ -395,24 +431,39 @@ public class AffectationController extends SceneController {
 		private void updateNonAffectedHostsLabel() {
 			String result = "";
 			if (currentExchange != null) {
+				nonAffectedHostsLabel.setVisible(true);
 				if (nonAffectedHosts.size() == 0) {
 					result = "Tous les hôtes sont affectés.";
+					nonAffectedHostsQuestionMark.setVisible(false);
 				} else if (nonAffectedHosts.size() == currentPlatform.getTeenagersByCountry(currentExchange.getHostCountry()).size()) {
 					result = "Aucun des hôtes n'est affecté.";
+					nonAffectedHostsQuestionMark.setVisible(false);
 				} else {
 					List<Teenager> copy = nonAffectedHosts.sorted();
-					result = "Liste des hôtes non affectés : \n\n";
+					result = copy.size() + "/" + currentPlatform.getTeenagersByCountry(currentExchange.getHostCountry()).size() +  " hôte(s) non affecté(s)";
+					String tip = "Liste des hôte(s) non affecté(s) :\n";
+					nonAffectedHostsQuestionMark.setVisible(true);
 					int i = 0;
 					for (Teenager teen : copy) {
-						result += teen.getFirstName() + " " + teen.getLastName();
+						tip += teen.getFirstName() + " " + teen.getLastName();
 						if (i < nonAffectedHosts.size() - 1) {
-							result += ", ";
+							//Ce n'est pas le dernier
+							if ((i + 1) % 3 == 0) {
+								//toutes les 3 personnes, un saut de ligne
+								tip += "\n";
+							} else {
+								tip += ", ";
+							}
 						}
 						i++;
 					}
+					nonAffectedHostsTip.setText(tip);
 				}
+				nonAffectedHostsLabel.setText(result);
+			} else {
+				nonAffectedHostsLabel.setVisible(false);
+				nonAffectedHostsQuestionMark.setVisible(false);
 			}
-			nonAffectedHostsLabel.setText(result);
 		}
 
 		@Override
@@ -442,24 +493,39 @@ public class AffectationController extends SceneController {
 		private void updateNonAffectedGuestsLabel() {
 			String result = "";
 			if (currentExchange != null) {
+				nonAffectedGuestsLabel.setVisible(true);
 				if (nonAffectedGuests.size() == 0) {
 					result = "Tous les invités sont affectés.";
+					nonAffectedGuestsQuestionMark.setVisible(false);
 				} else if (nonAffectedGuests.size() == currentPlatform.getTeenagersByCountry(currentExchange.getGuestCountry()).size()) {
 					result = "Aucun des invités n'est affecté.";
+					nonAffectedGuestsQuestionMark.setVisible(false);
 				} else {
 					List<Teenager> copy = nonAffectedGuests.sorted();
-					result = "Liste des invités non affectés : \n\n";
+					result = copy.size() + "/" + currentPlatform.getTeenagersByCountry(currentExchange.getGuestCountry()).size() +  " invité(s) non affecté(s)";
+					String tip = "Liste des invité(s) non affecté(s) :\n";
+					nonAffectedGuestsQuestionMark.setVisible(true);
 					int i = 0;
 					for (Teenager teen : copy) {
-						result += teen.getFirstName() + " " + teen.getLastName();
+						tip += teen.getFirstName() + " " + teen.getLastName();
 						if (i < nonAffectedGuests.size() - 1) {
-							result += ", ";
+							//Ce n'est pas le dernier
+							if ((i + 1) % 3 == 0) {
+								//toutes les 3 personnes, un saut de ligne
+								tip += "\n";
+							} else {
+								tip += ", ";
+							}
 						}
 						i++;
 					}
+					nonAffectedGuestsTip.setText(tip);
 				}
+				nonAffectedGuestsLabel.setText(result);
+			} else {
+				nonAffectedGuestsLabel.setVisible(false);
+				nonAffectedGuestsQuestionMark.setVisible(false);
 			}
-			nonAffectedGuestsLabel.setText(result);
 		}
 
 		@Override
