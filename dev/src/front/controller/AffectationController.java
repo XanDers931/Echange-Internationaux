@@ -314,7 +314,7 @@ public class AffectationController extends SceneController {
 			this.nonAffectedHosts = FXCollections.observableArrayList();
 			this.nonAffectedGuests = FXCollections.observableArrayList();
 			for (Affectation currentCouple : this.currentExchange.getAffectations()) {
-				AffectationRowController currentElementController = new AffectationRowController(currentCouple, this.nonAffectedHosts, this.nonAffectedGuests);
+				AffectationRowController currentElementController = new AffectationRowController(this, currentCouple, this.nonAffectedHosts, this.nonAffectedGuests);
 				//save controller
 				this.rowsControllers.add(currentElementController);
 				currentElementController.getGuestChoiceList().getItems().add(null);
@@ -333,6 +333,10 @@ public class AffectationController extends SceneController {
 			}
 			this.nonAffectedGuestsListener = new nonAffectedGuestsListener();
 			this.nonAffectedGuests.addListener(this.nonAffectedGuestsListener);
+			//update already affected guests
+			for (AffectationRowController controller : this.rowsControllers) {
+				controller.updateAlreadyAffectedLabel();
+			}
 		}
 	}
 	
@@ -362,6 +366,15 @@ public class AffectationController extends SceneController {
 		}
 	}
 	
+	/**
+	 * @return the rowsControllers
+	 */
+	public List<AffectationRowController> getRowsControllers() {
+		return rowsControllers;
+	}
+
+
+
 	/**
 	 * Listener for non affected hosts
 	 */

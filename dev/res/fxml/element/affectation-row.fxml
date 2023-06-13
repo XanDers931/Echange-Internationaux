@@ -12,7 +12,7 @@
 
 <VBox fx:id="rootContainer" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER" maxHeight="40.0" prefHeight="40.0" prefWidth="449.0" spacing="20.0" VBox.vgrow="ALWAYS">
+      <HBox alignment="TOP_CENTER" maxHeight="40.0" prefHeight="40.0" prefWidth="449.0" spacing="20.0" VBox.vgrow="ALWAYS">
          <children>
             <SVGPath fx:id="showDetailSVG" content="M9,18l7-6L9,6V18z" visible="false">
                <HBox.margin>
@@ -20,7 +20,28 @@
                </HBox.margin></SVGPath>
             <TextField fx:id="hostField" editable="false" maxWidth="220.0" minWidth="220.0" prefWidth="220.0" />
             <Canvas fx:id="lockCanvas" accessibleHelp="test" height="20.0" visible="false" width="20.0" />
-            <ChoiceBox fx:id="guestChoiceList" disable="true" maxWidth="220.0" minWidth="220.0" prefWidth="220.0" />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ChoiceBox fx:id="guestChoiceList" disable="true" maxWidth="220.0" minWidth="220.0" prefWidth="220.0" />
+                  <HBox maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="alreadyAffectedLabel" visible="false" HBox.hgrow="NEVER">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="questionMarkLabel" style="-fx-border-color: black; -fx-border-radius: 50;" text="?" visible="false">
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label fx:id="goodCriterionsLabel" textFill="#67a805" />
@@ -29,14 +50,14 @@
             </VBox>
          </children>
          <VBox.margin>
-            <Insets left="10.0" top="10.0" />
+            <Insets left="10.0" top="15.0" />
          </VBox.margin>
       </HBox>
       <HBox fx:id="detailContainer" fillHeight="false" maxHeight="0.0" visible="false">
          <children>
             <Label fx:id="hostDetailLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="220.0" wrapText="true">
                <HBox.margin>
-                  <Insets right="60.0" />
+                  <Insets right="56.0" />
                </HBox.margin>
             </Label>
             <Label fx:id="guestDetailLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="220.0" wrapText="true" />
