@@ -22,12 +22,12 @@ public abstract class SceneController extends Controller {
 	protected String title;
 	
 	/**
-	 * The {@Stage} where display current scene.
+	 * The {@code Stage} where display current scene.
 	 */
 	protected Stage stage;
 	
 	/**
-	 * A {@Code Scene} container to contain {@code Parent} root attribute.
+	 * A {@code Scene} container to contain {@code Parent} root attribute.
 	 */
 	protected Scene scene;
 	
@@ -35,7 +35,7 @@ public abstract class SceneController extends Controller {
 	 * Scene controller constructor
 	 * @param fxmlPath, a {@code String} representing the fxml file path.
 	 * @param title, a {@code String} representing the stage's title.
-	 * @param stage, a {@Code Stage} used to show current Scene.
+	 * @param stage, a {@code Stage} used to show current Scene.
 	 */
 	public SceneController(String fxmlPath, String title, Stage stage) {
 		super(fxmlPath);

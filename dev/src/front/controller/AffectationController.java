@@ -171,8 +171,8 @@ public class AffectationController extends SceneController {
 	
 	/**
 	 * AffectationController constructor.
-	 * @param stage, a {@Code Stage} used to show current Scene.
-	 * @param p, the {@Code Platform} to use.
+	 * @param stage, a {@code Stage} used to show current Scene.
+	 * @param p, the {@code Platform} to use.
 	 */
 	public AffectationController(Stage stage, Platform p) {
 		super(FXMLScene.AFFECTATION_MANAGER.getPath(), FXMLScene.AFFECTATION_MANAGER.getTitle(), stage);

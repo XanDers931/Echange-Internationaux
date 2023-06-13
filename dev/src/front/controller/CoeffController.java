@@ -45,7 +45,7 @@ public class CoeffController extends SceneController {
     @FXML private TextField coeffHobbies;
     
     /**CoeffController constructor.
-     * @param stage a {@Code Stage} used to show the current Scene.
+     * @param stage a {@code Stage} used to show the current Scene.
      */
     public CoeffController(Stage stage) {
         super(FXMLScene.COEFF_MANAGER.getPath(), FXMLScene.COEFF_MANAGER.getTitle(), stage);
