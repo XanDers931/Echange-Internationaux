@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<Pane maxHeight="425.0" maxWidth="322.0" minHeight="425.0" minWidth="322.0" prefHeight="425.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="425.0" maxWidth="322.0" minHeight="425.0" minWidth="322.0" prefHeight="425.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox layoutY="390.0" prefHeight="26.0" prefWidth="322.0">
          <children>

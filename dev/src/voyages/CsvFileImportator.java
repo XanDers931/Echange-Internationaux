@@ -286,7 +286,7 @@ public class CsvFileImportator {
 			throw e;
 		}
 		//generate log file
-		if (!logFileContent.isEmpty() && generateLogFile) {
+		if (!logFileContent.toString().isEmpty() && generateLogFile) {
 			logFileContent.insert(0, getRowHeader() + "\n");
 			try {
 				this.logText.append("\nFichier de log généré : " + this.generateLogFile(csvFile.getAbsolutePath(), logFileContent.toString()));

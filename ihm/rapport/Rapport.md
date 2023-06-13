@@ -13,7 +13,7 @@ Dans le cadre de notre BUT Informatique, nous avons comme projet la création d'
 
 Notre projet est disponible [sur notre page Gitlab](https://gitlab.univ-lille.fr/sae2.01-2.02/2023/D1).
 
-*Référence du dernier commit:*
+*Référence du dernier commit :* [0c424aac2b8a6d50559e460d4e8cb83e655ab194](https://gitlab.univ-lille.fr/sae2.01-2.02/2023/D1/-/tree/0c424aac2b8a6d50559e460d4e8cb83e655ab194)
 
 ## Présentation de l'application
 

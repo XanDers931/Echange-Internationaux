@@ -30,3 +30,4 @@ replay_pid*
 bin/*
 .DS_Store
 /bin/
+.settings
