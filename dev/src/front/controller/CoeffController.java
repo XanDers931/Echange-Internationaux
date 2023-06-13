@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.Tooltip;
 
 /**The {@code CoeffController} class is used to control the coefficient manager scene.
  * @author Dagneaux Nicolas
@@ -62,6 +63,13 @@ public class CoeffController extends SceneController {
      */
     @Override
     public void initialize() {
+    	Tooltip tip = new Tooltip("Veuillez saisir une valeur entre 0 et 10 non compris");
+    	this.coeffAnimal.setTooltip(tip);
+    	this.coeffDiet.setTooltip(tip);
+    	this.coeffAge.setTooltip(tip);
+    	this.coeffSexe.setTooltip(tip);
+    	this.coeffHistory.setTooltip(tip);
+    	this.coeffHobbies.setTooltip(tip);
         this.quitbutton.addEventHandler(ActionEvent.ACTION, a -> {
             if (!this.coeffAnimal.getText().equals("")) {
                 AffectationUtil.setCoefficientAnimalAllergy(Integer.parseInt(this.coeffAnimal.getText()));

@@ -51,19 +51,21 @@ public class Exchange implements Serializable {
 	 */
 	public void setOptimalAffectation() throws SameTeenagerException {
 		ArrayList<Teenager> teens = new ArrayList<Teenager>();
+		//On ajoute uniquement l'hôte si son couple n'est pas bloqué
 		for (Affectation couple : this.couples) {
 			if (!couple.isLocked()) {
 				teens.add(couple.getHost());
 			}
 		}
 		for (Teenager guest : this.currentPlatform.getTeenagersByCountry(this.getGuestCountry())) {
+			//Pour chaque invité potentiel
 			boolean isLocked = false;
 			int i = 0;
-			while (isLocked & i < this.couples.size()) {
-				if (this.couples.get(i).getGuest() != null & guest != null) {
-					if (this.couples.get(i).getGuest().equals(guest)) {
-						isLocked = this.couples.get(i).isLocked();
-					}
+			//on regarde tous les couples, s'il est dans un couple verrouillé, on ne l'ajoute pas.
+			while (!isLocked && i < this.couples.size()) {
+				//si l'hôte du couplé testé est bien lié au guest courant, on regarde si verrouillage
+				if (this.couples.get(i).get(guest) != null) {
+					isLocked = this.couples.get(i).isLocked();
 				}
 				i++;
 			}
@@ -73,18 +75,20 @@ public class Exchange implements Serializable {
 		}
 		List<Tuple<Teenager>> result = Graph.pairing(teens, this.getHostCountry(), this.getGuestCountry(), this.currentPlatform.getHistory().getTeenagers());
 		for (Affectation couple : this.couples) {
-			//Pour chaque couple
-			Teenager guest = null;
-			int i = 0;
-			//On cherche le guest correspondant
-			while (guest == null && i < result.size()) {
-				guest = result.get(i).get(couple.getHost());
-				i++;
+			//Pour chaque couple non verrouillés
+			if (!couple.isLocked()) {
+				//On parcourt tous les résultats
+				int i = 0;
+				Teenager guest = null;
+				while (guest == null && i < result.size()) {
+					guest = result.get(i).get(couple.getHost());
+					i++;
+				}
+				if (guest != null && guest.isGhost()) {
+					guest = null;
+				}
+				couple.setGuest(guest);
 			}
-			if (guest.isGhost()) {
-				guest = null;
-			}
-			couple.setGuest(guest);
 		}
 	}
 	

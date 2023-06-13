@@ -62,28 +62,40 @@ Après la sélection des 2 pays, plusieurs choses évoluent :
 - La liste des affectations est affichée
 - Des cadenas apparaissent au dessus de la *Scrollpane* pour verrouiller ou déverrouiller toutes les affectations.
 
-Cette fenêtre nous permet de répondre à l'ensemble du cahier des charges :
+Cette fenêtre nous permet de répondre à l'ensemble du cahier des charges. Regardons chacun de ces points en détail.
 
-- Visualiser l'ensemble des appariements :
-  - Chaque hôte est lié à un invité ou non
-- Visualiser les détails sur un appariement :
-  - Pour éviter d'alourdir l'affichage, il est nécessaire de cliquer sur la flèche pour dérouler les détails
-- Visualiser les contraintes rédhibitoires :
-  - A droite de l'écran, en rouge les contraintes non respectées.
-- Fixer au préalable des affectations
-  - Chaque ligne peut être verrouiller/libérer avec le cadenas qui apparaît lorsque la souris survole un appariement, et il est possible de faire cela pour tous les appariements d'un coup
-- Eviter d'affecter des adolescents
-  - Cela est possible en ne sélectionnant pas d'invité, puis en verrouillant la ligne.
+#### Visualiser l'ensemble des appariements
 
-Il est également possible de visualiser en temps réel tous les invités qui ne sont pas affectés. Cette liste se met évidemment à jour toute seule.
+Pour ce faire, nous avons une colonne qui regroupe l'ensemble des hôte, et une autre pour les invités. Aussi, nous avons des informations sur le nombre d'hôtes et invités qui ne sont actuellement pas affectés. Nous avons choisi de ne montrer le liste de ces adolescents uniquement lorsque l'on passe la souris sur le *"?"*, afin de ne pas alourdir l'affichage.
 
-Pour finir, d'un simple clique nous pouvons calculer une affectation optimal, sans toucher aux lignes verrouillées.
+De plus, si un adolescents est déjà lié avec un autre, un message apparaît.
+
+Aussi, un simple bouton suffit à générer les appariements optimaux.
+
+#### Visualiser les détails sur un appariement
+
+Pour éviter d'afficher trop d'informations, lorsque nous déplaçons la souris sur un appariement, une flèche apparaît et nous permet d'afficher tous les détails des deux étudiants : âge, genre, hobbies...
+
+#### Visualiser les contraintes rédhibitoires
+
+Pour ce faire, nous affichons à droite de chaque appariement la liste des contraintes non respectées en rouge, ou en vert si elles le sont. Nous avons choisi de garder ces informations visibles constamment car c'est un élément important à prendre en compte lors des affectations.
+
+#### Fixer au préalable des affectations
+
+Chaque ligne peut être verrouiller/libérer avec le cadenas qui apparaît lorsque la souris survole un appariement, et il est possible de faire cela pour tous les appariements en une seule fois. Dans ce dernier cas, une fenêtre permet de confirmer ce choix pour éviter les erreurs.
+
+Lorsqu'un appariement est verrouillé, celui ci n'est pas pris en compte lors du calcul d'appariements optimaux.
+
+#### Eviter d'affecter des adolescents
+
+Cela est possible en ne sélectionnant pas d'invité, puis en verrouillant la ligne. De ce fait, l'adolescent hôte n'est affecté à aucun invité.
+
 
 ### Ajuster les pondérations des critères
 
 ![Ajustement des pondérations](images/ponderation.png)
 
-Cette écran s'affiche en superposant l'écran principal de l'application, et permet de mettre à jour le poids de chaque critère. Il n'est pas possible de saisir une donnée incorrecte.
+Cette écran s'affiche en mode "popup" et permet de mettre à jour le poids de chaque critère. Il n'est pas possible de saisir une donnée incorrecte, et un message d'aide permet à l'utilisateur de savoir quoi saisir.
 
 ## Implémenation en JavaFX
 

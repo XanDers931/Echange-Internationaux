@@ -107,7 +107,24 @@ principal</a></li>
 id="toc-création-dune-nouvelle-session">Création d’une nouvelle
 session</a></li>
 <li><a href="#gestion-des-échanges"
-id="toc-gestion-des-échanges">Gestion des échanges</a></li>
+id="toc-gestion-des-échanges">Gestion des échanges</a>
+<ul>
+<li><a href="#visualiser-lensemble-des-appariements"
+id="toc-visualiser-lensemble-des-appariements">Visualiser l’ensemble des
+appariements</a></li>
+<li><a href="#visualiser-les-détails-sur-un-appariement"
+id="toc-visualiser-les-détails-sur-un-appariement">Visualiser les
+détails sur un appariement</a></li>
+<li><a href="#visualiser-les-contraintes-rédhibitoires"
+id="toc-visualiser-les-contraintes-rédhibitoires">Visualiser les
+contraintes rédhibitoires</a></li>
+<li><a href="#fixer-au-préalable-des-affectations"
+id="toc-fixer-au-préalable-des-affectations">Fixer au préalable des
+affectations</a></li>
+<li><a href="#eviter-daffecter-des-adolescents"
+id="toc-eviter-daffecter-des-adolescents">Eviter d’affecter des
+adolescents</a></li>
+</ul></li>
 <li><a href="#ajuster-les-pondérations-des-critères"
 id="toc-ajuster-les-pondérations-des-critères">Ajuster les pondérations
 des critères</a></li>
@@ -217,38 +234,50 @@ actifs</li>
 verrouiller ou déverrouiller toutes les affectations.</li>
 </ul>
 <p>Cette fenêtre nous permet de répondre à l’ensemble du cahier des
-charges :</p>
-<ul>
-<li>Visualiser l’ensemble des appariements :
-<ul>
-<li>Chaque hôte est lié à un invité ou non</li>
-</ul></li>
-<li>Visualiser les détails sur un appariement :
-<ul>
-<li>Pour éviter d’alourdir l’affichage, il est nécessaire de cliquer sur
-la flèche pour dérouler les détails</li>
-</ul></li>
-<li>Visualiser les contraintes rédhibitoires :
-<ul>
-<li>A droite de l’écran, en rouge les contraintes non respectées.</li>
-</ul></li>
-<li>Fixer au préalable des affectations
-<ul>
-<li>Chaque ligne peut être verrouiller/libérer avec le cadenas qui
+charges. Regardons chacun de ces points en détail.</p>
+<section id="visualiser-lensemble-des-appariements" class="level4">
+<h4>Visualiser l’ensemble des appariements</h4>
+<p>Pour ce faire, nous avons une colonne qui regroupe l’ensemble des
+hôte, et une autre pour les invités. Aussi, nous avons des informations
+sur le nombre d’hôtes et invités qui ne sont actuellement pas affectés.
+Nous avons choisi de ne montrer le liste de ces adolescents uniquement
+lorsque l’on passe la souris sur le <em>“?”</em>, afin de ne pas
+alourdir l’affichage.</p>
+<p>De plus, si un adolescents est déjà lié avec un autre, un message
+apparaît.</p>
+<p>Aussi, un simple bouton suffit à générer les appariements
+optimaux.</p>
+</section>
+<section id="visualiser-les-détails-sur-un-appariement" class="level4">
+<h4>Visualiser les détails sur un appariement</h4>
+<p>Pour éviter d’afficher trop d’informations, lorsque nous déplaçons la
+souris sur un appariement, une flèche apparaît et nous permet d’afficher
+tous les détails des deux étudiants : âge, genre, hobbies…</p>
+</section>
+<section id="visualiser-les-contraintes-rédhibitoires" class="level4">
+<h4>Visualiser les contraintes rédhibitoires</h4>
+<p>Pour ce faire, nous affichons à droite de chaque appariement la liste
+des contraintes non respectées en rouge, ou en vert si elles le sont.
+Nous avons choisi de garder ces informations visibles constamment car
+c’est un élément important à prendre en compte lors des
+affectations.</p>
+</section>
+<section id="fixer-au-préalable-des-affectations" class="level4">
+<h4>Fixer au préalable des affectations</h4>
+<p>Chaque ligne peut être verrouiller/libérer avec le cadenas qui
 apparaît lorsque la souris survole un appariement, et il est possible de
-faire cela pour tous les appariements d’un coup</li>
-</ul></li>
-<li>Eviter d’affecter des adolescents
-<ul>
-<li>Cela est possible en ne sélectionnant pas d’invité, puis en
-verrouillant la ligne.</li>
-</ul></li>
-</ul>
-<p>Il est également possible de visualiser en temps réel tous les
-invités qui ne sont pas affectés. Cette liste se met évidemment à jour
-toute seule.</p>
-<p>Pour finir, d’un simple clique nous pouvons calculer une affectation
-optimal, sans toucher aux lignes verrouillées.</p>
+faire cela pour tous les appariements en une seule fois. Dans ce dernier
+cas, une fenêtre permet de confirmer ce choix pour éviter les
+erreurs.</p>
+<p>Lorsqu’un appariement est verrouillé, celui ci n’est pas pris en
+compte lors du calcul d’appariements optimaux.</p>
+</section>
+<section id="eviter-daffecter-des-adolescents" class="level4">
+<h4>Eviter d’affecter des adolescents</h4>
+<p>Cela est possible en ne sélectionnant pas d’invité, puis en
+verrouillant la ligne. De ce fait, l’adolescent hôte n’est affecté à
+aucun invité.</p>
+</section>
 </section>
 <section id="ajuster-les-pondérations-des-critères" class="level3">
 <h3>Ajuster les pondérations des critères</h3>
@@ -256,9 +285,10 @@ optimal, sans toucher aux lignes verrouillées.</p>
 <img src="images/ponderation.png" alt="Ajustement des pondérations" />
 <figcaption aria-hidden="true">Ajustement des pondérations</figcaption>
 </figure>
-<p>Cette écran s’affiche en superposant l’écran principal de
-l’application, et permet de mettre à jour le poids de chaque critère. Il
-n’est pas possible de saisir une donnée incorrecte.</p>
+<p>Cette écran s’affiche en mode “popup” et permet de mettre à jour le
+poids de chaque critère. Il n’est pas possible de saisir une donnée
+incorrecte, et un message d’aide permet à l’utilisateur de savoir quoi
+saisir.</p>
 </section>
 </section>
 <section id="implémenation-en-javafx" class="level2">

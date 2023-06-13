@@ -26,18 +26,21 @@
                   <ChoiceBox fx:id="guestChoiceList" disable="true" maxWidth="220.0" minWidth="220.0" prefWidth="220.0" />
                   <HBox maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="alreadyAffectedLabel" visible="false" HBox.hgrow="NEVER">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="questionMarkLabel" style="-fx-border-color: black; -fx-border-radius: 50;" text="?" visible="false">
+                        <Label fx:id="questionMarkLabel" style="-fx-border-color: #a60505; -fx-border-radius: 50;" text="!" textFill="#a60505" visible="false">
                            <padding>
-                              <Insets left="4.0" right="4.0" />
+                              <Insets left="5.0" right="5.0" />
                            </padding>
                            <font>
                               <Font size="10.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets right="5.0" top="1.5" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="alreadyAffectedLabel" visible="false" HBox.hgrow="NEVER">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
                         </Label>
                      </children>
                      <VBox.margin>
