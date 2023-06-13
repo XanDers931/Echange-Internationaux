@@ -2,7 +2,6 @@ package graphes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import fr.ulille.but.sae2_02.graphes.*;
 import voyages.CountryName;
@@ -14,16 +13,18 @@ import voyages.Tuple;
  * @author Dagneaux Nicolas
  * @author Degraeve Paul
  * @author Martel Alexandre
- * @version 0.0.3, 06/11/23
+ * @version 0.0.4, 06/13/23
  * @see Teenager
  */
 public class Graph {
     
-    /** This method return a map of the optimal affectation of the teenagers, based on their affinities.
+    /** This method return a {@code List} of {@code Tuple} of the optimal affectation of the teenagers, based on their affinities.
      * @param teenagers the list of teenagers to be paired.
      * @param countryHost the {@code CountryName} of the host country.
      * @param countryGuest the {@code CountryName} of the guest country.
-     * @return a {@link Map} of the affectation of the teenagers.
+     * @param history the list of the previous affectation.
+     * @return a {@code List} of {@code Tuple} of the affectation of the teenagers.
+     * @see Tuple
      */
     public static List<Tuple<Teenager>> pairing(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest, List<Tuple<Teenager>> history) {
         List<Tuple<Teenager>> result = new ArrayList<>();
@@ -39,6 +40,7 @@ public class Graph {
      * @param teenagers the list of teenagers to be paired.
      * @param countryHost the {@code CountryName} of the host country.
      * @param countryGuest the {@code CountryName} of the guest country.
+     * @param history the list of the previous affectation.
      * @return a {@link List} of {@link Arete} of the affectation of the teenagers.
      */
     private static List<Arete<Teenager>> generateGraphAndCalculation(List<Teenager> teenagers, CountryName countryHost, CountryName countryGuest, List<Tuple<Teenager>> history) {
@@ -51,14 +53,12 @@ public class Graph {
                 guest.add(teenager);
             }
         }
-        System.out.println("Hosts sans ghost : " + host.size());
-        System.out.println("Guests sans ghost : " + guest.size());
-        System.out.println("ajout de ghosts...");
         if (host.size() > guest.size()) {
             for (int i = guest.size(); i < host.size(); i++) {
                 guest.add(new GhostTeenager());
             }
-        } else {
+        }
+        if (host.size() < guest.size()) {
         	for (int i = host.size(); i < guest.size(); i++) {
                 host.add(new GhostTeenager());
             }
@@ -75,8 +75,6 @@ public class Graph {
                 }
             }
         }
-        System.out.println("Hosts avec ghost : " + host.size());
-        System.out.println("Guests avec ghost : " + guest.size());
         CalculAffectation<Teenager> calcul = new CalculAffectation<Teenager>(graph, host, guest);
         return calcul.calculerAffectation();
     }
