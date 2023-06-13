@@ -23,26 +23,52 @@ public class AffectationUtil {
 
 	public static void setCoefficientHistory(int coefficientHistory) {
 		AffectationUtil.coefficientHistory = coefficientHistory;
+		System.out.println("History coefficient set to " + coefficientHistory);
+	}
+
+	public static int getCoefficientHistory() {
+		return coefficientHistory;
 	}
 
 	public static void setCoefficientAge(int coefficientAge) {
 		AffectationUtil.coefficientAge = coefficientAge;
+		System.out.println("Age coefficient set to " + coefficientAge);
+	}
+
+	public static int getCoefficientAge() {
+		return coefficientAge;
 	}
 
 	public static void setCoefficientGender(int coefficientGender) {
 		AffectationUtil.coefficientGender = coefficientGender;
 	}
 
+	public static int getCoefficientGender() {
+		return coefficientGender;
+	}
+
 	public static void setCoefficientHobbies(int coefficientHobbies) {
 		AffectationUtil.coefficientHobbies = coefficientHobbies;
+	}
+
+	public static int getCoefficientHobbies() {
+		return coefficientHobbies;
 	}
 
 	public static void setCoefficientAnimalAllergy(int coefficientAnimalAllergy) {
 		AffectationUtil.coefficientAnimalAllergy = coefficientAnimalAllergy;
 	}
 
+	public static int getCoefficientAnimalAllergy() {
+		return coefficientAnimalAllergy;
+	}
+
 	public static void setCoefficientDiet(int coefficientDiet) {
 		AffectationUtil.coefficientDiet = coefficientDiet;
+	}
+
+	public static int getCoefficientDiet() {
+		return coefficientDiet;
 	}
 	
 	/** This method return the weight of the edge between the host and the visitor, based on their affinity.

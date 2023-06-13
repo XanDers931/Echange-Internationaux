@@ -27,6 +27,12 @@ public class CoeffController extends SceneController {
     public CoeffController(Stage stage) {
         super(FXMLScene.COEFF_MANAGER.getPath(), FXMLScene.COEFF_MANAGER.getTitle(), stage);
         this.updateStage();
+        this.coeffAnimal.setText(Integer.toString(AffectationUtil.getCoefficientAnimalAllergy()));
+        this.coeffDiet.setText(Integer.toString(AffectationUtil.getCoefficientDiet()));
+        this.coeffAge.setText(Integer.toString(AffectationUtil.getCoefficientAge()));
+        this.coeffSexe.setText(Integer.toString(AffectationUtil.getCoefficientGender()));
+        this.coeffHistory.setText(Integer.toString(AffectationUtil.getCoefficientHistory()));
+        this.coeffHobbies.setText(Integer.toString(AffectationUtil.getCoefficientHobbies()));
     }
 
     @Override
