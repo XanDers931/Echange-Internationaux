@@ -17,7 +17,7 @@ public class Criterion implements Serializable {
     
     /**
      * The name of the critarion
-     * @see CritarionName
+     * @see CriterionName
      */
     private CriterionName label;
     

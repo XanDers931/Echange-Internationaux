@@ -114,7 +114,7 @@ public class Teenager implements java.io.Serializable, Comparable<Teenager> {
     }
 
     /** This method determines if two teenagers are compatible by comparing their requirements.
-     * @param teen a {@code Teenager}
+     * @param teenGuest a {@code Teenager}
      * @return {@code true} if the two teenagers are compatible, {@code false} otherwise.
      */
     public boolean compatibleWithGuest(Teenager teenGuest) {

@@ -102,8 +102,8 @@ public class Platform implements Serializable {
 
 	/**
 	 * This method add an exchange to the platform.
-	 * @param host, a {@code CountryName} representing the host country.
-	 * @param guest, a {@code CountryName} representing the guest country.
+	 * @param hostCountry a {@code CountryName} representing the host country.
+	 * @param guestCountry a {@code CountryName} representing the guest country.
 	 * @return A new {@code Exchange} if it was not already present, or unchanged Exchange if already here.
 	 * @throws SameCountryException
      * @throws SameTeenagerException

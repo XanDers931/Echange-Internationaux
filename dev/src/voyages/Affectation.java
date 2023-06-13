@@ -86,7 +86,7 @@ public class Affectation implements Serializable {
 
 	/**
 	 * The guest setter.
-	 * @param a {@code Teenager} representing the guest to set.
+	 * @param guest a {@code Teenager} representing the guest to set.
 	 * @throws SameTeenagerException if guest equals host.
 	 */
 	public void setGuest(Teenager guest) throws SameTeenagerException {
