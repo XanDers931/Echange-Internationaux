@@ -1,6 +1,7 @@
 package front.controller;
 
 import java.io.File;
+import java.util.List;
 
 import front.FXMLScene;
 import javafx.collections.ObservableList;
@@ -48,6 +49,11 @@ public class AffectationRowController extends ElementController {
 	private Image unLockerImg;
 	
 	/**
+	 * A {@code Tooltip} for alreadyAffectedLabel.
+	 */
+	private Tooltip alreadyAffectedTip;
+	
+	/**
 	 * A boolean to know we have to keep locker visible.
 	 */
 	private boolean keepLockerVisible;
@@ -76,6 +82,11 @@ public class AffectationRowController extends ElementController {
 	 * A {@code ObservableListBase<Teenager>} of non affected hosts.
 	 */
 	private ObservableList<Teenager> nonAffectedHosts;
+	
+	/**
+	 * the {@code AffectationController} who called that constructor.
+	 */
+	private AffectationController rootController;
 	
 	/**
 	 * A {@code TextField} used to store host.
@@ -129,13 +140,26 @@ public class AffectationRowController extends ElementController {
 	@FXML HBox detailContainer;
 	
 	/**
+	 * A {@code Label} container used to know if guest is already affected.
+	 */
+	@FXML Label alreadyAffectedLabel;
+	
+	/**
+	 * A {@code Label} container used to display clickable questionMark.
+	 */
+	@FXML Label questionMarkLabel;
+	
+	
+	
+	/**
 	 * AffectationRowController constructor.
+	 * @param rootController, the {@code AffectationController} who called that constructor.
 	 * @param affectation, the {@code Affectation} to manage.
-	 * @param nonAffectedHosts, an {@code ObservableList} of non affected hosts
-	 * @param nonAffectedHosts, an {@code ObservableList} of non affected guests
+	 * @param nonAffectedHosts, an {@code ObservableList} of non affected hosts.
+	 * @param nonAffectedHosts, an {@code ObservableList} of non affected guests.
 	 * @see Affectation
 	 */
-	public AffectationRowController(Affectation affectation, ObservableList<Teenager> nonAffectedHosts, ObservableList<Teenager> nonAffectedGuests) {
+	public AffectationRowController(AffectationController rootController, Affectation affectation, ObservableList<Teenager> nonAffectedHosts, ObservableList<Teenager> nonAffectedGuests) {
 		super(FXMLScene.AFFECTATION_ROW.getPath());
 		this.currentAffectation = affectation;
 		try {
@@ -147,9 +171,11 @@ public class AffectationRowController extends ElementController {
 		this.keepLockerVisible = true;
 		this.detailVisible = false;
 		this.lockerTooltip = new Tooltip();
+		this.alreadyAffectedTip = new Tooltip();
 		this.showDetailTooltip = new Tooltip("Afficher les détails");
 		this.nonAffectedHosts = nonAffectedHosts;
 		this.nonAffectedGuests = nonAffectedGuests;
+		this.rootController = rootController;
 		this.loadElement();
 	}
 	
@@ -194,6 +220,22 @@ public class AffectationRowController extends ElementController {
 				}
 				//nouveau guest forcément affecté
 				this.nonAffectedGuests.remove(newVal);
+			}
+			//update already affected label for all
+			this.updateAlreadyAffectedLabel();
+			for (AffectationRowController rowController : this.rootController.getRowsControllers()) {
+				if (rowController != this) {
+					if (newVal != null) {
+						if (newVal.equals(rowController.getCurrentAffectation().getGuest())) {
+							rowController.updateAlreadyAffectedLabel();
+						}
+					}
+					if (oldVal != null) {
+						if (oldVal.equals(rowController.getCurrentAffectation().getGuest())) {
+							rowController.updateAlreadyAffectedLabel();
+						}
+					}
+				}
 			}
 		});
 		//locker
@@ -254,8 +296,11 @@ public class AffectationRowController extends ElementController {
 		//details
 		this.hostDetailLabel.setText(this.currentAffectation.getHostDetail());
 		this.guestDetailLabel.setText(this.currentAffectation.getGuestDetail());
+		//already affected img
+		Tooltip.install(this.questionMarkLabel, alreadyAffectedTip);
+		this.updateAlreadyAffectedLabel();
 	}
-	
+
 	/**
 	 * This method update criterions labels.
 	 */
@@ -291,6 +336,36 @@ public class AffectationRowController extends ElementController {
 		this.lockCanvas.getGraphicsContext2D().drawImage(unLockerImg, 0, 0, this.lockCanvas.getWidth(), this.lockCanvas.getHeight());
 		this.rootContainer.setStyle("-fx-background-color:white");
 	}
+	
+	/**
+	 * This method update the already affected label
+	 */
+	public void updateAlreadyAffectedLabel() {
+		//update already affected label
+		if (this.currentAffectation.getGuest() != null) {
+			List<Teenager> allAffectedWith = this.currentAffectation.getCurrentExchange().alreadyAffectedWith(this.currentAffectation.getGuest());
+			if (allAffectedWith.size() > 1) {
+				this.alreadyAffectedLabel.setText("Déjà affecté avec " + (allAffectedWith.size() - 1) + " autre(s) hôte(s)");
+				String tip = "Affecté avec : ";
+				for (Teenager teenager : allAffectedWith) {
+					if (!teenager.equals(this.currentAffectation.getHost())) {
+						tip += "\n" + teenager.getFirstName() + " " + teenager.getLastName();
+					}
+				}
+				this.alreadyAffectedTip.setText(tip);
+				this.alreadyAffectedLabel.setVisible(true);
+				this.questionMarkLabel.setVisible(true);
+			} else {
+				//remove already affected label
+				this.alreadyAffectedLabel.setVisible(false);
+				this.questionMarkLabel.setVisible(false);
+			}
+		} else {
+			//remove already affected label
+			this.alreadyAffectedLabel.setVisible(false);
+			this.questionMarkLabel.setVisible(false);
+		}
+	}
 
 	/**
 	 * @return the guestChoiceList
@@ -298,4 +373,14 @@ public class AffectationRowController extends ElementController {
 	public ChoiceBox<Teenager> getGuestChoiceList() {
 		return guestChoiceList;
 	}
+
+
+	/**
+	 * @return the currentAffectation
+	 */
+	public Affectation getCurrentAffectation() {
+		return currentAffectation;
+	}
+	
+	
 }

@@ -133,6 +133,22 @@ public class Exchange implements Serializable {
 		}
 		return affected;
 	}
+	
+	/**
+	 * This moethod return all teenager associated with teen.
+	 * @param teen
+	 * @return all teenager associated with teen, or null if no one found
+	 */
+	public List<Teenager> alreadyAffectedWith(Teenager teen) {
+		List<Teenager> result = new ArrayList<Teenager>();
+		for (Affectation affectation : couples) {
+			Teenager currentAffected = affectation.get(teen);
+			if (currentAffected != null) {
+				result.add(currentAffected);
+			}
+		}
+		return result.isEmpty() ? null : result;
+	}
 
 	@Override
 	public int hashCode() {
