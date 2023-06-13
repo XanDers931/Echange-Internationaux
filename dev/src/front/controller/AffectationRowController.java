@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.text.Font;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Cursor;
 import voyages.Affectation;
@@ -172,6 +173,7 @@ public class AffectationRowController extends ElementController {
 		this.detailVisible = false;
 		this.lockerTooltip = new Tooltip();
 		this.alreadyAffectedTip = new Tooltip();
+		this.alreadyAffectedTip.setFont(new Font(12));
 		this.showDetailTooltip = new Tooltip("Afficher les détails");
 		this.nonAffectedHosts = nonAffectedHosts;
 		this.nonAffectedGuests = nonAffectedGuests;

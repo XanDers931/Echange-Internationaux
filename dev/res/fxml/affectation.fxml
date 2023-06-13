@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane minHeight="800.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
@@ -118,16 +119,46 @@
       <VBox maxHeight="1.7976931348623157E308" minWidth="20.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
             <Separator prefWidth="200.0" />
-            <Label fx:id="nonAffectedGuestsLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS">
+            <HBox maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="nonAffectedGuestsLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" wrapText="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nonAffectedGuestsQuestionMark" style="-fx-border-color: black; -fx-border-radius: 50;" text="?" visible="false">
+                     <padding>
+                        <Insets left="4.0" right="4.0" />
+                     </padding>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
                <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" top="10.0" />
+                  <Insets bottom="10.0" left="15.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label fx:id="nonAffectedHostsLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS">
+            </HBox>
+            <HBox minHeight="25.0" prefHeight="25.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="nonAffectedHostsLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" wrapText="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nonAffectedHostsQuestionMark" style="-fx-border-color: black; -fx-border-radius: 50;" text="?" visible="false">
+                     <padding>
+                        <Insets left="4.0" right="4.0" />
+                     </padding>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
                <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" top="10.0" />
+                  <Insets bottom="10.0" left="15.0" />
                </VBox.margin>
-            </Label>
+            </HBox>
             <Separator prefWidth="200.0" />
             <HBox alignment="CENTER" prefHeight="36.0" prefWidth="743.0" spacing="100.0">
                <padding>
