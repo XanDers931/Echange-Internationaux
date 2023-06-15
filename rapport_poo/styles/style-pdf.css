@@ -1,0 +1,205 @@
+body {
+  font-family: Georgia, serif;
+  margin: auto;
+  line-height: 1.5;
+}
+
+img[alt=logo-univ] {
+  height: 50px;
+  position: running(logo-univ);
+  text-align: right;
+  float: right;
+}
+
+img[alt=logo-iut] {
+  height: 50px;
+  position: running(logo-iut);
+}
+
+figure {
+  display: contents;
+}
+
+figcaption {
+  display: none;
+}
+
+img {
+  max-width: 43em;
+  max-height: 30em;
+}
+
+/*Titre principal*/
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+h1 {
+  margin-bottom: 0px;
+}
+
+.author {
+  font-style: italic;
+  margin-top: 0px;
+  font-size: 13px;
+  margin-bottom: 60px;
+}
+
+#title-block-header {
+  text-align: center;
+}
+
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+
+
+/*Table des matières*/
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+#TOC a {
+  padding-left: 10px;
+}
+
+#TOC ul {
+  counter-reset: toc-counter;
+  list-style-type: none;
+}
+
+#TOC li {
+  counter-increment: toc-counter;
+}
+
+#TOC li::before {
+  content: counters(toc-counter, ".") " ";
+}
+
+#TOC a {
+  text-decoration: none;
+  color: black;
+}
+
+#TOC a:hover {
+  text-decoration: underline;
+}
+
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+
+
+/*Titres de niveaux 2-3-4*/
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+h2::before {
+  content: counters(h2-counter, ".") " ";
+  padding-right: 10px;
+}
+
+h2 {
+  counter-reset: h3-counter;
+}
+
+.level2 {
+  counter-increment: h2-counter;
+  margin-top: 80px;
+}
+
+.level3 {
+  margin-top: 45px;
+}
+
+h3::before {
+  content: counters(h2-counter, ".") "." counters(h3-counter, ".") " ";
+  padding-right: 10px;
+}
+
+h3 {
+  counter-increment: h3-counter;
+  counter-reset: h4-counter;
+}
+
+h4::before {
+  content: counters(h2-counter, ".") "." counters(h3-counter, ".") "." counters(h4-counter, ".") " ";
+  padding-right: 10px;
+}
+
+h4 {
+  counter-increment: h4-counter;
+}
+
+h2, h3, h4 {
+  text-align: center;
+}
+
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+
+
+/*Questions*/
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+.questions > ol {
+  padding-left: 30px !important;
+  background-color: rgba(255, 212, 191, 0.2);
+  border-radius: 10px;
+  border: 1px solid lightgrey;
+  padding: 10px;
+  margin-left: 0px;
+  margin-top: 45px;
+}
+
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+
+
+/*Blocs de code*/
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+pre {
+  text-align: left;
+  padding-left: 30px !important;
+  padding: 10px;
+}
+
+pre.bash {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 2px;
+}
+
+pre.java {
+  background-color: rgba(0, 0, 0, 0.07);
+  border-radius: 10px;
+  border: 2px solid lightgrey;
+  color: black;
+}
+
+pre.bash * {
+  color: white !important;
+}
+
+/*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*/
+
+.mcd-logo {
+  max-width: 550px;
+}
+
+figure {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: darkblue;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@page {
+  @bottom-center {
+      content: counter(page);
+      font-family: Georgia, serif;
+  }
+
+  @bottom-left {
+    content: element(logo-iut);
+  }
+
+  @bottom-right {
+    content: element(logo-univ);
+  }
+}
+
+h2 {
+  -prince-page-group: start;
+  break-before: page;
+}
