@@ -8,14 +8,15 @@ import voyages.Teenager;
 import voyages.Tuple;
 import voyages.CsvFileImportator;
 import voyages.Platform;
+import voyages.SameCountryException;
+import voyages.SameTeenagerException;
 
 public class AppliNoInterface {
-    public static Scanner read = new Scanner(System.in);
-    public static Tuple<CountryName> assoPays = new Tuple<>();
+    private static Scanner read = new Scanner(System.in);
+    private static Tuple<CountryName> assoPays = new Tuple<>();
+    private static Platform p = new Platform();
 
     private static void mainMenu() {
-        //Déclaration des varibes utilisées plus loin
-        Platform p = new Platform();
         
         System.out.println("Main Menu");
         boolean isFileOk = false;
@@ -60,7 +61,7 @@ public class AppliNoInterface {
         return result;
     }
 
-    public static void askForSomething(Tuple<CountryName> assoPays, Platform p){
+    public static void askForSomething(){
         System.out.println("Que souhaitez vous faire ?\n");
         System.out.println("1. Forcer une association entre deux étudiants");
         System.out.println("2. Empecher une association entre deux étudiants");
@@ -82,7 +83,7 @@ public class AppliNoInterface {
                 associationAuto();
             }
             else if(reponse.equals("4")){
-                coeffChange(assoPays,p);
+                coeffChange();
             }
             else if(reponse.equals("5")){
                 askPays();
@@ -155,7 +156,7 @@ public class AppliNoInterface {
 
         }while(!((readVisiteur.equals("1"))||readVisiteur.equals("2")||readVisiteur.equals("3")||readVisiteur.equals("4"))||assoPays.getFirst().equals(assoPays.getSecond()));
         System.out.println("Envoi vers le menu de selection d'action");
-        askForSomething(assoPays, null);
+        askForSomething();
     }
     
 
@@ -168,10 +169,16 @@ public class AppliNoInterface {
     }
 
     public static void associationAuto(){
-
+        try {
+            p.addExchange(assoPays.getFirst(), assoPays.getSecond());
+        } catch (SameCountryException | SameTeenagerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }        
+        askForSomething();
     }
 
-    public static void coeffChange(Tuple<CountryName> assoPays, Platform p){
+    public static void coeffChange(){
         System.out.println("Dans cette partie vous pouvez modifier les coefficients du calculateur qui permet de faire des associations d'étudiants de manière automatique");
         System.out.println("Quel coefficient souhaitez-vous modifier ?\n");
         System.out.println("1. Coefficient de l'historique");
@@ -218,7 +225,7 @@ public class AppliNoInterface {
                 AffectationUtil.setCoefficientDiet(Integer.parseInt(newValue));
             }
             else if(coeffNb.equals("7")){
-                askForSomething(assoPays,p);
+                askForSomething();
             }
             else if(coeffNb.equals("8")){
                 break;
@@ -228,7 +235,7 @@ public class AppliNoInterface {
             }
         }while(!((coeffNb.equals("1"))||coeffNb.equals("2")||coeffNb.equals("3")||coeffNb.equals("4")||coeffNb.equals("5")||coeffNb.equals("6")||coeffNb.equals("7")||coeffNb.equals("8")));
         System.out.println("Valeur modifiée ! Retour au menu principal");
-        askForSomething(assoPays, p);
+        askForSomething();
     }
     
     
