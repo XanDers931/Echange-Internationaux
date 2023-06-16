@@ -203,3 +203,17 @@ h2 {
   -prince-page-group: start;
   break-before: page;
 }
+
+.uml-svg {
+  max-width: 2000px;
+  max-height: 4900px;
+}
+
+.uml {
+  display: block;
+  page: uml;
+}
+
+@page uml {
+  size: A2 landscape;
+}

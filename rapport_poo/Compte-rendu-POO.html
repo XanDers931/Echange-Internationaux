@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="DAGNEAUX Nicolas - DEGRAEVE Paul - MARTEL Alexandre - Groupe D1" />
+  <title>Compte rendu SAE2-01 - POO</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="styles/style-pdf.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Compte rendu SAE2-01 - POO</h1>
+<p class="author">DAGNEAUX Nicolas - DEGRAEVE Paul - MARTEL Alexandre -
+Groupe D1</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#présentation-de-lapplication"
+id="toc-présentation-de-lapplication">Présentation de l’application</a>
+<ul>
+<li><a href="#notice-dutilisation" id="toc-notice-dutilisation">Notice
+d’utilisation</a></li>
+<li><a href="#uml" id="toc-uml">UML</a>
+<ul>
+<li><a href="#diagramme" id="toc-diagramme">Diagramme</a></li>
+</ul></li>
+<li><a href="#analyse-technique" id="toc-analyse-technique">Analyse
+technique</a>
+<ul>
+<li><a href="#validité-des-critères"
+id="toc-validité-des-critères">Validité des critères</a></li>
+<li><a href="#adolescents-à-retirer"
+id="toc-adolescents-à-retirer">Adolescents à retirer</a></li>
+<li><a href="#compatibilité-avec-les-français"
+id="toc-compatibilité-avec-les-français">Compatibilité avec les
+français</a></li>
+<li><a href="#importsexports"
+id="toc-importsexports">Imports/exports</a></li>
+<li><a href="#historique" id="toc-historique">Historique</a></li>
+<li><a href="#prise-en-compte-de-lhistorique"
+id="toc-prise-en-compte-de-lhistorique">Prise en compte de
+l’historique</a></li>
+<li><a href="#traitement-des-données"
+id="toc-traitement-des-données">Traitement des données</a></li>
+</ul></li>
+<li><a href="#analyse-quantitativequalitative"
+id="toc-analyse-quantitativequalitative">Analyse
+quantitative/qualitative</a></li>
+</ul></li>
+</ul>
+</nav>
+<p><img src="images/univ-lille-logo.png" class="logo" alt="logo-univ" />
+<img src="images/logo-iut.png" class="logo" alt="logo-iut" /></p>
+<section id="introduction" class="level2">
+<h2>Introduction</h2>
+<p>Dans le cadre de notre BUT Informatique, nous avons comme projet la
+création d’une application d’aide à la prise de décision lors d’échanges
+scolaires dans différents pays. Ce rapport se concentrera sur la partie
+<em>Programmation Orientée Objet</em>.</p>
+<p>Notre projet est disponible <a
+href="https://gitlab.univ-lille.fr/sae2.01-2.02/2023/D1">sur notre page
+Gitlab</a>.</p>
+<p><em>Référence du dernier commit :</em> <a href=""></a></p>
+</section>
+<section id="présentation-de-lapplication" class="level2">
+<h2>Présentation de l’application</h2>
+<section id="notice-dutilisation" class="level3">
+<h3>Notice d’utilisation</h3>
+<p>Pour lancer l’application,</p>
+</section>
+<section id="uml" class="level3">
+<h3>UML</h3>
+<section id="diagramme" class="level4 uml">
+<h4 class="uml">Diagramme</h4>
+<figure>
+<img src="images/package.svg" class="uml-svg" alt="UML" />
+<figcaption aria-hidden="true">UML</figcaption>
+</figure>
+<p>Voici l’UML de notre package voyages, qui regroupe toutes les classes
+utilisées pour la partie POO.</p>
+<p>La classe principale de ce package est la classe
+<code>Platform</code>. Cette classe contient un dictionnaire
+d’adolescents associés à leur pays ainsi qu’une chaîne de caractère
+contenant le chemin de sauvegarde de cette platforme. Cette classe
+implémente donc <code>java.io.Serializable</code>, pour pouvoir être
+sauvegardée. Les pays d’origines des adolescents sont implémentés sous
+la forme d’une énumération des noms de pays, <code>CountryName</code>.
+Les adolescents sont eux représentés par la classe
+<code>Teenager</code>. C’est la 2eme classe la plus importante car elle
+contient toutes les informations concernant un adolescents (nom, prénom,
+critère…), et elle contient aussi toutes les méthodes permettant de
+gérer les adolescents (la compatibilité). Cette classe implémente donc
+<code>java.io.Serializable</code>, pour pouvoir être sauvegardée, mais
+aussi <code>java.lang.Comparable</code>. En effet, il est essentiel de
+pouvoir comparer, et donc trié, les adolescents. La classe
+<code>GhostTeenager</code> hérite de Teenager est sert uniquement à
+créer des adolescents fantômes pour équilibrer les listes d’adolescents
+lors de l’affectation à l’aide de la création d’un graphe. Elle contient
+une unique méthode <code>isGhost()</code> qui renvoie toujours vrai
+(<code>Teenager</code> possède aussi cette méthode qui elle renvoie
+toujours faux). Les critères des adolescents sont stockés dans un
+dictionnaire de noms de critères associés à ce critère. Les noms de
+critère sont stockés dans une énumération <code>CriterionName</code>.
+Quand aux critères en eux-même, ils sont représentés par la classe
+<code>Criterion</code>. Cette classe contient un seul attribut, la
+valeur du critère que l’adolescent rentre dans le formulaire. Cette
+classe implémente aussi <code>java.io.Serializable</code>.</p>
+</section>
+</section>
+<section id="analyse-technique" class="level3">
+<h3>Analyse technique</h3>
+<section id="validité-des-critères" class="level4">
+<h4>Validité des critères</h4>
+</section>
+<section id="adolescents-à-retirer" class="level4">
+<h4>Adolescents à retirer</h4>
+</section>
+<section id="compatibilité-avec-les-français" class="level4">
+<h4>Compatibilité avec les français</h4>
+</section>
+<section id="importsexports" class="level4">
+<h4>Imports/exports</h4>
+</section>
+<section id="historique" class="level4">
+<h4>Historique</h4>
+</section>
+<section id="prise-en-compte-de-lhistorique" class="level4">
+<h4>Prise en compte de l’historique</h4>
+</section>
+<section id="traitement-des-données" class="level4">
+<h4>Traitement des données</h4>
+</section>
+</section>
+<section id="analyse-quantitativequalitative" class="level3">
+<h3>Analyse quantitative/qualitative</h3>
+</section>
+</section>
+</body>
+</html>
