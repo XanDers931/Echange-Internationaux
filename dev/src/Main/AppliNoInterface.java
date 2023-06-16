@@ -7,13 +7,13 @@ import voyages.CountryName;
 import voyages.Teenager;
 import voyages.Tuple;
 import voyages.CsvFileImportator;
+import voyages.Exchange;
 import voyages.Platform;
 import voyages.SameCountryException;
 import voyages.SameTeenagerException;
 
 public class AppliNoInterface {
     private static Scanner read = new Scanner(System.in);
-    private static Tuple<CountryName> assoPays = new Tuple<>();
     private static Platform p = new Platform();
 
     private static void mainMenu() {
@@ -35,7 +35,7 @@ public class AppliNoInterface {
         System.out.println("Importation terminée\n");
 
         System.out.println("Vous allez maintenant pouvoir sélectionner deux pays avec lesquels vous souhaitez faire les associations d'étudiants");
-        askPays();
+        askForSomething();
     }
 
     public static File askChemin(){
@@ -64,11 +64,11 @@ public class AppliNoInterface {
     public static void askForSomething(){
         System.out.println("Que souhaitez vous faire ?\n");
         System.out.println("1. Forcer une association entre deux étudiants");
-        System.out.println("2. Empecher une association entre deux étudiants");
-        System.out.println("3. Associer de manière automatique est optimlisé les étudiants");
+        System.out.println("2. Empêcher une association entre deux étudiants");
+        System.out.println("3. Associer de manière automatique et optimisé les étudiants");
         System.out.println("4. Modifier les coefficients d'affectations");
-        System.out.println("5. Modifier les deux pays d'échanges");
-        System.out.println("6. Quitter l'application");
+        //System.out.println("5. Modifier les deux pays d'échanges");
+        System.out.println("5. Quitter l'application");
         
         String reponse;
         do{
@@ -85,10 +85,10 @@ public class AppliNoInterface {
             else if(reponse.equals("4")){
                 coeffChange();
             }
+            //else if(reponse.equals("5")){
+                //askPays();
+            //}
             else if(reponse.equals("5")){
-                askPays();
-            }
-            else if(reponse.equals("6")){
                 break;
             }
             else{
@@ -97,7 +97,8 @@ public class AppliNoInterface {
         }while(!(reponse.equals("1"))||reponse.equals("2")||reponse.equals("3")||reponse.equals("4")||reponse.equals("5")||reponse.equals("6"));
     }
 
-    public static void askPays(){
+    public static Tuple<CountryName> askPays(){
+    	Tuple<CountryName> assoPays = new Tuple<CountryName>();
         System.out.println("Sélectionner Pays hôte :");
         System.out.println("1. France");
         System.out.println("2. Italy");
@@ -155,8 +156,7 @@ public class AppliNoInterface {
             }
 
         }while(!((readVisiteur.equals("1"))||readVisiteur.equals("2")||readVisiteur.equals("3")||readVisiteur.equals("4"))||assoPays.getFirst().equals(assoPays.getSecond()));
-        System.out.println("Envoi vers le menu de selection d'action");
-        askForSomething();
+        return assoPays;
     }
     
 
@@ -168,14 +168,17 @@ public class AppliNoInterface {
 
     }
 
-    public static void associationAuto(){
-        try {
-            p.addExchange(assoPays.getFirst(), assoPays.getSecond());
-        } catch (SameCountryException | SameTeenagerException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }        
-        askForSomething();
+    public static void associationAuto() {
+    	Tuple<CountryName> countries = askPays();
+    	try {
+			Exchange currentExchange = p.addExchange(countries.getFirst(), countries.getSecond());
+			currentExchange.setOptimalAffectation();
+			System.out.println("Vous avez bien affecté de manière optimal les étudiants de l'échange " + currentExchange.getGuestCountry() + " - " + currentExchange.getGuestCountry());
+			askForSomething();
+		} catch (SameCountryException | SameTeenagerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public static void coeffChange(){
