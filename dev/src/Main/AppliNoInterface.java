@@ -1,18 +1,11 @@
 package Main;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.FutureTask;
-
-import javax.lang.model.util.ElementScanner14;
-import javax.swing.text.html.HTMLDocument.BlockElement;
 
 import graphes.AffectationUtil;
 import voyages.CountryName;
-import voyages.Criterion;
 import voyages.Teenager;
 import voyages.Tuple;
-import voyages.CsvFileImportator;
 import voyages.Exchange;
 import voyages.Platform;
 import voyages.SameCountryException;
@@ -154,6 +147,7 @@ public class AppliNoInterface {
             }
 
         }while(!((readVisiteur.equals("1"))||readVisiteur.equals("2")||readVisiteur.equals("3")||readVisiteur.equals("4"))||assoPays.getFirst().equals(assoPays.getSecond()));
+        System.out.println(assoPays.getSecond());
         return assoPays;
     }
     
@@ -167,13 +161,13 @@ public class AppliNoInterface {
         String student2="";
         boolean trouve1 = false;
         boolean trouve2 = false;
-        System.out.println("Entrez le nom de l'étudiant hôte :");
         do{
+            System.out.println("Entrez le nom de l'étudiant hôte :");
             student1 = read.nextLine();
             for (Teenager teen1 : p.getTeenagersByCountry(countryForced.getFirst())) {
                 if(teen1.getLastName().equals(student1)){
                     do{
-                        System.out.println("Entrez le nom de l'étudiant invitéoui :");
+                        System.out.println("Entrez le nom de l'étudiant invité :");
                         student2 = read.nextLine();
                         for (Teenager teen2 : p.getTeenagersByCountry(countryForced.getSecond())) {
                             if(teen2.getLastName().equals(student2)){
@@ -181,16 +175,14 @@ public class AppliNoInterface {
                                     Exchange currentExchange = p.addExchange(countryForced.getFirst(), countryForced.getSecond());
                                     currentExchange.addAffectations(teen1, teen2);
                                 } catch (SameTeenagerException e) {
-                                    // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 } catch (SameCountryException e) {
-                                    // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
                                 trouve2 = true;
                             }
                         }
-                        if(trouve2 = false){
+                        if(trouve2 == false){
                             System.out.println("Cet étudiant n'existe pas dans la base de donné");
                         }
             
@@ -198,10 +190,13 @@ public class AppliNoInterface {
                     trouve1 = true;
                 }
             }
-            if(trouve1 = false){
+            if(trouve1 == false){
                 System.out.println("Cet étudiant n'existe pas dans la base de donné");
             }
         }while(!trouve1);
+        System.out.println("Les étudiants sélectionné ont bien été affecté et leur association sera bloqué");
+        System.out.println("Retour au menu principal\n");
+        askForSomething();
     }
 
 
