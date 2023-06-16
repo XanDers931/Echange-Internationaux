@@ -1,9 +1,15 @@
 package Main;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.FutureTask;
+
+import javax.lang.model.util.ElementScanner14;
+import javax.swing.text.html.HTMLDocument.BlockElement;
 
 import graphes.AffectationUtil;
 import voyages.CountryName;
+import voyages.Criterion;
 import voyages.Teenager;
 import voyages.Tuple;
 import voyages.CsvFileImportator;
@@ -64,11 +70,9 @@ public class AppliNoInterface {
     public static void askForSomething(){
         System.out.println("Que souhaitez vous faire ?\n");
         System.out.println("1. Forcer une association entre deux étudiants");
-        System.out.println("2. Empêcher une association entre deux étudiants");
-        System.out.println("3. Associer de manière automatique et optimisé les étudiants");
-        System.out.println("4. Modifier les coefficients d'affectations");
-        //System.out.println("5. Modifier les deux pays d'échanges");
-        System.out.println("5. Quitter l'application");
+        System.out.println("2. Associer de manière automatique et optimisé les étudiants");
+        System.out.println("3. Modifier les coefficients d'affectations");
+        System.out.println("4. Quitter l'application");
         
         String reponse;
         do{
@@ -77,24 +81,18 @@ public class AppliNoInterface {
                 associationForced();
             }
             else if(reponse.equals("2")){
-                associationForbidden();
-            }
-            else if(reponse.equals("3")){
                 associationAuto();
             }
-            else if(reponse.equals("4")){
+            else if(reponse.equals("3")){
                 coeffChange();
             }
-            //else if(reponse.equals("5")){
-                //askPays();
-            //}
-            else if(reponse.equals("5")){
+            else if(reponse.equals("4")){
                 break;
             }
             else{
                 System.out.println("Veuillez rentrer une réponse valide");
             }
-        }while(!(reponse.equals("1"))||reponse.equals("2")||reponse.equals("3")||reponse.equals("4")||reponse.equals("5")||reponse.equals("6"));
+        }while(!(reponse.equals("1"))||reponse.equals("2")||reponse.equals("3")||reponse.equals("4"));
     }
 
     public static Tuple<CountryName> askPays(){
@@ -161,12 +159,51 @@ public class AppliNoInterface {
     
 
     public static void associationForced(){
-
+        System.out.println("Dans cette partie de l'application vous choisirez deux étudiant dont vous souhaitez forcer l'association\n");
+        System.out.println("Dans un premier temps veuillez choisir les pays des deux étudiant de léchange :");
+        Tuple<CountryName> countryForced =  askPays();
+        
+        String student1 ="";
+        String student2="";
+        boolean trouve1 = false;
+        boolean trouve2 = false;
+        System.out.println("Entrez le nom de l'étudiant hôte :");
+        do{
+            student1 = read.nextLine();
+            for (Teenager teen1 : p.getTeenagersByCountry(countryForced.getFirst())) {
+                if(teen1.getLastName().equals(student1)){
+                    do{
+                        System.out.println("Entrez le nom de l'étudiant invitéoui :");
+                        student2 = read.nextLine();
+                        for (Teenager teen2 : p.getTeenagersByCountry(countryForced.getSecond())) {
+                            if(teen2.getLastName().equals(student2)){
+                                try {
+                                    Exchange currentExchange = p.addExchange(countryForced.getFirst(), countryForced.getSecond());
+                                    currentExchange.addAffectations(teen1, teen2);
+                                } catch (SameTeenagerException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                } catch (SameCountryException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                                trouve2 = true;
+                            }
+                        }
+                        if(trouve2 = false){
+                            System.out.println("Cet étudiant n'existe pas dans la base de donné");
+                        }
+            
+                    }while(!trouve2);
+                    trouve1 = true;
+                }
+            }
+            if(trouve1 = false){
+                System.out.println("Cet étudiant n'existe pas dans la base de donné");
+            }
+        }while(!trouve1);
     }
 
-    public static void associationForbidden(){
-
-    }
 
     public static void associationAuto() {
     	Tuple<CountryName> countries = askPays();
