@@ -1,3 +1,4 @@
+package Main;
 import java.io.File;
 import java.util.Scanner;
 
@@ -14,11 +15,19 @@ public class AppliNoInterface {
         Platform p = new Platform();
         
         System.out.println("Main Menu");
-        String chemin = askChemin();
-
-        System.out.println("Importation en cours...");        
+        boolean isFileOk = false;
+        File csvToImport = null;
+        do {
+        	csvToImport = askChemin();
+        	System.out.println("Importation en cours...");
+	        System.out.println(p.importTeenagerFromCsv(csvToImport, false));
+        	if (p.getTeenagersByCountry(CountryName.FRANCE).size() == 0 && p.getTeenagersByCountry(CountryName.GERMANY).size() == 0 && p.getTeenagersByCountry(CountryName.ITALY).size() == 0 && p.getTeenagersByCountry(CountryName.SPAIN).size() == 0) {
+				System.out.println("Aucun étudiant n'a été importé, veuillez sélectionner un autre fichier.");
+			} else {
+				isFileOk = true;
+			}
+		} while (!isFileOk);
         
-        p.importTeenagerFromCsv(new File(chemin), false);
 
         System.out.println("Importation terminée\n");
 
@@ -29,21 +38,44 @@ public class AppliNoInterface {
 
     }
 
-    public static String askChemin(){
+    public static File askChemin(){
         System.out.println("Veuillez entrer le chemin d'accés au fichier csv que vous souhaitez importer :");
         String chemin;
-        try(Scanner reponse = new Scanner(System.in)){
-            do{
-                chemin = reponse.nextLine();
-                if(!chemin.contains(".csv")){
-                    System.out.println("Le chemin ne mène pas vers un fichier csv");
+        File result = null;
+        boolean stop = false;
+        do {
+        	Scanner reponse = new Scanner(System.in);
+        	chemin = reponse.nextLine();
+        	if (!chemin.contains(".csv")) {
+        		System.out.println("Le chemin ne mène pas vers un fichier csv");
+                System.out.println("Veuillez saisir un chemin correct");
+			} else {
+				result = new File(chemin);
+				if (!result.exists()) {
+					System.out.println("Le fichier n'existe pas, veuillez recommencer...");
+				} else {
+					stop = true;
+				}
+			}/*
+        	try (Scanner reponse = new Scanner(System.in)) {
+            	chemin = reponse.nextLine();
+            	if (!chemin.contains(".csv")) {
+            		System.out.println("Le chemin ne mène pas vers un fichier csv");
                     System.out.println("Veuillez saisir un chemin correct");
-                }
-                
-            }while(!chemin.contains(".csv"));
-        }
+				} else {
+					result = new File(chemin);
+					if (!result.exists()) {
+						System.out.println("Le fichier n'existe pas, veuillez recommencer...");
+					} else {
+						stop = true;
+					}
+				}
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}*/
+		} while (!stop);
         System.out.print('\u000C');
-        return chemin;
+        return result;
     }
 
     public static void askForSomething(Tuple<CountryName> assoPays, Platform p){
