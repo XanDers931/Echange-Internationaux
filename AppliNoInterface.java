@@ -1,15 +1,48 @@
+import java.io.File;
 import java.util.Scanner;
+
+import voyages.CountryName;
+import voyages.Teenager;
+import voyages.CsvFileImportator;
+import voyages.Platform;
 
 public class AppliNoInterface {
     
     private static void mainMenu() {
+        //Déclaration des varibes utilisées plus loin
+        Platform p = new Platform();
+        
+        
         System.out.println("Main Menu");
+        String chemin = askChemin();
+
+        System.out.println("Importation en cours...");        
+        
+        p.importTeenagerFromCsv(new File(chemin), false);
+
+        System.out.println("Importation terminée\n");
+
+        System.out.println("Que souhaitez vous faire ?\n");
+        System.out.println("1. Forcer une association entre deux étudiants");
+        System.out.println("2. Empecher une association entre deux étudiants");
+        System.out.println("3. Associer de manière automatique est optimlisé les étudiants");
+        System.out.println("4. Modifier les coefficients d'affectations");
+    }
+
+    public static String askChemin(){
         System.out.println("Veuillez entrer le chemin d'accés au fichier csv que vous souhaitez importer :");
+        String chemin;
         try(Scanner reponse = new Scanner(System.in)){
-            String chemin;
             do{
-            }
+                chemin = reponse.nextLine();
+                if(!chemin.contains(".csv")){
+                    System.out.println("Le chemin ne mène pas vers un fichier csv");
+                    System.out.println("Veuillez saisir un chemin correct");
+                }
+                
+            }while(!chemin.contains(".csv"));
         }
+        return chemin;
     }
 
     public static void main(String[] args) {
