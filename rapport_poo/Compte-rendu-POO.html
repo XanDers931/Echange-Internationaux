@@ -19,6 +19,70 @@
       vertical-align: middle;
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="styles/style-pdf.css" />
   <!--[if lt IE 9]>
@@ -33,23 +97,25 @@ Groupe D1</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
-<li><a href="#présentation-de-lapplication"
-id="toc-présentation-de-lapplication">Présentation de l’application</a>
+<li><a href="#introduction" id="toc-introduction">Introduction</a>
 <ul>
 <li><a href="#notice-dutilisation" id="toc-notice-dutilisation">Notice
 d’utilisation</a></li>
-<li><a href="#uml" id="toc-uml">UML</a>
+</ul></li>
+<li><a href="#description-fonctionnelle-de-lapplication"
+id="toc-description-fonctionnelle-de-lapplication">Description
+fonctionnelle de l’application</a>
 <ul>
-<li><a href="#diagramme" id="toc-diagramme">Diagramme</a></li>
+<li><a href="#diagramme-uml" id="toc-diagramme-uml">Diagramme
+UML</a></li>
+<li><a href="#analyse-méchanisme-objet"
+id="toc-analyse-méchanisme-objet">Analyse Méchanisme objet</a></li>
 </ul></li>
 <li><a href="#analyse-technique" id="toc-analyse-technique">Analyse
 technique</a>
 <ul>
 <li><a href="#validité-des-critères"
 id="toc-validité-des-critères">Validité des critères</a></li>
-<li><a href="#adolescents-à-retirer"
-id="toc-adolescents-à-retirer">Adolescents à retirer</a></li>
 <li><a href="#compatibilité-avec-les-français"
 id="toc-compatibilité-avec-les-français">Compatibilité avec les
 français</a></li>
@@ -59,12 +125,12 @@ id="toc-importsexports">Imports/exports</a></li>
 <li><a href="#prise-en-compte-de-lhistorique"
 id="toc-prise-en-compte-de-lhistorique">Prise en compte de
 l’historique</a></li>
-<li><a href="#traitement-des-données"
-id="toc-traitement-des-données">Traitement des données</a></li>
 </ul></li>
-<li><a href="#analyse-quantitativequalitative"
-id="toc-analyse-quantitativequalitative">Analyse
-quantitative/qualitative</a></li>
+<li><a href="#analyse-des-tests" id="toc-analyse-des-tests">Analyse des
+tests</a>
+<ul>
+<li><a href="#criterion" id="toc-criterion">Criterion</a></li>
+<li><a href="#teenager" id="toc-teenager">Teenager</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -79,79 +145,190 @@ scolaires dans différents pays. Ce rapport se concentrera sur la partie
 <p>Notre projet est disponible <a
 href="https://gitlab.univ-lille.fr/sae2.01-2.02/2023/D1">sur notre page
 Gitlab</a>.</p>
-<p><em>Référence du dernier commit :</em> <a href=""></a></p>
-</section>
-<section id="présentation-de-lapplication" class="level2">
-<h2>Présentation de l’application</h2>
 <section id="notice-dutilisation" class="level3">
 <h3>Notice d’utilisation</h3>
-<p>Pour lancer l’application,</p>
+<p>Pour exécuter l’application, il suffit d’une ligne de commande :</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> Affectator-SIMULATOR-3000-CLI.jar</span></code></pre></div>
 </section>
-<section id="uml" class="level3">
-<h3>UML</h3>
-<section id="diagramme" class="level4 uml">
-<h4 class="uml">Diagramme</h4>
+</section>
+<section id="description-fonctionnelle-de-lapplication" class="level2">
+<h2>Description fonctionnelle de l’application</h2>
+<section id="diagramme-uml" class="level3 uml">
+<h3 class="uml">Diagramme UML</h3>
 <figure>
 <img src="images/package.svg" class="uml-svg" alt="UML" />
 <figcaption aria-hidden="true">UML</figcaption>
 </figure>
 <p>Voici l’UML de notre package voyages, qui regroupe toutes les classes
 utilisées pour la partie POO.</p>
+</section>
+<section id="analyse-méchanisme-objet" class="level3">
+<h3>Analyse Méchanisme objet</h3>
 <p>La classe principale de ce package est la classe
 <code>Platform</code>. Cette classe contient un dictionnaire
-d’adolescents associés à leur pays ainsi qu’une chaîne de caractère
-contenant le chemin de sauvegarde de cette platforme. Cette classe
-implémente donc <code>java.io.Serializable</code>, pour pouvoir être
-sauvegardée. Les pays d’origines des adolescents sont implémentés sous
-la forme d’une énumération des noms de pays, <code>CountryName</code>.
-Les adolescents sont eux représentés par la classe
+d’adolescents associés à leur pays, un <code>History</code> pour pouvoir
+sauvegarder une affectation, ainsi qu’une chaîne de caractère contenant
+le chemin de sauvegarde de cette platforme. Cette classe implémente donc
+<code>java.io.Serializable</code>, pour pouvoir être sauvegardée.</p>
+<p>Les pays d’origines des adolescents sont implémentés sous la forme
+d’une énumération des noms de pays, <code>CountryName</code>.</p>
+<p>Les adolescents sont eux représentés par la classe
 <code>Teenager</code>. C’est la 2eme classe la plus importante car elle
 contient toutes les informations concernant un adolescents (nom, prénom,
 critère…), et elle contient aussi toutes les méthodes permettant de
 gérer les adolescents (la compatibilité). Cette classe implémente donc
 <code>java.io.Serializable</code>, pour pouvoir être sauvegardée, mais
 aussi <code>java.lang.Comparable</code>. En effet, il est essentiel de
-pouvoir comparer, et donc trié, les adolescents. La classe
-<code>GhostTeenager</code> hérite de Teenager est sert uniquement à
-créer des adolescents fantômes pour équilibrer les listes d’adolescents
-lors de l’affectation à l’aide de la création d’un graphe. Elle contient
-une unique méthode <code>isGhost()</code> qui renvoie toujours vrai
-(<code>Teenager</code> possède aussi cette méthode qui elle renvoie
-toujours faux). Les critères des adolescents sont stockés dans un
-dictionnaire de noms de critères associés à ce critère. Les noms de
-critère sont stockés dans une énumération <code>CriterionName</code>.
-Quand aux critères en eux-même, ils sont représentés par la classe
+pouvoir comparer, et donc trié, les adolescents.</p>
+<p>La classe <code>GhostTeenager</code> hérite de Teenager est sert
+uniquement à créer des adolescents fantômes pour équilibrer les listes
+d’adolescents lors de l’affectation à l’aide de la création d’un graphe.
+Elle contient une unique méthode <code>isGhost()</code> qui renvoie
+toujours vrai (<code>Teenager</code> possède aussi cette méthode qui
+elle renvoie toujours faux).</p>
+<p>Les critères des adolescents sont stockés dans un dictionnaire de
+noms de critères associés à ce critère. Les noms de critère sont stockés
+dans une énumération <code>CriterionName</code>.</p>
+<p>Quant aux critères en eux-même, ils sont représentés par la classe
 <code>Criterion</code>. Cette classe contient un seul attribut, la
 valeur du critère que l’adolescent rentre dans le formulaire. Cette
 classe implémente aussi <code>java.io.Serializable</code>.</p>
+<p>La classe <code>Exchange</code> sert à créer un échange entre 2 pays.
+Elle fait appel aux méthodes de graphe pour déterminer l’affectation
+optimale sous la forme d’une liste de <code>Tuple</code> d’adolescents.
+Elle possède aussi un attribut <code>countries</code> qui est un
+<code>Tuple</code> de pays représentant le pays hôte et le pays
+visiteur.</p>
+<p>Pour gérer les affectations, nous avons créer la classe
+<code>Affectation</code>. Cette classe sert à gérer plus précisément une
+affectations entre 2 adolescents. Elle permet notamment de bloquer une
+affectation entre 2 adolescents pour être sûr qu’il soit ensemble. Elle
+a donc comme attribut un <code>Tuple</code> d’adolescents.</p>
+<p>La classe <code>Tuple&lt;E&gt;</code> est une classe générique que
+nous avons créer pour pouvoir stocker 2 éléments de même type. Cette
+classe possède donc des méthodes adaptées pour mieux répondre à nos
+besoins. Pour pouvoir enregistrer le résultat d’une affectation, nous
+avons créer la classe <code>History</code>. Cette classe contient donc
+une liste de <code>Tuple</code> d’adolescents.</p>
+<p>Pour pouvoir importer et exporter des fichiers au format csv nous
+avons créer les classes <code>CsvFileImportator</code> et
+<code>CsvFileExportator</code>.</p>
 </section>
 </section>
-<section id="analyse-technique" class="level3">
-<h3>Analyse technique</h3>
-<section id="validité-des-critères" class="level4">
-<h4>Validité des critères</h4>
+<section id="analyse-technique" class="level2">
+<h2>Analyse technique</h2>
+<section id="validité-des-critères" class="level3">
+<h3>Validité des critères</h3>
+<p>La vérification de la validité des critères se fait grâce à la
+méthode <code>purgeInvalidRequirement()</code> de la classe
+<code>Teenager</code> qui fait appel à la méthode <code>isValid()</code>
+de la classe <code>Criterion</code>.</p>
+<p>La chose la plus compliqué à mettre en place est le fait de s’assurer
+que la valeur d’un critère soit valide.</p>
+<p>Premièrement, nous avons fait en sorte que l’attribut
+<code>value</code> de la classe <code>Criterion</code> ne puisse jamais
+être <code>null</code>, afin de ne pas avoir à gérer ce cas de figure.
+Ensuite, nous avons choisi d’utiliser une expression régulière pour
+définir la validité de la valeur d’un critère. Bien que cela représente
+une difficulté certaine, cela nous a paru comme un bon choix puisque
+nous n’avions pas à écrire beaucoup de code :</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isValid</span><span class="op">()</span> <span class="kw">throws</span> CriterionValueException <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="dt">boolean</span> isValid <span class="op">=</span> <span class="bu">Pattern</span><span class="op">.</span><span class="fu">matches</span><span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">label</span><span class="op">.</span><span class="fu">getRegex</span><span class="op">(),</span> <span class="kw">this</span><span class="op">.</span><span class="fu">value</span><span class="op">);</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>isValid<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">CriterionValueException</span><span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">label</span><span class="op">.</span><span class="fu">getExceptionMessage</span><span class="op">()</span> <span class="op">+</span> <span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">value</span><span class="op">.</span><span class="fu">isEmpty</span><span class="op">()</span> <span class="op">?</span> <span class="st">&quot;empty&quot;</span> <span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="fu">value</span><span class="op">));</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div>
+<p>La résultat de la méthode <code>isValid()</code> repose uniquement
+sur la valeur de l’expression régulière.</p>
+<p>De plus, il y avait peu de valeur différentes acceptables, nous
+avions donc une expression régulière assez réduite. D’autre part, si
+nous devions par exemple intégrer le fait d’accepter d’autres régimes
+alimentaires, nous aurions pu écrire une méthode qui puisse générer une
+expression régulière à partir d’une liste de valeur correctes.</p>
 </section>
-<section id="adolescents-à-retirer" class="level4">
-<h4>Adolescents à retirer</h4>
+<section id="compatibilité-avec-les-français" class="level3">
+<h3>Compatibilité avec les français</h3>
+<p>Pour la compatibilité avec les français, la méthode
+<code>compatibleWithGuest</code> de la classe <code>Teenager</code>
+regarde si l’un des 2 adolescents est français et, dans le cas échéant,
+renvoie faux si le nombre de passe-temps en commun est inférieur à
+1.</p>
+<p>Nous avions pensé à étendre la classe <code>Teenager</code>, pour
+créer une classe <code>FrenchTeenager</code>, et surcharger la méthode
+<code>isValid</code>. Néanmoins, cela ne faisait pas de sens, puisque la
+méthode <code>compatibleWithGuest</code> était appelé depuis l’hôte, et
+que cette incompatibilité avec un Français doit être prise en compte si
+l’un des deux adolescents est français.</p>
+<p>Nous avons donc choisi de vérifier dans la méthode
+<code>compatibleWithGuest</code> la présence d’un Français. De plus, la
+méthode <code>totalCompatibleHobbies</code> était utile ailleurs, et ne
+servait donc pas uniquement à cela.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">country</span> <span class="op">==</span> CountryName<span class="op">.</span><span class="fu">FRANCE</span> <span class="op">^</span> teenGuest<span class="op">.</span><span class="fu">getCountry</span><span class="op">()</span> <span class="op">==</span> CountryName<span class="op">.</span><span class="fu">FRANCE</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>            <span class="co">//check hobbies compatibility only with french people</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">totalCompatibleHobbies</span><span class="op">(</span>teenGuest<span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span></code></pre></div>
 </section>
-<section id="compatibilité-avec-les-français" class="level4">
-<h4>Compatibilité avec les français</h4>
+<section id="importsexports" class="level3">
+<h3>Imports/exports</h3>
+<p>Premièrement, nous avons choisi de créer des classes utiles pour ces
+actions pour ne pas trop surcharger la classe <code>Platform</code>.</p>
+<p>Cela permet de gérer le fait que l’ordre des colonnes ne soient pas
+fixes. Tout d’abord, nous allons faire correspondre chaque nom de
+colonnes</p>
+<p>La gestion de l’import et de l’export de fichier au format csv se
+fait grâce aux classes <code>CsvFileImportator</code> et
+<code>CsvFileExportator</code>. <code>CsvFileImportator</code> regarde
+le nombres de colonnes du fichier et si tout va bien, créer un
+<code>Teenager</code> avec les informations données.
+<code>CsvFileExportator</code> possède en attribut le header du fichier
+et créer un fichier CSV avec la liste de <code>Tuple</code>
+d’adolescents donnée en paramètre ainsi que le pays hôte et le pays
+visiteur.</p>
 </section>
-<section id="importsexports" class="level4">
-<h4>Imports/exports</h4>
+<section id="historique" class="level3">
+<h3>Historique</h3>
+<p>La sauvegarde de l’historique se fait grâce à la classe
+<code>History</code>. Cette classe possède 2 attributs, une liste de
+<code>Tuple</code> d’adolescents et une année. Cette classe est
+sérialisable grâce aux méthode <code>writeObject()</code> et
+<code>readObject()</code>.</p>
 </section>
-<section id="historique" class="level4">
-<h4>Historique</h4>
-</section>
-<section id="prise-en-compte-de-lhistorique" class="level4">
-<h4>Prise en compte de l’historique</h4>
-</section>
-<section id="traitement-des-données" class="level4">
-<h4>Traitement des données</h4>
+<section id="prise-en-compte-de-lhistorique" class="level3">
+<h3>Prise en compte de l’historique</h3>
+<p>La prise en compte de l’historique se fait grâce à l’attribut
+<code>history</code> de <code>Platform</code>. Cet historique est
+ensuite donnée aux méthodes de graphes qui s’occupent de gérer les
+affectations optimales.</p>
 </section>
 </section>
-<section id="analyse-quantitativequalitative" class="level3">
-<h3>Analyse quantitative/qualitative</h3>
+<section id="analyse-des-tests" class="level2">
+<h2>Analyse des tests</h2>
+<p>Nous avons testé 2 grands pans de notre application, car ce sont les
+plus critques.</p>
+<section id="criterion" class="level3">
+<h3>Criterion</h3>
+<p>Dans la classe de tests <code>CriterionTest</code> nous testons
+essentiellement la méthode <code>isValid</code> pour absolument tous les
+criterions. Nous avons néanmoins créer une fonction pour chaque type.
+Par exemple <code>TestFood</code> qui va être testé avec toutes les
+énumération <code>CriterionName</code> qui se réfère à la nourriture.
+Nous avons agis de cette manière pour tous les critères.</p>
+</section>
+<section id="teenager" class="level3">
+<h3>Teenager</h3>
+<p>Dans la classe de tests <code>TeenagerTest</code>, nous testons tout
+ce qui se réfère à la méthode <code>compatibleWithGuest</code>. Nous
+avons séparé ces tests en plusieurs parties, une par type de
+compatibilité : allergies, régimes, hobbies…</p>
+<p>Là aussi, nous testons absolument toutes les combinaisons
+possibles.</p>
 </section>
 </section>
 </body>
