@@ -62,4 +62,8 @@ La gestion de l'import et de l'export de fichier au format csv se fait grâce au
 
 La sauvegarde de l'historique se fait grâce à la classe `History`. Cette classe possède 2 attributs, une liste de `Tuple` d'adolescents et une année. Cette classe est sérialisable grâce aux méthode `writeObject()` et `readObject()`.
 
+#### Prise en compte de l’historique
+
+La prise en compte de l'historique se fait grâce à l'attribut `history` de `Platform`. Cet historique est ensuite donnée aux méthodes de graphes qui s'occupent de gérer les affectations optimales.
+
 ### Analyse quantitative/qualitative
